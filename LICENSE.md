@@ -1,6 +1,6 @@
 # The MIT License
 
-Copyright © 2017 Hoàng Văn Khải
+Copyright © 2018 Hoàng Văn Khải
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

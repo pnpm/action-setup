@@ -5,10 +5,9 @@ import install from './install'
 
 async function main() {
   const inputs = getInputs()
-  await install(inputs).then(() => {
-    console.log('Installation Completed!')
-    setOutputs(inputs)
-  })
+  await install(inputs)
+  console.log('Installation Completed!')
+  setOutputs(inputs)
 }
 
 main().catch(error => {

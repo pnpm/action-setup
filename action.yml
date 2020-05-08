@@ -1,0 +1,21 @@
+name: Setup PNPM (preview)
+description: Install PNPM package manager
+inputs:
+  version:
+    description: Version of PNPM to install
+    required: true
+  dest:
+    description: Where to store PNPM files
+    required: false
+    default: /setup-pnpm
+  bin_dest:
+    description: Where to store executables (pnpm and pnpx commands)
+    required: false
+    default: /setup-pnpm/.bin
+  registry:
+    description: Registry to download PNPM from
+    required: false
+    default: https://registry.npmjs.com
+runs:
+  using: node12
+  main: dist/index.js

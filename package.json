@@ -8,6 +8,7 @@
     "@types/node": "^13.13.5"
   },
   "devDependencies": {
+    "typescript": "^3.8.3",
     "@zeit/ncc": "^0.22.1"
   }
 }

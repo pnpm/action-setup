@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "postinstall": "rm -rf dist && make dist/index.js",
     "start": "make dist/index.js && node dist/index.js"
   },
   "dependencies": {

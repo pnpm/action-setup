@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build:ncc": "ncc build --minify --source-map --no-cache dist/tsc/index.js --out dist/",
+    "build:ncc": "ncc build --minify --no-source-map-register --no-cache dist/tsc/index.js --out dist/",
     "build": "tsc && pnpm run build:ncc",
     "start": "pnpm run build && sh ./run.sh"
   },

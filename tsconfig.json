@@ -11,6 +11,7 @@
       "ES2020",
       "ESNext"
     ],
+    "outDir": "./dist/tsc",
     "preserveConstEnums": true,
     "incremental": false,
     "declaration": true,

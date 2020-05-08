@@ -1,5 +1,8 @@
 {
   "private": true,
+  "scripts": {
+    "build:typescript": "tsc"
+  },
   "dependencies": {
     "download": "^8.0.0",
     "@actions/core": "^1.2.4",

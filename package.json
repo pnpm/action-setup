@@ -1,8 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build:typescript": "tsc",
-    "build:ncc": "ncc build --minify --source-map dist/tsc/index.js --out dist/"
+    "start": "make dist/index.js && node dist/index.js"
   },
   "dependencies": {
     "download": "^8.0.0",

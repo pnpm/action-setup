@@ -43,7 +43,7 @@ jobs:
   steps:
     - uses: actions/checkout@v2
 
-    - uses: KSXGitHub/github-actions-setup-pnpm@master
+    - uses: pnpm/action-setup@v1
       with:
         version: 4.11.1
 

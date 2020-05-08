@@ -2,3 +2,9 @@ node_modules
 *.log
 /dist/*
 !/dist/index.js
+tmp
+temp
+*.tmp
+*.temp
+tmp.*
+temp.*

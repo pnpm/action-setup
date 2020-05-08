@@ -1,7 +1,7 @@
 node_modules: package.json
 	pnpm install --prefer-offline
 
-dist/tsc:	node_modules src
+dist/tsc: node_modules src
 	pnpx tsc
 
 dist/index.js: dist/tsc

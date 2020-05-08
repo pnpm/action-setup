@@ -4,7 +4,7 @@ import setOutputs from './outputs'
 import install from './install'
 
 async function main() {
-  const inputs = await getInputs()
+  const inputs = getInputs()
   await install(inputs).then(() => {
     console.log('Installation Completed!')
     setOutputs(inputs)

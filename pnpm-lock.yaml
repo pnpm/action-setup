@@ -1,9 +1,10 @@
 dependencies:
   '@actions/core': 1.2.4
-  '@actions/glob': 0.1.0
   '@types/download': 6.2.4
+  '@types/expand-tilde': 2.0.0
   '@types/node': 13.13.5
   download: 8.0.0
+  expand-tilde: 2.0.2
 devDependencies:
   '@zeit/ncc': 0.22.1
   typescript: 3.8.3
@@ -13,13 +14,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-YJCEq8BE3CdN8+7HPZ/4DxJjk/OkZV2FFIf+DlZTC/4iBlzYCD5yjRR6eiOS5llO11zbRltIRuKAjMKaWTE6cg==
-  /@actions/glob/0.1.0:
-    dependencies:
-      '@actions/core': 1.2.4
-      minimatch: 3.0.4
-    dev: false
-    resolution:
-      integrity: sha512-lx8SzyQ2FE9+UUvjqY1f28QbTJv+w8qP7kHHbfQRhphrlcx0Mdmm1tZdGJzfxv1jxREa/sLW4Oy8CbGQKCJySA==
   /@sindresorhus/is/0.7.0:
     dev: false
     engines:
@@ -40,6 +34,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Lo5dy3ai6LNnbL663sgdzqL1eib11u1yKH6w3v3IXEOO4kRfQpMn1qWUTaumcHLACjFp1RcBx9tUXEvJoR3vcA==
+  /@types/expand-tilde/2.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-17h/6MRHoetV2QVUVnUfrmaFCXNIFJ3uDJmXlklX2xDtlEb1W0OXLgP+qwND2Ibg/PtQfQi0vx19KGuPayjLiw==
   /@types/got/8.3.5:
     dependencies:
       '@types/node': 13.13.5
@@ -63,10 +61,6 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-+S5yIzBW38aWlHJ0nCZ72wRrHXA=
-  /balanced-match/1.0.0:
-    dev: false
-    resolution:
-      integrity: sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
   /base64-js/0.0.8:
     dev: false
     engines:
@@ -80,13 +74,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-e8tQYnZodmebYDWGH7KMRvtzKXaJHx3BbilrgZCfvyLUYdKpK1t5PSPmpkny/SgiTSCnjfLW7v5rlONXVFkQEA==
-  /brace-expansion/1.1.11:
-    dependencies:
-      balanced-match: 1.0.0
-      concat-map: 0.0.1
-    dev: false
-    resolution:
-      integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==
   /buffer-alloc-unsafe/1.1.0:
     dev: false
     resolution:
@@ -140,10 +127,6 @@ packages:
       node: '>= 0.6.x'
     resolution:
       integrity: sha1-Br42f+v9oMMwqh4qBy09yXYkJdQ=
-  /concat-map/0.0.1:
-    dev: false
-    resolution:
-      integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
   /content-disposition/0.5.3:
     dependencies:
       safe-buffer: 5.1.2
@@ -262,6 +245,14 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
+  /expand-tilde/2.0.2:
+    dependencies:
+      homedir-polyfill: 1.0.3
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-l+gBqgUt8CRU3kawK/YhZCzchQI=
   /ext-list/2.2.2:
     dependencies:
       mime-db: 1.43.0
@@ -407,6 +398,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-vdbKfmw+3LoOYVr+mtxHaX5a96+0f3DljYd8JOqvOLsf5mw2Otda2qCDT9qRqLAhrjyQ0h7ual5nOiASpsGNFw==
+  /homedir-polyfill/1.0.3:
+    dependencies:
+      parse-passwd: 1.0.0
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==
   /http-cache-semantics/3.8.1:
     dev: false
     resolution:
@@ -518,12 +517,6 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-j5EctnkH7amfV/q5Hgmoal1g2QHFJRraOtmx0JpIqkxhBhI/lJSl1nMpQ45hVarwNETOoWEimndZ4QK0RHxuxQ==
-  /minimatch/3.0.4:
-    dependencies:
-      brace-expansion: 1.1.11
-    dev: false
-    resolution:
-      integrity: sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==
   /normalize-url/2.0.1:
     dependencies:
       prepend-http: 2.0.0
@@ -580,6 +573,12 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-88em58dDVB/KzPEx1X0N3LwFfYZPyDc4B6eF38M1rk9VTZMbxXXgjugz8mmwpS9Ox4BDZ+t6t3QP5+/gazweIA==
+  /parse-passwd/1.0.0:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-bVuTSkVpk7I9N/QKOC1vFmao5cY=
   /pend/1.2.0:
     dev: false
     resolution:
@@ -818,9 +817,10 @@ packages:
       integrity: sha1-x+sXyT4RLLEIb6bY5R+wZnt5pfk=
 specifiers:
   '@actions/core': ^1.2.4
-  '@actions/glob': ^0.1.0
   '@types/download': ^6.2.4
+  '@types/expand-tilde': ^2.0.0
   '@types/node': ^13.13.5
   '@zeit/ncc': ^0.22.1
   download: ^8.0.0
+  expand-tilde: ^2.0.2
   typescript: ^3.8.3

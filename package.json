@@ -7,9 +7,10 @@
   },
   "dependencies": {
     "download": "^8.0.0",
+    "expand-tilde": "^2.0.2",
     "@actions/core": "^1.2.4",
-    "@actions/glob": "^0.1.0",
     "@types/download": "^6.2.4",
+    "@types/expand-tilde": "^2.0.0",
     "@types/node": "^13.13.5"
   },
   "devDependencies": {

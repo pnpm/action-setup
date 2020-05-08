@@ -6,11 +6,11 @@
     "start": "pnpm run build && sh ./run.sh"
   },
   "dependencies": {
-    "download": "^8.0.0",
+    "node-fetch": "^2.6.0",
     "expand-tilde": "^2.0.2",
     "@actions/core": "^1.2.4",
-    "@types/download": "^6.2.4",
     "@types/expand-tilde": "^2.0.0",
+    "@types/node-fetch": "^2.5.7",
     "@types/node": "^13.13.5"
   },
   "devDependencies": {

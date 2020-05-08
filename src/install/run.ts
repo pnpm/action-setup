@@ -3,7 +3,7 @@ import { execPath } from 'process'
 import { downloadSelfInstaller } from '../self-installer'
 import { Inputs } from '../inputs'
 
-export function runSelfInstaller(inputs: Inputs): Promise<number> {
+export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const cp = spawn(execPath, {
     env: {
       PNPM_VERSION: inputs.version,
@@ -14,7 +14,8 @@ export function runSelfInstaller(inputs: Inputs): Promise<number> {
     stdio: ['pipe', 'inherit', 'inherit'],
   })
 
-  downloadSelfInstaller().pipe(cp.stdin)
+  const response = await downloadSelfInstaller()
+  response.body.pipe(cp.stdin)
 
   return new Promise((resolve, reject) => {
     cp.on('error', reject)

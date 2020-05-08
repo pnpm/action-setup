@@ -1,4 +1,4 @@
-import download from 'download'
+import fetch from 'node-fetch'
 import url from './url'
-export const downloadSelfInstaller = () => download(url)
+export const downloadSelfInstaller = () => fetch(url)
 export default downloadSelfInstaller

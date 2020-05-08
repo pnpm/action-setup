@@ -1,5 +1,8 @@
 name: Setup PNPM (preview)
 description: Install PNPM package manager
+branding:
+  icon: package
+  color: orange
 inputs:
   version:
     description: Version of PNPM to install

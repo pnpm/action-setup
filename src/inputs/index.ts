@@ -18,6 +18,7 @@ async function parsePath(pattern: string, inputName: string) {
   const paths = await builder.glob()
   if (paths.length !== 1) {
     error(`Input ${inputName} is expected to match 1 path, but it matches ${paths.length}: ${inspect(paths)}`)
+    throw process.exit(1)
   }
   return paths[0]
 }

@@ -1,0 +1,59 @@
+name: Test Action
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test_default_inputs:
+    name: Test with default inputs
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pnpm:
+          - 4.11.1
+
+    steps:
+      - uses: checkout@v2
+
+      - name: Run the action
+        uses: ./
+        with:
+          version: 4.11.1
+
+      - name: 'Test: which'
+        run: which pnpm; which pnpx
+
+      - name: 'Test: install'
+        run: pnpm install
+
+  test_explicit_inputs:
+    name: Test with explicit inputs
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pnpm:
+          - 4.11.1
+
+    steps:
+      - uses: checkout@v2
+
+      - name: Run the action
+        uses: ./
+        with:
+          version: 4.11.1
+          dest: /test/pnpm
+          bin_dest: /test/pnpm/.bin
+          registry: http://registry.yarnpkg.com/
+
+      - name: 'Test: which'
+        run: which pnpm; which pnpx
+
+      - name: 'Test: install'
+        run: pnpm install

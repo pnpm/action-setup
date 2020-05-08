@@ -1,9 +1,10 @@
 import { spawn } from 'child_process'
+import { execPath } from 'process'
 import { downloadSelfInstaller } from '../self-installer'
 import { Inputs } from '../inputs'
 
 export function runSelfInstaller(inputs: Inputs): Promise<number> {
-  const cp = spawn('node', {
+  const cp = spawn(execPath, {
     env: {
       PNPM_VERSION: inputs.version,
       PNPM_DEST: inputs.dest,

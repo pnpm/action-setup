@@ -1,5 +1,5 @@
 import { setFailed } from '@actions/core'
-import { getInputs } from '../inputs'
+import getInputs from '../inputs'
 import runSelfInstaller from './run'
 
 export { runSelfInstaller }

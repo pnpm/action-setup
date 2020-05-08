@@ -1,8 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "postinstall": "rm -rf dist && make dist/index.js",
-    "start": "sh ./run.sh"
+    "build:ncc": "ncc build --minify --source-map --no-cache dist/tsc/index.js --out dist/",
+    "build": "tsc && pnpm run build:ncc",
+    "start": "pnpm run build && sh ./run.sh"
   },
   "dependencies": {
     "download": "^8.0.0",

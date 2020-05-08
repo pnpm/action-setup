@@ -4,6 +4,7 @@
     "download": "^8.0.0",
     "@actions/core": "^1.2.4",
     "@actions/github": "^2.2.0",
+    "@types/download": "^6.2.4",
     "@types/node": "^13.13.5"
   },
   "devDependencies": {

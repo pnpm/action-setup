@@ -53,7 +53,7 @@ jobs:
 
 ## Notes
 
-This action does not setup Node.js for you, you use [actions/setup-node](https://github.com/actions/setup-node) yourself.
+This action does not setup Node.js for you, use [actions/setup-node](https://github.com/actions/setup-node) yourself.
 
 ## License
 

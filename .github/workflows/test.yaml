@@ -53,7 +53,7 @@ jobs:
           registry: http://registry.yarnpkg.com/
 
       - name: 'Test: which'
-        run: which pnpm; which pnpx
+        run: which pnpm && which pnpx
 
       - name: 'Test: install'
         run: pnpm install

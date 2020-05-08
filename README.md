@@ -28,7 +28,7 @@ Expanded path of inputs#dest.
 
 ### `bin_dest`
 
-Expanded path of inputs@bin_dest.
+Expanded path of inputs#bin_dest.
 
 ## Usage example
 

@@ -1,4 +1,4 @@
-name: Setup PNPM (preview)
+name: Setup PNPM
 description: Install PNPM package manager
 branding:
   icon: package

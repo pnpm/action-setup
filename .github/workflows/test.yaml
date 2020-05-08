@@ -17,7 +17,7 @@ jobs:
           - 4.11.1
 
     steps:
-      - uses: checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Run the action
         uses: ./
@@ -42,7 +42,7 @@ jobs:
           - 4.11.1
 
     steps:
-      - uses: checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Run the action
         uses: ./

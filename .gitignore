@@ -1,3 +1,4 @@
 node_modules
 *.log
-/dist/tsc
+/dist/*
+!/dist/index.js

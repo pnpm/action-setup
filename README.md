@@ -43,7 +43,7 @@ jobs:
   steps:
     - uses: actions/checkout@v2
 
-    - uses: pnpm/action-setup@v1
+    - uses: pnpm/action-setup@v1.1.0
       with:
         version: 4.11.1
 

@@ -10,3 +10,7 @@ indent_size = 2
 [Makefile]
 indent_style = tab
 tab_width = 4
+
+[*.gitattributes]
+indent_style = tab
+tab_width = 16

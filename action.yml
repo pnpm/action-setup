@@ -7,11 +7,11 @@ inputs:
   dest:
     description: Where to store PNPM files
     required: false
-    default: /setup-pnpm
+    default: ~/setup-pnpm
   bin_dest:
     description: Where to store executables (pnpm and pnpx commands)
     required: false
-    default: /setup-pnpm/.bin
+    default: ~/setup-pnpm/.bin
   registry:
     description: Registry to download PNPM from
     required: false

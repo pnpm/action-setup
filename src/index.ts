@@ -1,11 +1,11 @@
 import { setFailed } from '@actions/core'
 import getInputs from './inputs'
 import setOutputs from './outputs'
-import install from './install'
+import installPnpm from './install-pnpm'
 
 async function main() {
   const inputs = getInputs()
-  await install(inputs)
+  await installPnpm(inputs)
   console.log('Installation Completed!')
   setOutputs(inputs)
 }

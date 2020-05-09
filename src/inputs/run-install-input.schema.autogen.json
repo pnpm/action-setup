@@ -14,7 +14,7 @@
       "esModuleInterop": true,
       "resolveJsonModule": true
     },
-    "input": "index.ts",
+    "input": "run-install.ts",
     "symbol": "RunInstallInput",
     "output": "run-install-input.schema.json"
   }

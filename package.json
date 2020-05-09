@@ -10,6 +10,7 @@
     "node-fetch": "^2.6.0",
     "expand-tilde": "^2.0.2",
     "js-yaml": "^3.13.1",
+    "ajv": "^6.12.0",
     "@actions/core": "^1.2.4",
     "@types/expand-tilde": "^2.0.0",
     "@types/node-fetch": "^2.5.7",

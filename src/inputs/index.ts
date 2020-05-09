@@ -1,6 +1,9 @@
-import { getInput, InputOptions } from '@actions/core'
+import process from 'process'
+import { getInput, error, InputOptions } from '@actions/core'
 import expandTilde from 'expand-tilde'
 import { safeLoad } from 'js-yaml'
+import Ajv from 'ajv'
+import runInstallSchema from './run-install-input.schema.json'
 
 interface RunInstall {
   readonly recursive?: boolean
@@ -30,6 +33,17 @@ const parseInputPath = (name: string) => expandTilde(getInput(name, options))
 
 function parseRunInstall(name: string): RunInstall[] {
   const result: RunInstallInput = safeLoad(getInput(name, options))
+  const ajv = new Ajv({
+    allErrors: true,
+    async: false,
+  })
+  const validate = ajv.compile(runInstallSchema)
+  if (!validate(result)) {
+    for (const errorItem of validate.errors!) {
+      error(`${errorItem.dataPath}: ${errorItem.message}`)
+    }
+    return process.exit(1)
+  }
   if (!result) return []
   if (result === true) return [{ recursive: true }]
   if (Array.isArray(result)) return result

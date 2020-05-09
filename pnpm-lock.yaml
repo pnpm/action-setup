@@ -4,6 +4,7 @@ dependencies:
   '@types/js-yaml': 3.12.3
   '@types/node': 13.13.5
   '@types/node-fetch': 2.5.7
+  ajv: 6.12.0
   expand-tilde: 2.0.2
   js-yaml: 3.13.1
   node-fetch: 2.6.0
@@ -212,7 +213,6 @@ packages:
       fast-json-stable-stringify: 2.1.0
       json-schema-traverse: 0.4.1
       uri-js: 4.2.2
-    dev: true
     resolution:
       integrity: sha512-D6gFiFA0RRLyUbvijN74DWAjXSFxWKaWP7mldxkVhyhAV3+SWA9HEJPHQ2c9soIeTFJqcSdFDGFgdqs1iUU2Hw==
   /ansi-regex/4.1.0:
@@ -369,11 +369,9 @@ packages:
     resolution:
       integrity: sha1-l+gBqgUt8CRU3kawK/YhZCzchQI=
   /fast-deep-equal/3.1.1:
-    dev: true
     resolution:
       integrity: sha512-8UEa58QDLauDNfpbrX55Q9jrGHThw2ZMdOky5Gl1CDtVeJDPVrG4Jxx1N8jw2gkWaff5UUuX1KJd+9zGe2B+ZA==
   /fast-json-stable-stringify/2.1.0:
-    dev: true
     resolution:
       integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==
   /fast-traverse/0.1.6:
@@ -484,7 +482,6 @@ packages:
     resolution:
       integrity: sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
   /json-schema-traverse/0.4.1:
-    dev: true
     resolution:
       integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==
   /json-stable-stringify/1.0.1:
@@ -607,7 +604,6 @@ packages:
     resolution:
       integrity: sha1-F0uSaHNVNP+8es5r9TpanhtcX18=
   /punycode/2.1.1:
-    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -696,7 +692,6 @@ packages:
   /uri-js/4.2.2:
     dependencies:
       punycode: 2.1.1
-    dev: true
     resolution:
       integrity: sha512-KY9Frmirql91X2Qgjry0Wd4Y+YTdrdZheS8TFwvkbLWf/G5KNJDCh6pKL5OZctEW4+0Baa5idK2ZQuELRwPznQ==
   /utility-types/3.10.0:
@@ -795,6 +790,7 @@ specifiers:
   '@types/node': ^13.13.5
   '@types/node-fetch': ^2.5.7
   '@zeit/ncc': ^0.22.1
+  ajv: ^6.12.0
   expand-tilde: ^2.0.2
   js-yaml: ^3.13.1
   node-fetch: ^2.6.0

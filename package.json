@@ -1,8 +1,9 @@
 {
   "private": true,
   "scripts": {
+    "build:schemas": "ts-schema-autogen generate",
     "build:ncc": "ncc build --minify --no-source-map-register --no-cache dist/tsc/index.js --out dist/",
-    "build": "tsc && pnpm run build:ncc",
+    "build": "pnpm run build:schemas && tsc && pnpm run build:ncc",
     "start": "pnpm run build && sh ./run.sh"
   },
   "dependencies": {
@@ -17,6 +18,7 @@
   },
   "devDependencies": {
     "typescript": "^3.8.3",
+    "@ts-schema-autogen/cli": "^0.1.2",
     "@zeit/ncc": "^0.22.1"
   }
 }

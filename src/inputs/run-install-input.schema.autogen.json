@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ksxnodeapps/ts-schema-autogen/master/packages/schemas/config.schema.json",
+  "instruction": {
+    "compilerOptions": {
+      "strict": true,
+      "esModuleInterop": true
+    },
+    "input": "index.ts",
+    "symbol": "RunInstallInput",
+    "output": "run-install-input.schema.json"
+  }
+}

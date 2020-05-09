@@ -8,7 +8,7 @@ interface RunInstall {
   readonly args?: readonly string[]
 }
 
-type RunInstallInput =
+export type RunInstallInput =
   | null
   | boolean
   | RunInstall

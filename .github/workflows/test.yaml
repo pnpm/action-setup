@@ -65,3 +65,49 @@ jobs:
 
       - name: 'Test: install'
         run: pnpm install
+
+  test_run_install:
+    name: 'Test with run_install: ${{ matrix.run_install.name }}'
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pnpm:
+          - 4.11.1
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        run_install:
+          - name: 'null'
+            value: 'null'
+          - name: 'empty object'
+            value: '{}'
+          - name: 'recursive'
+            value: |
+              recursive: true
+          - name: 'global'
+            value: |
+              args: [-g, npm, yarn, pnpm]
+          - name: 'array'
+            value: |
+              - {}
+              - recursive: true
+              - args: [-g, npm, yarn, pnpm]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run the action
+        uses: ./
+        with:
+          version: 4.11.1
+          run_install: ${{ matrix.run_install.value }}
+
+      - name: 'Test: which'
+        run: which pnpm; which pnpx
+
+      - name: 'Test: install'
+        run: pnpm install

@@ -6,7 +6,11 @@ import pnpmInstall from './pnpm-install'
 
 async function main() {
   const isPost = getState('isPost')
-  console.log({ isPost })
+  console.log({
+    is_post: getState('is_post'),
+    isPost: getState('isPost'),
+    STATE_isPost: process.env['STATE_isPost'],
+  })
   if (isPost) {
     return
   }

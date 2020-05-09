@@ -67,7 +67,7 @@ jobs:
         run: pnpm install
 
   test_run_install:
-    name: 'Test with run_install: ${{ matrix.run_install.name }}'
+    name: 'Test with run_install (${{ matrix.run_install.name }}, ${{ matrix.os }})'
 
     runs-on: ${{ matrix.os }}
 

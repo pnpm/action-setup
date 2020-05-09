@@ -90,12 +90,22 @@ jobs:
               recursive: true
           - name: 'global'
             value: |
-              args: [-g, npm, yarn, pnpm]
+              args:
+                - --global
+                - --global-dir=./pnpm-global
+                - npm
+                - yarn
+                - pnpm
           - name: 'array'
             value: |
               - {}
               - recursive: true
-              - args: [-g, npm, yarn, pnpm]
+              - args:
+                - --global
+                - --global-dir=./pnpm-global
+                - npm
+                - yarn
+                - pnpm
 
     steps:
       - uses: actions/checkout@v2

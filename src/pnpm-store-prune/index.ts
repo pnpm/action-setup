@@ -1,5 +1,5 @@
 import { spawnSync } from 'child_process'
-import { setFailed } from '@actions/core'
+import { warning } from '@actions/core'
 import { Inputs } from '../inputs'
 import { patchPnpmEnv } from '../utils'
 
@@ -17,12 +17,12 @@ export function pruneStore(inputs: Inputs) {
   })
 
   if (error) {
-    setFailed(error)
+    warning(error)
     return
   }
 
   if (status) {
-    setFailed(`command pnpm store prune exits with code ${status}`)
+    warning(`command pnpm store prune exits with code ${status}`)
     return
   }
 }

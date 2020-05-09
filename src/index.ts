@@ -3,12 +3,13 @@ import getInputs from './inputs'
 import setOutputs from './outputs'
 import installPnpm from './install-pnpm'
 import pnpmInstall from './pnpm-install'
+import pruneStore from './pnpm-store-prune'
 
 async function main() {
-  const isPost = getState('is_post')
-  if (isPost === 'true') return
-  saveState('is_post', 'true')
   const inputs = getInputs()
+  const isPost = getState('is_post')
+  if (isPost === 'true') return pruneStore(inputs)
+  saveState('is_post', 'true')
   await installPnpm(inputs)
   console.log('Installation Completed!')
   setOutputs(inputs)

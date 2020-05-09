@@ -40,7 +40,7 @@ function parseRunInstall(name: string): RunInstall[] {
   const validate = ajv.compile(runInstallSchema)
   if (!validate(result)) {
     for (const errorItem of validate.errors!) {
-      error(`${errorItem.dataPath}: ${errorItem.message}`)
+      error(`with.run_install${errorItem.dataPath}: ${errorItem.message}`)
     }
     return process.exit(1)
   }

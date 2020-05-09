@@ -1,14 +1,10 @@
-import process from 'process'
-import path from 'path'
 import { spawnSync } from 'child_process'
 import { setFailed } from '@actions/core'
 import { Inputs } from '../inputs'
+import { patchPnpmEnv } from '../utils'
 
 export function runPnpmInstall(inputs: Inputs) {
-  const env = {
-    ...process.env,
-    PATH: inputs.binDest + path.delimiter + process.env.PATH
-  }
+  const env = patchPnpmEnv(inputs)
 
   for (const options of inputs.runInstall) {
     const args = ['install']

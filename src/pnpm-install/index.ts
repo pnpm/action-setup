@@ -1,5 +1,5 @@
 import { spawnSync } from 'child_process'
-import { setFailed } from '@actions/core'
+import { setFailed, startGroup, endGroup } from '@actions/core'
 import { Inputs } from '../inputs'
 import { patchPnpmEnv } from '../utils'
 
@@ -12,7 +12,7 @@ export function runPnpmInstall(inputs: Inputs) {
     if (options.args) args.push(...options.args)
 
     const cmdStr = ['pnpm', ...args].join(' ')
-    console.log('Running', cmdStr)
+    startGroup(`Running ${cmdStr}...`)
 
     const { error, status } = spawnSync('pnpm', args, {
       stdio: 'inherit',
@@ -20,6 +20,8 @@ export function runPnpmInstall(inputs: Inputs) {
       shell: true,
       env,
     })
+
+    endGroup()
 
     if (error) {
       setFailed(error)

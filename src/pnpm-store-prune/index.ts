@@ -1,5 +1,5 @@
 import { spawnSync } from 'child_process'
-import { warning } from '@actions/core'
+import { warning, startGroup, endGroup } from '@actions/core'
 import { Inputs } from '../inputs'
 import { patchPnpmEnv } from '../utils'
 
@@ -9,12 +9,13 @@ export function pruneStore(inputs: Inputs) {
     return
   }
 
-  console.log('Running pnpm store prune')
+  startGroup('Running pnpm store prune...')
   const { error, status } = spawnSync('pnpm', ['store', 'prune'], {
     stdio: 'inherit',
     shell: true,
     env: patchPnpmEnv(inputs)
   })
+  endGroup()
 
   if (error) {
     warning(error)

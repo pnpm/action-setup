@@ -1,9 +1,11 @@
 dependencies:
   '@actions/core': 1.2.4
   '@types/expand-tilde': 2.0.0
+  '@types/js-yaml': 3.12.3
   '@types/node': 13.13.5
   '@types/node-fetch': 2.5.7
   expand-tilde: 2.0.2
+  js-yaml: 3.13.1
   node-fetch: 2.6.0
 devDependencies:
   '@zeit/ncc': 0.22.1
@@ -18,6 +20,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-17h/6MRHoetV2QVUVnUfrmaFCXNIFJ3uDJmXlklX2xDtlEb1W0OXLgP+qwND2Ibg/PtQfQi0vx19KGuPayjLiw==
+  /@types/js-yaml/3.12.3:
+    dev: false
+    resolution:
+      integrity: sha512-otRe77JNNWzoVGLKw8TCspKswRoQToys4tuL6XYVBFxjgeM0RUrx7m3jkaTdxILxeGry3zM8mGYkGXMeQ02guA==
   /@types/node-fetch/2.5.7:
     dependencies:
       '@types/node': 13.13.5
@@ -34,6 +40,12 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-Qq3bMuonkcnV/96jhy9SQYdh39NXHxNMJ1O31ZFzWG9n52fR2DLtgrNzhj/ahlEjnBziMLGVWDbaS9sf03/fEw==
+  /argparse/1.0.10:
+    dependencies:
+      sprintf-js: 1.0.3
+    dev: false
+    resolution:
+      integrity: sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==
   /asynckit/0.4.0:
     dev: false
     resolution:
@@ -52,6 +64,13 @@ packages:
       node: '>=0.4.0'
     resolution:
       integrity: sha1-3zrhmayt+31ECqrgsp4icrJOxhk=
+  /esprima/4.0.1:
+    dev: false
+    engines:
+      node: '>=4'
+    hasBin: true
+    resolution:
+      integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
   /expand-tilde/2.0.2:
     dependencies:
       homedir-polyfill: 1.0.3
@@ -78,6 +97,14 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==
+  /js-yaml/3.13.1:
+    dependencies:
+      argparse: 1.0.10
+      esprima: 4.0.1
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
   /mime-db/1.44.0:
     dev: false
     engines:
@@ -104,6 +131,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-bVuTSkVpk7I9N/QKOC1vFmao5cY=
+  /sprintf-js/1.0.3:
+    dev: false
+    resolution:
+      integrity: sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
   /typescript/3.8.3:
     dev: true
     engines:
@@ -114,9 +145,11 @@ packages:
 specifiers:
   '@actions/core': ^1.2.4
   '@types/expand-tilde': ^2.0.0
+  '@types/js-yaml': ^3.12.3
   '@types/node': ^13.13.5
   '@types/node-fetch': ^2.5.7
   '@zeit/ncc': ^0.22.1
   expand-tilde: ^2.0.2
+  js-yaml: ^3.13.1
   node-fetch: ^2.6.0
   typescript: ^3.8.3

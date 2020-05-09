@@ -20,6 +20,10 @@ Install PNPM package manager.
 
 **Optional** Registry to download PNPM from.
 
+### `run_install`
+
+**Optional** If specified, run `pnpm install`.
+
 ## Outputs
 
 ### `dest`

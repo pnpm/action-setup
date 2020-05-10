@@ -28,7 +28,7 @@ If `run_install` is either `null` or `false`, pnpm will not install any npm pack
 
 If `run_install` is `true`, pnpm will install dependencies recursively.
 
-If `run_install` is a YAML representation of either an object or an array, pnpm will execute every install commands.
+If `run_install` is a YAML string representation of either an object or an array, pnpm will execute every install commands.
 
 #### `run_install.recursive`
 
@@ -54,6 +54,24 @@ Expanded path of inputs#bin_dest.
 
 ## Usage example
 
+### Just install PNPM
+
+```yaml
+on:
+  - push
+  - pull_request
+
+jobs:
+  runs-on: ubuntu-latest
+
+  steps:
+    - uses: pnpm/action-setup@v1.1.0
+      with:
+        version: 4.11.1
+```
+
+### Install PNPM and a few NPM packages
+
 ```yaml
 on:
   - push
@@ -68,9 +86,10 @@ jobs:
     - uses: pnpm/action-setup@v1.1.0
       with:
         version: 4.11.1
-
-    - name: Install dependencies
-      run: pnpm install
+        run_install: |
+          - recursive: true
+            args: [--frozen-lockfile, --strict-peer-dependencies]
+          - args: [--global, gulp, prettier, typescript]
 ```
 
 ## Notes

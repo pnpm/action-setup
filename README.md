@@ -18,11 +18,11 @@ Install PNPM package manager.
 
 ### `registry`
 
-**Optional** Registry to download PNPM from.
+**Optional** (_default:_ `https://registry.npmjs.com`) Registry to download PNPM from.
 
 ### `run_install`
 
-**Optional** If specified, run `pnpm install`.
+**Optional** (_default:_ `null`) If specified, run `pnpm install`.
 
 ## Outputs
 

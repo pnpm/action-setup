@@ -65,7 +65,7 @@ jobs:
   runs-on: ubuntu-latest
 
   steps:
-    - uses: pnpm/action-setup@v1.1.0
+    - uses: pnpm/action-setup@v1.2.0
       with:
         version: 4.11.1
 ```
@@ -83,7 +83,7 @@ jobs:
   steps:
     - uses: actions/checkout@v2
 
-    - uses: pnpm/action-setup@v1.1.0
+    - uses: pnpm/action-setup@v1.2.0
       with:
         version: 4.11.1
         run_install: |

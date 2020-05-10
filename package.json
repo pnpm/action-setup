@@ -1,20 +1,25 @@
 {
   "private": true,
   "scripts": {
+    "build:schemas": "ts-schema-autogen generate",
     "build:ncc": "ncc build --minify --no-source-map-register --no-cache dist/tsc/index.js --out dist/",
-    "build": "tsc && pnpm run build:ncc",
+    "build": "pnpm run build:schemas && tsc && pnpm run build:ncc",
     "start": "pnpm run build && sh ./run.sh"
   },
   "dependencies": {
     "node-fetch": "^2.6.0",
     "expand-tilde": "^2.0.2",
+    "js-yaml": "^3.13.1",
+    "ajv": "^6.12.0",
     "@actions/core": "^1.2.4",
     "@types/expand-tilde": "^2.0.0",
     "@types/node-fetch": "^2.5.7",
+    "@types/js-yaml": "^3.12.3",
     "@types/node": "^13.13.5"
   },
   "devDependencies": {
     "typescript": "^3.8.3",
+    "@ts-schema-autogen/cli": "^0.1.2",
     "@zeit/ncc": "^0.22.1"
   }
 }

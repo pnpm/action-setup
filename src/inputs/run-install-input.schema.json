@@ -1,0 +1,39 @@
+{
+  "anyOf": [
+    {
+      "$ref": "#/definitions/RunInstall"
+    },
+    {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RunInstall"
+      }
+    },
+    {
+      "type": [
+        "null",
+        "boolean"
+      ]
+    }
+  ],
+  "definitions": {
+    "RunInstall": {
+      "type": "object",
+      "properties": {
+        "recursive": {
+          "type": "boolean"
+        },
+        "cwd": {
+          "type": "string"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

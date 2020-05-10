@@ -18,7 +18,29 @@ Install PNPM package manager.
 
 ### `registry`
 
-**Optional** Registry to download PNPM from.
+**Optional** (_default:_ `https://registry.npmjs.com`) Registry to download PNPM from.
+
+### `run_install`
+
+**Optional** (_default:_ `null`) If specified, run `pnpm install`.
+
+If `run_install` is either `null` or `false`, pnpm will not install any npm package.
+
+If `run_install` is `true`, pnpm will install dependencies recursively.
+
+If `run_install` is a YAML string representation of either an object or an array, pnpm will execute every install commands.
+
+#### `run_install.recursive`
+
+**Optional** (_type:_ `boolean`, _default:_ `false`) Whether to use `pnpm recursive install`.
+
+#### `run_install.cwd`
+
+**Optional** (_type:_ `string`) Working directory when run `pnpm [recursive] install`.
+
+#### `run_install.args`
+
+**Optional** (_type:_ `string[]`) Additional arguments after `pnpm [recursive] install`, e.g. `[--frozen-lockfile, --strict-peer-dependencies]`.
 
 ## Outputs
 
@@ -31,6 +53,24 @@ Expanded path of inputs#dest.
 Expanded path of inputs#bin_dest.
 
 ## Usage example
+
+### Just install PNPM
+
+```yaml
+on:
+  - push
+  - pull_request
+
+jobs:
+  runs-on: ubuntu-latest
+
+  steps:
+    - uses: pnpm/action-setup@v1.1.0
+      with:
+        version: 4.11.1
+```
+
+### Install PNPM and a few NPM packages
 
 ```yaml
 on:
@@ -46,9 +86,10 @@ jobs:
     - uses: pnpm/action-setup@v1.1.0
       with:
         version: 4.11.1
-
-    - name: Install dependencies
-      run: pnpm install
+        run_install: |
+          - recursive: true
+            args: [--frozen-lockfile, --strict-peer-dependencies]
+          - args: [--global, gulp, prettier, typescript]
 ```
 
 ## Notes

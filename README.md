@@ -24,6 +24,24 @@ Install PNPM package manager.
 
 **Optional** (_default:_ `null`) If specified, run `pnpm install`.
 
+If `run_install` is either `null` or `false`, pnpm will not install any npm package.
+
+If `run_install` is `true`, pnpm will install dependencies recursively.
+
+If `run_install` is a YAML representation of either an object or an array, pnpm will execute every install commands.
+
+#### `run_install.recursive`
+
+**Optional** (_type:_ `boolean`, _default:_ `false`) Whether to use `pnpm recursive install`.
+
+#### `run_install.cwd`
+
+**Optional** (_type:_ `string`) Working directory when run `pnpm [recursive] install`.
+
+#### `run_install.args`
+
+**Optional** (_type:_ `string[]`) Additional arguments after `pnpm [recursive] install`, e.g. `[--frozen-lockfile, --strict-peer-dependencies]`.
+
 ## Outputs
 
 ### `dest`

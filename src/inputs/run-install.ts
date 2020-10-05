@@ -21,7 +21,7 @@ const options: InputOptions = {
 }
 
 export function parseRunInstall(name: string): RunInstall[] {
-  const result: RunInstallInput = safeLoad(getInput(name, options))
+  const result: RunInstallInput = safeLoad(getInput(name, options)) as any
   const ajv = new Ajv({
     allErrors: true,
     async: false,

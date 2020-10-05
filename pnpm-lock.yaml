@@ -1,23 +1,23 @@
 dependencies:
-  '@actions/core': 1.2.4
+  '@actions/core': 1.2.6
   '@types/expand-tilde': 2.0.0
-  '@types/js-yaml': 3.12.3
-  '@types/node': 13.13.5
+  '@types/js-yaml': 3.12.5
+  '@types/node': 14.11.2
   '@types/node-fetch': 2.5.7
-  ajv: 6.12.0
+  ajv: 6.12.5
   expand-tilde: 2.0.2
-  js-yaml: 3.13.1
-  node-fetch: 2.6.0
+  js-yaml: 3.14.0
+  node-fetch: 2.6.1
 devDependencies:
   '@ts-schema-autogen/cli': 0.1.2
-  '@zeit/ncc': 0.22.1
-  typescript: 3.8.3
+  '@zeit/ncc': 0.22.3
+  typescript: 4.0.3
 lockfileVersion: 5.1
 packages:
-  /@actions/core/1.2.4:
+  /@actions/core/1.2.6:
     dev: false
     resolution:
-      integrity: sha512-YJCEq8BE3CdN8+7HPZ/4DxJjk/OkZV2FFIf+DlZTC/4iBlzYCD5yjRR6eiOS5llO11zbRltIRuKAjMKaWTE6cg==
+      integrity: sha512-ZQYitnqiyBc3D+k7LsgSBmMDVkOVidaagDG7j3fOym77jNunWRuYx7VSHa9GNfFZh+zh61xsCjRj4JxMZlDqTA==
   /@ts-schema-autogen/cli/0.1.2:
     dependencies:
       '@ts-schema-autogen/main': 0.1.1
@@ -176,8 +176,13 @@ packages:
     resolution:
       integrity: sha512-UoOfVEzAUpeSPmjm7h1uk5MH6KZma2z2O7a75onTGjnNvAvMVrPzPL/vBbT65iIGHWj6rokwfmYcmxmlSf2uwg==
   /@types/js-yaml/3.12.3:
+    dev: true
     resolution:
       integrity: sha512-otRe77JNNWzoVGLKw8TCspKswRoQToys4tuL6XYVBFxjgeM0RUrx7m3jkaTdxILxeGry3zM8mGYkGXMeQ02guA==
+  /@types/js-yaml/3.12.5:
+    dev: false
+    resolution:
+      integrity: sha512-JCcp6J0GV66Y4ZMDAQCXot4xprYB+Zfd3meK9+INSJeVZwJmHAW30BBEEkPzXswMXuiyReUGOP3GxrADc9wPww==
   /@types/json-schema/7.0.4:
     dev: true
     resolution:
@@ -192,6 +197,10 @@ packages:
   /@types/node/13.13.5:
     resolution:
       integrity: sha512-3ySmiBYJPqgjiHA7oEaIo2Rzz0HrOZ7yrNO5HWyaE5q0lQ3BppDZ3N53Miz8bw2I7gh1/zir2MGVZBvpb1zq9g==
+  /@types/node/14.11.2:
+    dev: false
+    resolution:
+      integrity: sha512-jiE3QIxJ8JLNcb1Ps6rDbysDhN4xa8DJJvuC9prr6w+1tIh+QAbYyNF3tyiZNLDBIuBCf4KEcV2UvQm/V60xfA==
   /@types/yargs-parser/15.0.0:
     dev: true
     resolution:
@@ -202,19 +211,30 @@ packages:
     dev: true
     resolution:
       integrity: sha512-9T1auFmbPZoxHz0enUFlUuKRy3it01R+hlggyVUMtnCTQRunsQYifnSGb8hET4Xo8yiC0o0r1paW3ud5+rbURg==
-  /@zeit/ncc/0.22.1:
+  /@zeit/ncc/0.22.3:
+    deprecated: '@zeit/ncc is no longer maintained. Please use @vercel/ncc instead.'
     dev: true
     hasBin: true
     resolution:
-      integrity: sha512-Qq3bMuonkcnV/96jhy9SQYdh39NXHxNMJ1O31ZFzWG9n52fR2DLtgrNzhj/ahlEjnBziMLGVWDbaS9sf03/fEw==
+      integrity: sha512-jnCLpLXWuw/PAiJiVbLjA8WBC0IJQbFeUwF4I9M+23MvIxTxk5pD4Q8byQBSPmHQjz5aBoA7AKAElQxMpjrCLQ==
   /ajv/6.12.0:
     dependencies:
       fast-deep-equal: 3.1.1
       fast-json-stable-stringify: 2.1.0
       json-schema-traverse: 0.4.1
       uri-js: 4.2.2
+    dev: true
     resolution:
       integrity: sha512-D6gFiFA0RRLyUbvijN74DWAjXSFxWKaWP7mldxkVhyhAV3+SWA9HEJPHQ2c9soIeTFJqcSdFDGFgdqs1iUU2Hw==
+  /ajv/6.12.5:
+    dependencies:
+      fast-deep-equal: 3.1.1
+      fast-json-stable-stringify: 2.1.0
+      json-schema-traverse: 0.4.1
+      uri-js: 4.2.2
+    dev: false
+    resolution:
+      integrity: sha512-lRF8RORchjpKG50/WFf8xmg7sgCLFiYNNnqdKflk63whMQcWR5ngGjiSXkL9bjxy6B2npOK2HSMN49jEBMSkag==
   /ansi-regex/4.1.0:
     dev: true
     engines:
@@ -478,9 +498,18 @@ packages:
     dependencies:
       argparse: 1.0.10
       esprima: 4.0.1
+    dev: true
     hasBin: true
     resolution:
       integrity: sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
+  /js-yaml/3.14.0:
+    dependencies:
+      argparse: 1.0.10
+      esprima: 4.0.1
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-/4IbIeHcD9VMHFqDR/gQ7EdZdLimOvW2DdcxFjdyyZ9NsbS+ccrXqVWDtab/lRl5AlUqmpBx8EhPaWR+OtY17A==
   /json-schema-traverse/0.4.1:
     resolution:
       integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==
@@ -537,12 +566,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==
-  /node-fetch/2.6.0:
+  /node-fetch/2.6.1:
     dev: false
     engines:
       node: 4.x || >=6.0.0
     resolution:
-      integrity: sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
+      integrity: sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
   /once/1.4.0:
     dependencies:
       wrappy: 1.0.2
@@ -683,6 +712,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
+  /typescript/4.0.3:
+    dev: true
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-tEu6DGxGgRJPb/mVPIZ48e69xCn2yRmCgYmDugAVwmJ6o+0u1RI18eO7E7WBTLYLaEVVOhwQmcdhQHweux/WPg==
   /universalify/0.1.2:
     dev: true
     engines:
@@ -783,15 +819,15 @@ packages:
     resolution:
       integrity: sha512-92O1HWEjw27sBfgmXiixJWT5hRBp2eobqXicLtPBIDBhYB+1HpwZlXmbW2luivBJHBzki+7VyCLRtAkScbTBQA==
 specifiers:
-  '@actions/core': ^1.2.4
+  '@actions/core': ^1.2.6
   '@ts-schema-autogen/cli': ^0.1.2
   '@types/expand-tilde': ^2.0.0
-  '@types/js-yaml': ^3.12.3
-  '@types/node': ^13.13.5
+  '@types/js-yaml': ^3.12.5
+  '@types/node': ^14.11.2
   '@types/node-fetch': ^2.5.7
-  '@zeit/ncc': ^0.22.1
-  ajv: ^6.12.0
+  '@zeit/ncc': ^0.22.3
+  ajv: ^6.12.5
   expand-tilde: ^2.0.2
-  js-yaml: ^3.13.1
-  node-fetch: ^2.6.0
-  typescript: ^3.8.3
+  js-yaml: ^3.14.0
+  node-fetch: ^2.6.1
+  typescript: ^4.0.3

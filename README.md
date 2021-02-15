@@ -92,6 +92,40 @@ jobs:
           - args: [--global, gulp, prettier, typescript]
 ```
 
+### Cache
+
+To speed up install times
+
+```yaml
+on:
+  - push
+  - pull_request
+
+jobs:
+  runs-on: ubuntu-latest
+
+  steps:
+    build:
+      - uses: actions/checkout@v2
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pnpm-modules
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-
+
+      - uses: pnpm/action-setup@v1.2.1
+        with:
+          version: 5.17.2
+          run_install: true
+```
+
+You don't need to run `pnpm store prune` at the end; this package will take care of that for you.
+
 ## Notes
 
 This action does not setup Node.js for you, use [actions/setup-node](https://github.com/actions/setup-node) yourself.

@@ -67,7 +67,7 @@ jobs:
   steps:
     - uses: pnpm/action-setup@v1.2.1
       with:
-        version: 4.11.1
+        version: 5.17.2
 ```
 
 ### Install PNPM and a few NPM packages
@@ -85,12 +85,44 @@ jobs:
 
     - uses: pnpm/action-setup@v1.2.1
       with:
-        version: 4.11.1
+        version: 5.17.2
         run_install: |
           - recursive: true
             args: [--frozen-lockfile, --strict-peer-dependencies]
           - args: [--global, gulp, prettier, typescript]
 ```
+
+### Use cache to reduce installation time
+
+```yaml
+on:
+  - push
+  - pull_request
+
+jobs:
+  runs-on: ubuntu-latest
+
+  steps:
+    build:
+      - uses: actions/checkout@v2
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pnpm-modules
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-
+
+      - uses: pnpm/action-setup@v1.2.1
+        with:
+          version: 5.17.2
+          run_install: true
+```
+
+**Note:** You don't need to run `pnpm store prune` at the end; post-action has already taken care of that.
 
 ## Notes
 

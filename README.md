@@ -67,7 +67,7 @@ jobs:
   steps:
     - uses: pnpm/action-setup@v1.2.1
       with:
-        version: 4.11.1
+        version: 5.17.2
 ```
 
 ### Install PNPM and a few NPM packages
@@ -85,16 +85,14 @@ jobs:
 
     - uses: pnpm/action-setup@v1.2.1
       with:
-        version: 4.11.1
+        version: 5.17.2
         run_install: |
           - recursive: true
             args: [--frozen-lockfile, --strict-peer-dependencies]
           - args: [--global, gulp, prettier, typescript]
 ```
 
-### Cache
-
-To speed up install times
+### Use cache to reduce installation time
 
 ```yaml
 on:
@@ -124,7 +122,7 @@ jobs:
           run_install: true
 ```
 
-You don't need to run `pnpm store prune` at the end; this package will take care of that for you.
+**Note:** You don't need to run `pnpm store prune` at the end; post-action has already taken care of that.
 
 ## Notes
 

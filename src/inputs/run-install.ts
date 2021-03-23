@@ -1,5 +1,5 @@
 import process from 'process'
-import { safeLoad } from 'js-yaml'
+import { load } from 'js-yaml'
 import Ajv from 'ajv'
 import { getInput, error, InputOptions } from '@actions/core'
 import runInstallSchema from './run-install-input.schema.json'
@@ -21,10 +21,9 @@ const options: InputOptions = {
 }
 
 export function parseRunInstall(name: string): RunInstall[] {
-  const result: RunInstallInput = safeLoad(getInput(name, options)) as any
+  const result: RunInstallInput = load(getInput(name, options)) as any
   const ajv = new Ajv({
     allErrors: true,
-    async: false,
   })
   const validate = ajv.compile(runInstallSchema)
   if (!validate(result)) {

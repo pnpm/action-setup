@@ -15,6 +15,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   await writeFile(pkgJson, JSON.stringify({ private: true }))
 
   const cp = spawn(execPath, ['-', 'install', target, '--no-lockfile'], {
+    cwd: dest,
     stdio: ['pipe', 'inherit', 'inherit'],
   })
 

@@ -1,20 +1,24 @@
 import { spawn } from 'child_process'
 import { execPath } from 'process'
-import { downloadSelfInstaller } from '../self-installer'
+import { join } from 'path'
+import { remove, ensureFile, writeFile } from 'fs-extra'
+import fetch from 'node-fetch'
 import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
-  const cp = spawn(execPath, {
-    env: {
-      PNPM_VERSION: inputs.version,
-      PNPM_DEST: inputs.dest,
-      PNPM_BIN_DEST: inputs.binDest,
-      PNPM_REGISTRY: inputs.registry,
-    },
+  const { version, dest } = inputs
+  const target = version ? `pnpm@${version}` : 'pnpm'
+  const pkgJson = join(dest, 'package.json')
+
+  await remove(dest)
+  await ensureFile(pkgJson)
+  await writeFile(pkgJson, JSON.stringify({ private: true }))
+
+  const cp = spawn(execPath, ['-', 'install', target, '--no-lockfile'], {
     stdio: ['pipe', 'inherit', 'inherit'],
   })
 
-  const response = await downloadSelfInstaller()
+  const response = await fetch('https://pnpm.js.org/pnpm.js')
   response.body.pipe(cp.stdin)
 
   return new Promise((resolve, reject) => {

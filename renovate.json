@@ -3,5 +3,8 @@
   "pinVersions": false,
   "extends": [
     "config:base"
+  ],
+  "ignoreDeps": [
+    "ajv"
   ]
 }

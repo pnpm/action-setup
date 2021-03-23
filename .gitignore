@@ -8,3 +8,4 @@ temp
 *.temp
 tmp.*
 temp.*
+.pnpm-store

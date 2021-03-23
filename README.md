@@ -12,14 +12,6 @@ Install PNPM package manager.
 
 **Optional** Where to store PNPM files.
 
-### `bin_dest`
-
-**Optional** Where to store executables (`pnpm` and `pnpx` commands).
-
-### `registry`
-
-**Optional** (_default:_ `https://registry.npmjs.com`) Registry to download PNPM from.
-
 ### `run_install`
 
 **Optional** (_default:_ `null`) If specified, run `pnpm install`.
@@ -50,7 +42,7 @@ Expanded path of inputs#dest.
 
 ### `bin_dest`
 
-Expanded path of inputs#bin_dest.
+Location of `pnpm` and `pnpx` command.
 
 ## Usage example
 

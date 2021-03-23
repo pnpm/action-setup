@@ -58,8 +58,6 @@ jobs:
         with:
           version: 4.11.1
           dest: ~/test/pnpm
-          bin_dest: ~/test/pnpm/.bin
-          registry: http://registry.yarnpkg.com/
 
       - name: 'Test: which'
         run: which pnpm && which pnpx

@@ -1,16 +1,16 @@
-# Setup PNPM
+# Setup pnpm
 
-Install PNPM package manager.
+Install pnpm package manager.
 
 ## Inputs
 
 ### `version`
 
-**Required** Version of PNPM to install.
+**Required** Version of pnpm to install.
 
 ### `dest`
 
-**Optional** Where to store PNPM files.
+**Optional** Where to store pnpm files.
 
 ### `run_install`
 
@@ -46,7 +46,7 @@ Location of `pnpm` and `pnpx` command.
 
 ## Usage example
 
-### Just install PNPM
+### Just install pnpm
 
 ```yaml
 on:
@@ -62,7 +62,7 @@ jobs:
         version: 5.17.2
 ```
 
-### Install PNPM and a few NPM packages
+### Install pnpm and a few npm packages
 
 ```yaml
 on:

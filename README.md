@@ -57,9 +57,9 @@ jobs:
   runs-on: ubuntu-latest
 
   steps:
-    - uses: pnpm/action-setup@v1.2.1
+    - uses: pnpm/action-setup@v2.0.1
       with:
-        version: 5.17.2
+        version: 6.0.2
 ```
 
 ### Install pnpm and a few npm packages
@@ -75,9 +75,9 @@ jobs:
   steps:
     - uses: actions/checkout@v2
 
-    - uses: pnpm/action-setup@v1.2.1
+    - uses: pnpm/action-setup@v2.0.1
       with:
-        version: 5.17.2
+        version: 6.0.2
         run_install: |
           - recursive: true
             args: [--frozen-lockfile, --strict-peer-dependencies]
@@ -108,9 +108,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-
 
-      - uses: pnpm/action-setup@v1.2.1
+      - uses: pnpm/action-setup@v2.0.1
         with:
-          version: 5.17.2
+          version: 6.0.2
           run_install: true
 ```
 

@@ -100,8 +100,6 @@ jobs:
 
       - name: Cache pnpm modules
         uses: actions/cache@v2
-        env:
-          cache-name: cache-pnpm-modules
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}

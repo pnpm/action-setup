@@ -1,23 +1,19 @@
-import { getInput, InputOptions } from '@actions/core'
-import expandTilde from 'expand-tilde'
-import { RunInstall, parseRunInstall } from './run-install'
+import { getInput } from "@actions/core";
+import expandTilde from "expand-tilde";
+import { RunInstall, parseRunInstall } from "./run-install";
 
 export interface Inputs {
-  readonly version: string
-  readonly dest: string
-  readonly runInstall: RunInstall[]
+  readonly version?: string;
+  readonly dest: string;
+  readonly runInstall: RunInstall[];
 }
 
-const options: InputOptions = {
-  required: true,
+export function getInputs(): Inputs {
+  const dest = expandTilde(getInput("dest"));
+  let version: string | undefined = getInput("version");
+  if (version === "") version = undefined;
+  const runInstall = parseRunInstall(getInput("run_install"));
+  return { version, dest, runInstall };
 }
 
-const parseInputPath = (name: string) => expandTilde(getInput(name, options))
-
-export const getInputs = (): Inputs => ({
-  version: getInput('version', options),
-  dest: parseInputPath('dest'),
-  runInstall: parseRunInstall('run_install'),
-})
-
-export default getInputs
+export default getInputs;

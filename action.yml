@@ -6,7 +6,8 @@ branding:
 inputs:
   version:
     description: Version of PNPM to install
-    required: true
+    required: false
+    default: ''
   dest:
     description: Where to store PNPM files
     required: false
@@ -14,8 +15,7 @@ inputs:
   run_install:
     description: If specified, run `pnpm install`
     required: false
-    default: 'null'
+    default: ''
 runs:
   using: node12
   main: dist/index.js
-  post: dist/index.js

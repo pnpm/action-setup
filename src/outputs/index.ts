@@ -1,12 +1,12 @@
-import { setOutput, addPath } from '@actions/core'
-import { Inputs } from '../inputs'
-import { getBinDest } from '../utils'
+import { addPath, setOutput } from "@actions/core";
+import { InstallLocation } from "../install-pnpm";
 
-export function setOutputs(inputs: Inputs) {
-  const binDest = getBinDest(inputs)
-  addPath(binDest)
-  setOutput('dest', inputs.dest)
-  setOutput('bin_dest', binDest)
+export function setOutputs(install: InstallLocation) {
+  setOutput("bin_dest", install.installFolder);
+  addPath(install.installFolder);
+  if (install.dest) {
+    setOutput("dest", install.dest);
+  }
 }
 
-export default setOutputs
+export default setOutputs;

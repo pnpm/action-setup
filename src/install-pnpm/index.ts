@@ -9,7 +9,7 @@ export async function install(inputs: Inputs) {
   const status = await runSelfInstaller(inputs)
   endGroup()
   if (status) {
-    return setFailed(`Something does wrong, self-installer exits with code ${status}`)
+    return setFailed(`Something went wrong, self-installer exits with code ${status}`)
   }
 }
 

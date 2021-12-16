@@ -6,7 +6,7 @@ Install pnpm package manager.
 
 ### `version`
 
-**Required** Version of pnpm to install.
+**Required** Version of pnpm to install. Valid values are `latest`, `6` (for latest `6.x`), `6.4` or exact version like `6.4.1`.
 
 ### `dest`
 

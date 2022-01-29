@@ -54,12 +54,13 @@ on:
   - pull_request
 
 jobs:
-  runs-on: ubuntu-latest
+  install:
+    runs-on: ubuntu-latest
 
-  steps:
-    - uses: pnpm/action-setup@v2.0.1
-      with:
-        version: 6.0.2
+    steps:
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
 ```
 
 ### Install pnpm and a few npm packages
@@ -70,18 +71,19 @@ on:
   - pull_request
 
 jobs:
-  runs-on: ubuntu-latest
+  install:
+    runs-on: ubuntu-latest
 
-  steps:
-    - uses: actions/checkout@v2
+    steps:
+      - uses: actions/checkout@v2
 
-    - uses: pnpm/action-setup@v2.0.1
-      with:
-        version: 6.0.2
-        run_install: |
-          - recursive: true
-            args: [--frozen-lockfile, --strict-peer-dependencies]
-          - args: [--global, gulp, prettier, typescript]
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+            - args: [--global, gulp, prettier, typescript]
 ```
 
 ### Use cache to reduce installation time
@@ -92,24 +94,25 @@ on:
   - pull_request
 
 jobs:
-  runs-on: ubuntu-latest
+  cache-and-install:
+    runs-on: ubuntu-latest
 
-  steps:
-    build:
-      - uses: actions/checkout@v2
+    steps:
+      build:
+        - uses: actions/checkout@v2
 
-      - name: Cache pnpm modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
+        - name: Cache pnpm modules
+          uses: actions/cache@v2
+          with:
+            path: ~/.pnpm-store
+            key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+            restore-keys: |
+              ${{ runner.os }}-
 
-      - uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 6.0.2
-          run_install: true
+        - uses: pnpm/action-setup@v2.0.1
+          with:
+            version: 6.0.2
+            run_install: true
 ```
 
 **Note:** You don't need to run `pnpm store prune` at the end; post-action has already taken care of that.

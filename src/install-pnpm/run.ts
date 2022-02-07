@@ -20,7 +20,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
     stdio: ['pipe', 'inherit', 'inherit'],
   })
 
-  const response = await fetch('https://pnpm.js.org/pnpm.js')
+  const response = await fetch('https://pnpm.io/pnpm.js')
   response.body.pipe(cp.stdin)
 
   const exitCode = await new Promise<number>((resolve, reject) => {

@@ -28,7 +28,9 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
     cp.on('close', resolve)
   })
   if (result === 0) {
-    core.addPath(join(dest, 'node_modules/.bin'))
+    const pnpmHome = join(dest, 'node_modules/.bin')
+    core.addPath(pnpmHome)
+    core.exportVariable('PNPM_HOME', pnpmHome)
   }
   return result
 }

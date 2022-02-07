@@ -30,7 +30,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   if (result === 0) {
     const pnpmHome = join(dest, 'node_modules/.bin')
     core.addPath(pnpmHome)
-    core.exportVariable('PNPM_HOME', pnpmHome)
+    core.exportVariable('PNPM_HOME_PATH', pnpmHome)
   }
   return result
 }

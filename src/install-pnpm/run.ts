@@ -1,3 +1,4 @@
+import * as core from '@actions/core'
 import { spawn } from 'child_process'
 import { execPath } from 'process'
 import { join } from 'path'
@@ -22,10 +23,14 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const response = await fetch('https://pnpm.js.org/pnpm.js')
   response.body.pipe(cp.stdin)
 
-  return new Promise((resolve, reject) => {
+  const result = await new Promise<number>((resolve, reject) => {
     cp.on('error', reject)
     cp.on('close', resolve)
   })
+  if (result === 0) {
+    core.addPath(join(dest, 'node_modules/.bin'))
+  }
+  return result
 }
 
 export default runSelfInstaller

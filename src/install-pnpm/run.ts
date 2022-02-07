@@ -30,10 +30,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   if (exitCode === 0) {
     const pnpmHome = join(dest, 'node_modules/.bin')
     core.addPath(pnpmHome)
-    // This environment variable will be available in future steps as PNPM_HOME
-    // It is written as PNPM_HOME_PATH due to a convention in GitHub actions:
-    // > Any new environment variables you set that point to a location on the filesystem should have a _PATH suffix.
-    core.exportVariable('PNPM_HOME_PATH', pnpmHome)
+    core.exportVariable('PNPM_HOME', pnpmHome)
   }
   return exitCode
 }

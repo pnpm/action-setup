@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.1.0
         with:
           version: 6.0.2
 ```
@@ -77,7 +77,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.1.0
         with:
           version: 6.0.2
           run_install: |
@@ -109,7 +109,7 @@ jobs:
             restore-keys: |
               ${{ runner.os }}-
 
-        - uses: pnpm/action-setup@v2.0.1
+        - uses: pnpm/action-setup@v2.1.0
           with:
             version: 6.0.2
             run_install: true

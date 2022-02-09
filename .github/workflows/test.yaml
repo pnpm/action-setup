@@ -30,7 +30,7 @@ jobs:
           version: 6.17.1
 
       - name: 'Test: which'
-        run: which pnpm; which pnpx
+        run: which pnpm
 
       - name: 'Test: install'
         run: pnpm install
@@ -60,7 +60,7 @@ jobs:
           dest: ~/test/pnpm
 
       - name: 'Test: which'
-        run: which pnpm && which pnpx
+        run: which pnpm
 
       - name: 'Test: install'
         run: pnpm install
@@ -116,7 +116,7 @@ jobs:
           run_install: ${{ matrix.run_install.value }}
 
       - name: 'Test: which'
-        run: which pnpm; which pnpx
+        run: which pnpm
 
       - name: 'Test: install'
         run: pnpm install

@@ -8,7 +8,7 @@ import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const { version, dest } = inputs
-  const target = version ? `pnpm@${version}` : 'pnpm'
+  const target = version ? `@pnpm/exe@${version}` : '@pnpm/exe'
   const pkgJson = path.join(dest, 'package.json')
 
   await remove(dest)
@@ -20,7 +20,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
     stdio: ['pipe', 'inherit', 'inherit'],
   })
 
-  const response = await fetch('https://pnpm.io/pnpm.js')
+  const response = await fetch('https://get.pnpm.io/v6.16.js')
   response.body.pipe(cp.stdin)
 
   const exitCode = await new Promise<number>((resolve, reject) => {

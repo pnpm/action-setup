@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         pnpm:
-          - 4.11.1
+          - 6.17.1
         os:
           - ubuntu-latest
           - macos-latest
@@ -27,7 +27,7 @@ jobs:
       - name: Run the action
         uses: ./
         with:
-          version: 4.11.1
+          version: 6.17.1
 
       - name: 'Test: which'
         run: which pnpm; which pnpx
@@ -44,7 +44,7 @@ jobs:
       fail-fast: false
       matrix:
         pnpm:
-          - 4.11.1
+          - 6.17.1
         os:
           - ubuntu-latest
           - macos-latest
@@ -56,7 +56,7 @@ jobs:
       - name: Run the action
         uses: ./
         with:
-          version: 4.11.1
+          version: 6.17.1
           dest: ~/test/pnpm
 
       - name: 'Test: which'
@@ -74,7 +74,7 @@ jobs:
       fail-fast: false
       matrix:
         pnpm:
-          - 4.11.1
+          - 6.17.1
         os:
           - ubuntu-latest
           - macos-latest
@@ -112,7 +112,7 @@ jobs:
       - name: Run the action
         uses: ./
         with:
-          version: 4.11.1
+          version: 6.17.1
           run_install: ${{ matrix.run_install.value }}
 
       - name: 'Test: which'

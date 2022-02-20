@@ -3,7 +3,7 @@ import { spawn } from 'child_process'
 import { execPath } from 'process'
 import path from 'path'
 import { remove, ensureFile, writeFile } from 'fs-extra'
-import fetch from 'node-fetch'
+import fetch from '@pnpm/fetch'
 import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
@@ -20,7 +20,8 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
     stdio: ['pipe', 'inherit', 'inherit'],
   })
 
-  const response = await fetch('https://pnpm.io/pnpm.js')
+  const response = await fetch('https://get.pnpm.io/v6.16.js')
+  if (!response.body) throw new Error('Did not receive response body')
   response.body.pipe(cp.stdin)
 
   const exitCode = await new Promise<number>((resolve, reject) => {

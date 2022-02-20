@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@actions/core": "^1.6.0",
+    "@pnpm/fetch": "^4.2.4",
+    "@pnpm/logger": "^4.0.0",
     "@types/expand-tilde": "^2.0.0",
     "@types/fs-extra": "^9.0.13",
     "@types/js-yaml": "^4.0.5",
@@ -16,8 +18,7 @@
     "ajv": "^6.12.6",
     "expand-tilde": "^2.0.2",
     "fs-extra": "^9.1.0",
-    "js-yaml": "^4.1.0",
-    "node-fetch": "^2.6.7"
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "@ts-schema-autogen/cli": "^0.1.2",

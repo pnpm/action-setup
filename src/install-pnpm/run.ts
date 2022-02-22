@@ -2,14 +2,14 @@ import { addPath, exportVariable } from '@actions/core'
 import { spawn } from 'child_process'
 import { execPath } from 'process'
 import path from 'path'
-import { remove, ensureFile, writeFile } from 'fs-extra'
+import { remove, ensureFile, writeFile, readFile } from 'fs-extra'
 import fetch from '@pnpm/fetch'
 import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const { version, dest } = inputs
-  const target = version ? `pnpm@${version}` : 'pnpm'
   const pkgJson = path.join(dest, 'package.json')
+  const target = await readTarget(pkgJson, version)
 
   await remove(dest)
   await ensureFile(pkgJson)
@@ -34,6 +34,23 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
     exportVariable('PNPM_HOME', pnpmHome)
   }
   return exitCode
+}
+
+async function readTarget(packageJsonPath: string, version?: string | undefined) {
+  if (version) return `pnpm@${version}`
+
+  const { packageManager } = JSON.parse(await readFile(packageJsonPath, 'utf8'))
+  if (typeof packageManager !== 'string') {
+    throw new Error(`No pnpm version is specified.
+Please specify it by one of the following ways:
+  - in the GitHub Action config with the key "version"
+  - in the package.json with the key "packageManager" (See https://nodejs.org/api/corepack.html)`)
+  }
+
+  if (!packageManager.startsWith('pnpm@')) {
+    throw new Error('Invalid packageManager field in package.json')
+  }
+  return packageManager
 }
 
 export default runSelfInstaller

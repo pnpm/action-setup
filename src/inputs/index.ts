@@ -3,7 +3,7 @@ import expandTilde from 'expand-tilde'
 import { RunInstall, parseRunInstall } from './run-install'
 
 export interface Inputs {
-  readonly version: string
+  readonly version?: string
   readonly dest: string
   readonly runInstall: RunInstall[]
 }
@@ -15,7 +15,7 @@ const options: InputOptions = {
 const parseInputPath = (name: string) => expandTilde(getInput(name, options))
 
 export const getInputs = (): Inputs => ({
-  version: getInput('version', options),
+  version: getInput('version'),
   dest: parseInputPath('dest'),
   runInstall: parseRunInstall('run_install'),
 })

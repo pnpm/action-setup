@@ -2,14 +2,28 @@ import { addPath, exportVariable } from '@actions/core'
 import { spawn } from 'child_process'
 import { execPath } from 'process'
 import path from 'path'
-import { remove, ensureFile, writeFile } from 'fs-extra'
+import { remove, ensureFile, writeFile, readFile } from 'fs-extra'
 import fetch from '@pnpm/fetch'
 import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const { version, dest } = inputs
-  const target = version ? `pnpm@${version}` : 'pnpm'
   const pkgJson = path.join(dest, 'package.json')
+  let target: string
+
+  if (!version) {
+    const packageManager = JSON.parse(await readFile(pkgJson, 'utf8')).packageManager
+    if (packageManager) {
+      if (!packageManager.startsWith('pnpm@')) {
+        throw new Error('packageManager field is not pnpm')
+      }
+      target = packageManager
+    } else {
+      throw new Error('None of packageManager (in package.json) or version (in action config) is defined')
+    }
+  } else {
+    target = `pnpm@${version}`
+  }
 
   await remove(dest)
   await ensureFile(pkgJson)

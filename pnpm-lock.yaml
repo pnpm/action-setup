@@ -2,38 +2,38 @@ lockfileVersion: 5.3
 
 specifiers:
   '@actions/core': ^1.6.0
-  '@pnpm/fetch': ^4.2.4
+  '@pnpm/fetch': ^4.2.5
   '@pnpm/logger': ^4.0.0
   '@ts-schema-autogen/cli': ^0.1.2
   '@types/expand-tilde': ^2.0.0
   '@types/fs-extra': ^9.0.13
   '@types/js-yaml': ^4.0.5
   '@types/node': ^14.18.10
-  '@types/node-fetch': ^2.5.12
-  '@vercel/ncc': ^0.27.0
+  '@types/node-fetch': ^2.6.1
+  '@vercel/ncc': ^0.33.3
   ajv: ^6.12.6
   expand-tilde: ^2.0.2
-  fs-extra: ^9.1.0
+  fs-extra: ^10.0.0
   js-yaml: ^4.1.0
   typescript: ^4.5.5
 
 dependencies:
   '@actions/core': 1.6.0
-  '@pnpm/fetch': 4.2.4_@pnpm+logger@4.0.0
+  '@pnpm/fetch': 4.2.5_@pnpm+logger@4.0.0
   '@pnpm/logger': 4.0.0
   '@types/expand-tilde': 2.0.0
   '@types/fs-extra': 9.0.13
   '@types/js-yaml': 4.0.5
   '@types/node': 14.18.10
-  '@types/node-fetch': 2.5.12
+  '@types/node-fetch': 2.6.1
   ajv: 6.12.6
   expand-tilde: 2.0.2
-  fs-extra: 9.1.0
+  fs-extra: 10.0.0
   js-yaml: 4.1.0
 
 devDependencies:
   '@ts-schema-autogen/cli': 0.1.2
-  '@vercel/ncc': 0.27.0
+  '@vercel/ncc': 0.33.3
   typescript: 4.5.5
 
 packages:
@@ -50,23 +50,23 @@ packages:
       tunnel: 0.0.6
     dev: false
 
-  /@pnpm/core-loggers/6.1.3_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-X3mEhYz+8DKy4Xxbr24tGK9jPD+1AIhigGiJ9Fd0q+ywHXQ6ECSFyGGikKEAlBQIKVJxG788Mi0Zo13TU91fEQ==}
+  /@pnpm/core-loggers/6.1.4_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-vF4Qc8E8e4uCGbVc7USCgqxrRe4eZsz8XEuCTUy6asZFVnNnRY/N1vJaVG3hti/UYKI/1si1dJYibppXhgTimA==}
     engines: {node: '>=12.17'}
     peerDependencies:
       '@pnpm/logger': ^4.0.0
     dependencies:
       '@pnpm/logger': 4.0.0
-      '@pnpm/types': 7.9.0
+      '@pnpm/types': 7.10.0
     dev: false
 
-  /@pnpm/fetch/4.2.4_@pnpm+logger@4.0.0:
-    resolution: {integrity: sha512-PnFPVxhAK0+mOgKsVMrzS1bFokeO3PB6/aaBBjQprtvBG6jYZ8d8JnHvwhRcCKM/LxqVsazMFgqYPEFyMjg0Pw==}
+  /@pnpm/fetch/4.2.5_@pnpm+logger@4.0.0:
+    resolution: {integrity: sha512-8zUWgrP+6mK/LJcLkNfjqKLSwOs4n/LR3BACZGSwcFH7yh28YJhKo142gFPOVTzS0pBUDvVVsDNQ7sxp2lOmDw==}
     engines: {node: '>=12.17'}
     peerDependencies:
       '@pnpm/logger': ^4.0.0
     dependencies:
-      '@pnpm/core-loggers': 6.1.3_@pnpm+logger@4.0.0
+      '@pnpm/core-loggers': 6.1.4_@pnpm+logger@4.0.0
       '@pnpm/fetching-types': 2.2.1
       '@pnpm/logger': 4.0.0
       '@pnpm/npm-registry-agent': 5.0.2
@@ -108,8 +108,8 @@ packages:
       - supports-color
     dev: false
 
-  /@pnpm/types/7.9.0:
-    resolution: {integrity: sha512-WJol7zZKMktP8bvoFEh/ANCrYsIDcfpGFgRZmAMeULuskFVND4NLXXIkBqNhtmv+ipt6mVUnsZTGHrVaXrlsNA==}
+  /@pnpm/types/7.10.0:
+    resolution: {integrity: sha512-7NKyfwepNccR6f9htiXAw0tt6rCajvtiX5HsTOi3odSFJ04iri43yjh70Ekw25hAynQwRR0rkJ7l6BBNFrJ/2g==}
     engines: {node: '>=12.17'}
     dev: false
 
@@ -286,8 +286,8 @@ packages:
     resolution: {integrity: sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==}
     dev: true
 
-  /@types/node-fetch/2.5.12:
-    resolution: {integrity: sha512-MKgC4dlq4kKNa/mYrwpKfzQMB5X3ee5U6fSprkKpToBqBmX4nFZL9cW5jl6sWn+xpRJ7ypWh2yyqqr8UUCstSw==}
+  /@types/node-fetch/2.6.1:
+    resolution: {integrity: sha512-oMqjURCaxoSIsHSr1E47QHzbmzNR5rK8McHuNb11BOM9cHcIK3Avy0s/b2JlXHoQGTYS3NsvWzV1M0iK7l0wbA==}
     dependencies:
       '@types/node': 14.18.10
       form-data: 3.0.1
@@ -310,8 +310,8 @@ packages:
       '@types/yargs-parser': 20.2.1
     dev: true
 
-  /@vercel/ncc/0.27.0:
-    resolution: {integrity: sha512-DllIJQapnU2YwewIhh/4dYesmMQw3h2cFtabECc/zSJHqUbNa0eJuEkRa6DXbZvh1YPWBtYQoPV17NlDpBw1Vw==}
+  /@vercel/ncc/0.33.3:
+    resolution: {integrity: sha512-JGZ11QV+/ZcfudW2Cz2JVp54/pJNXbsuWRgSh2ZmmZdQBKXqBtIGrwI1Wyx8nlbzAiEFe7FHi4K1zX4//jxTnQ==}
     hasBin: true
     dev: true
 
@@ -384,11 +384,6 @@ packages:
 
   /asynckit/0.4.0:
     resolution: {integrity: sha1-x57Zf380y48robyXkLzDZkdLS3k=}
-    dev: false
-
-  /at-least-node/1.0.0:
-    resolution: {integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==}
-    engines: {node: '>= 4.0.0'}
     dev: false
 
   /balanced-match/1.0.2:
@@ -580,6 +575,15 @@ packages:
       mime-types: 2.1.34
     dev: false
 
+  /fs-extra/10.0.0:
+    resolution: {integrity: sha512-C5owb14u9eJwizKGdchcDUQeFtlSHHthBk8pbX9Vc1PFZrLombudjDnNns88aYslCyF6IY5SUw3Roz6xShcEIQ==}
+    engines: {node: '>=12'}
+    dependencies:
+      graceful-fs: 4.2.9
+      jsonfile: 6.1.0
+      universalify: 2.0.0
+    dev: false
+
   /fs-extra/8.1.0:
     resolution: {integrity: sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==}
     engines: {node: '>=6 <7 || >=8'}
@@ -588,16 +592,6 @@ packages:
       jsonfile: 4.0.0
       universalify: 0.1.2
     dev: true
-
-  /fs-extra/9.1.0:
-    resolution: {integrity: sha512-hcg3ZmepS30/7BSFqRvoo3DOMQu7IjqxO5nCDt+zM9XWjb33Wg7ziNT+Qvqbuc3+gWpzO02JubVyk2G4Zvo1OQ==}
-    engines: {node: '>=10'}
-    dependencies:
-      at-least-node: 1.0.0
-      graceful-fs: 4.2.9
-      jsonfile: 6.1.0
-      universalify: 2.0.0
-    dev: false
 
   /fs.realpath/1.0.0:
     resolution: {integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=}

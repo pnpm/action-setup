@@ -6,7 +6,11 @@ Install pnpm package manager.
 
 ### `version`
 
-**Required** Version of pnpm to install. It supports npm versioning scheme, it could be an exact version (such as `6.24.1`), or a version range (such as `6`, `6.x.x`, `6.24.x`, `^6.24.1`, `*`, etc.), or `latest`.
+Version of pnpm to install.
+
+**Optional** when there is a [`packageManager` field in the `package.json`](https://nodejs.org/api/corepack.html).
+
+otherwise, this field is **required** It supports npm versioning scheme, it could be an exact version (such as `6.24.1`), or a version range (such as `6`, `6.x.x`, `6.24.x`, `^6.24.1`, `*`, etc.), or `latest`.
 
 ### `dest`
 

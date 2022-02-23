@@ -1,5 +1,5 @@
-import { spawnSync } from 'child_process'
 import { setFailed, startGroup, endGroup } from '@actions/core'
+import { spawnSync } from 'child_process'
 import { Inputs } from '../inputs'
 import { patchPnpmEnv } from '../utils'
 

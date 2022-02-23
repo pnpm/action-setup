@@ -1,7 +1,7 @@
 import { setFailed, saveState, getState } from '@actions/core'
 import getInputs from './inputs'
-import setOutputs from './outputs'
 import installPnpm from './install-pnpm'
+import setOutputs from './outputs'
 import pnpmInstall from './pnpm-install'
 import pruneStore from './pnpm-store-prune'
 

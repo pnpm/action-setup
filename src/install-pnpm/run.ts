@@ -1,9 +1,9 @@
 import { addPath, exportVariable } from '@actions/core'
-import { spawn } from 'child_process'
-import { execPath } from 'process'
-import path from 'path'
-import { remove, ensureFile, writeFile, readFile } from 'fs-extra'
 import fetch from '@pnpm/fetch'
+import { spawn } from 'child_process'
+import { remove, ensureFile, writeFile, readFile } from 'fs-extra'
+import path from 'path'
+import { execPath } from 'process'
 import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {

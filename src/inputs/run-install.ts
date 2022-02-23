@@ -1,7 +1,7 @@
-import process from 'process'
-import { load } from 'js-yaml'
-import Ajv from 'ajv'
 import { getInput, error, InputOptions } from '@actions/core'
+import Ajv from 'ajv'
+import { load } from 'js-yaml'
+import process from 'process'
 import runInstallSchema from './run-install-input.schema.json'
 
 export interface RunInstall {

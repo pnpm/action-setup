@@ -6,7 +6,6 @@ branding:
 inputs:
   version:
     description: Version of PNPM to install
-    required: true
   dest:
     description: Where to store PNPM files
     required: false

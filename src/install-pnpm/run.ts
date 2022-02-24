@@ -2,19 +2,21 @@ import { addPath, exportVariable } from '@actions/core'
 import fetch from '@pnpm/fetch'
 import { spawn } from 'child_process'
 import { remove, ensureFile, writeFile, readFile } from 'fs-extra'
-import path from 'path'
+import { join } from 'path'
 import { execPath } from 'process'
 import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const { version, dest } = inputs
-  const pkgJson = path.join(dest, 'package.json')
-  const target = await readTarget(pkgJson, version)
 
+  // prepare self install
   await remove(dest)
+  const pkgJson = join(dest, 'package.json')
   await ensureFile(pkgJson)
   await writeFile(pkgJson, JSON.stringify({ private: true }))
 
+  // prepare target pnpm
+  const target = await readTarget(version)
   const cp = spawn(execPath, ['-', 'install', target, '--no-lockfile'], {
     cwd: dest,
     stdio: ['pipe', 'inherit', 'inherit'],
@@ -29,17 +31,24 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
     cp.on('close', resolve)
   })
   if (exitCode === 0) {
-    const pnpmHome = path.join(dest, 'node_modules/.bin')
+    const pnpmHome = join(dest, 'node_modules/.bin')
     addPath(pnpmHome)
     exportVariable('PNPM_HOME', pnpmHome)
   }
   return exitCode
 }
 
-async function readTarget(packageJsonPath: string, version?: string | undefined) {
+async function readTarget(version?: string | undefined) {
   if (version) return `pnpm@${version}`
 
-  const { packageManager } = JSON.parse(await readFile(packageJsonPath, 'utf8'))
+  const workspace = process.env.GITHUB_WORKSPACE
+  if (!workspace) {
+    throw new Error(`No workspace is found.
+If you're intended to let this action read pnpm version from the package.json/packageManager field,
+please run the actions/checkout before this one, otherwise please specify the version in the action config.`)
+  }
+
+  const { packageManager } = JSON.parse(await readFile(join(workspace, 'package.json'), 'utf8'))
   if (typeof packageManager !== 'string') {
     throw new Error(`No pnpm version is specified.
 Please specify it by one of the following ways:

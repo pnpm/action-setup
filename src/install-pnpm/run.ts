@@ -8,13 +8,15 @@ import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const { version, dest } = inputs
-  const pkgJson = path.join(dest, 'package.json')
-  const target = await readTarget(pkgJson, version)
 
+  // prepare self install
   await remove(dest)
+  const pkgJson = path.join(dest, 'package.json')
   await ensureFile(pkgJson)
   await writeFile(pkgJson, JSON.stringify({ private: true }))
 
+  // prepare target pnpm
+  const target = await readTarget(version)
   const cp = spawn(execPath, ['-', 'install', target, '--no-lockfile'], {
     cwd: dest,
     stdio: ['pipe', 'inherit', 'inherit'],
@@ -36,10 +38,18 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   return exitCode
 }
 
-async function readTarget(packageJsonPath: string, version?: string | undefined) {
+async function readTarget(version?: string | undefined) {
   if (version) return `pnpm@${version}`
 
-  const { packageManager } = JSON.parse(await readFile(packageJsonPath, 'utf8'))
+  const { GITHUB_WORKSPACE } = process.env
+  if (!GITHUB_WORKSPACE) {
+    throw new Error(`No workspace is found.
+If you're intended to let pnpm/action-setup read preferred pnpm version from the "packageManager" field in the package.json file,
+please run the actions/checkout before pnpm/action-setup.
+Otherwise, please specify the pnpm version in the action configuration.`)
+  }
+
+  const { packageManager } = JSON.parse(await readFile(path.join(GITHUB_WORKSPACE, 'package.json'), 'utf8'))
   if (typeof packageManager !== 'string') {
     throw new Error(`No pnpm version is specified.
 Please specify it by one of the following ways:

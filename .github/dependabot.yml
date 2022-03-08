@@ -5,6 +5,3 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
-    labels:
-    - dependabot
-    - github-actions

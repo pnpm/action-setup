@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: pnpm/action-setup@v2.1.0
+      - uses: pnpm/action-setup@v2
         with:
           version: 6.0.2
 ```
@@ -81,7 +81,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: pnpm/action-setup@v2.1.0
+      - uses: pnpm/action-setup@v2
         with:
           version: 6.0.2
           run_install: |
@@ -103,17 +103,17 @@ jobs:
 
     steps:
       build:
-        - uses: actions/checkout@v2
+        - uses: actions/checkout@v3
 
         - name: Cache pnpm modules
-          uses: actions/cache@v2
+          uses: actions/cache@v3
           with:
-            path: ~/.pnpm-store
+            path: ~/.local/share/pnpm/store
             key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
             restore-keys: |
               ${{ runner.os }}-
 
-        - uses: pnpm/action-setup@v2.1.0
+        - uses: pnpm/action-setup@v2
           with:
             version: 6.0.2
             run_install: true

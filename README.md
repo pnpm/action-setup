@@ -99,7 +99,7 @@ on:
 
 jobs:
   cache-and-install:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout

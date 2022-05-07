@@ -99,24 +99,39 @@ on:
 
 jobs:
   cache-and-install:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
-      build:
-        - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-        - name: Cache pnpm modules
-          uses: actions/cache@v2
-          with:
-            path: ~/.pnpm-store
-            key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-            restore-keys: |
-              ${{ runner.os }}-
+     - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
-        - uses: pnpm/action-setup@v2.1.0
-          with:
-            version: 6.0.2
-            run_install: true
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
 ```
 
 **Note:** You don't need to run `pnpm store prune` at the end; post-action has already taken care of that.

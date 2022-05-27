@@ -53,85 +53,65 @@ Location of `pnpm` and `pnpx` command.
 ### Just install pnpm
 
 ```yaml
+name: CI
+
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      - main
 
 jobs:
   install:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: pnpm/action-setup@v2.1.0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
-          version: 6.0.2
+          version: 7
 ```
 
-### Install pnpm and a few npm packages
+### Install pnpm with Node.js and a few npm packages
 
 ```yaml
-on:
-  - push
-  - pull_request
+steps:
+  - name: Checkout Repo
+    uses: actions/checkout@v3
 
-jobs:
-  install:
-    runs-on: ubuntu-latest
+  - name: Install Node.js
+    uses: actions/setup-node@v3
+    with:
+      node-version: 16
 
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: pnpm/action-setup@v2.1.0
-        with:
-          version: 6.0.2
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile, --strict-peer-dependencies]
-            - args: [--global, gulp, prettier, typescript]
+  - name: Install pnpm
+    uses: pnpm/action-setup@v2
+    with:
+      version: 7
+      run_install: |
+        - recursive: true
+          args: [--frozen-lockfile, --strict-peer-dependencies]
+        - args: [--global, gulp, prettier, typescript]
 ```
 
 ### Use cache to reduce installation time
 
 ```yaml
-on:
-  - push
-  - pull_request
+steps:
+  - name: Checkout Repo
+    uses: actions/checkout@v3
 
-jobs:
-  cache-and-install:
-    runs-on: ubuntu-latest
+  - name: Install Node.js
+    uses: actions/setup-node@v3
+    with:
+      node-version: 16
+      cache: pnpm
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  - name: Install pnpm
+    uses: pnpm/action-setup@v2
+    with:
+      version: 7
 
-     - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - uses: pnpm/action-setup@v2.0.1
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          version: 7
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install
+  - name: Install Dependencies
+    run: pnpm install
 ```
 
 **Note:** You don't need to run `pnpm store prune` at the end; post-action has already taken care of that.

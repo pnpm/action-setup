@@ -1,13 +1,13 @@
-name: Setup PNPM
-description: Install PNPM package manager
+name: Setup pnpm
+description: Install pnpm package manager
 branding:
   icon: package
   color: orange
 inputs:
   version:
-    description: Version of PNPM to install
+    description: Version of pnpm to install
   dest:
-    description: Where to store PNPM files
+    description: Where to store pnpm files
     required: false
     default: ~/setup-pnpm
   run_install:

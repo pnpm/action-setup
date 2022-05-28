@@ -1,5 +1,4 @@
 import { addPath, exportVariable } from '@actions/core'
-import fetch from '@pnpm/fetch'
 import { spawn } from 'child_process'
 import { remove, ensureFile, writeFile, readFile } from 'fs-extra'
 import path from 'path'
@@ -17,14 +16,10 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
 
   // prepare target pnpm
   const target = await readTarget(version)
-  const cp = spawn(execPath, ['-', 'install', target, '--no-lockfile'], {
+  const cp = spawn(execPath, [path.join(__dirname, 'pnpm.js'), 'install', target, '--no-lockfile'], {
     cwd: dest,
     stdio: ['pipe', 'inherit', 'inherit'],
   })
-
-  const response = await fetch('https://get.pnpm.io/v6.16.js')
-  if (!response.body) throw new Error('Did not receive response body')
-  response.body.pipe(cp.stdin)
 
   const exitCode = await new Promise<number>((resolve, reject) => {
     cp.on('error', reject)

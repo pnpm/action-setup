@@ -2,6 +2,7 @@ node_modules
 *.log
 /dist/*
 !/dist/index.js
+!/dist/pnpm.js
 tmp
 temp
 *.tmp

@@ -3,13 +3,11 @@
   "scripts": {
     "build:schemas": "ts-schema-autogen generate",
     "build:ncc": "ncc build --minify --no-source-map-register --no-cache dist/tsc/index.js --out dist/",
-    "build": "pnpm run build:schemas && tsc && pnpm run build:ncc",
+    "build": "pnpm run build:schemas && tsc && pnpm run build:ncc && cp src/install-pnpm/pnpm.js dist/pnpm.js",
     "start": "pnpm run build && sh ./run.sh"
   },
   "dependencies": {
     "@actions/core": "^1.6.0",
-    "@pnpm/fetch": "^4.2.5",
-    "@pnpm/logger": "^4.0.0",
     "@types/expand-tilde": "^2.0.0",
     "@types/fs-extra": "^9.0.13",
     "@types/js-yaml": "^4.0.5",

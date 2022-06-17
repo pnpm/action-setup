@@ -105,7 +105,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-     - name: Install Node.js
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16

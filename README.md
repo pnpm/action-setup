@@ -99,16 +99,16 @@ steps:
   - name: Checkout Repo
     uses: actions/checkout@v3
 
+  - name: Install pnpm
+    uses: pnpm/action-setup@v2
+    with:
+      version: 7
+
   - name: Install Node.js
     uses: actions/setup-node@v3
     with:
       node-version: 16
       cache: pnpm
-
-  - name: Install pnpm
-    uses: pnpm/action-setup@v2
-    with:
-      version: 7
 
   - name: Install Dependencies
     run: pnpm install

@@ -7,7 +7,7 @@
     "start": "pnpm run build && sh ./run.sh"
   },
   "dependencies": {
-    "@actions/core": "^1.6.0",
+    "@actions/core": "^1.10.0",
     "@types/expand-tilde": "^2.0.0",
     "@types/fs-extra": "^9.0.13",
     "@types/js-yaml": "^4.0.5",

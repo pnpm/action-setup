@@ -110,7 +110,7 @@ jobs:
         with:
           node-version: 16
 
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.2.4
         name: Install pnpm
         id: pnpm-install
         with:

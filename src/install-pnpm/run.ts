@@ -49,7 +49,7 @@ Otherwise, please specify the pnpm version in the action configuration.`)
     throw new Error(`No pnpm version is specified.
 Please specify it by one of the following ways:
   - in the GitHub Action config with the key "version"
-  - in the package.json with the key "packageManager" (See https://nodejs.org/api/corepack.html)`)
+  - in the package.json with the key "packageManager" ( See https://nodejs.org/api/corepack.html )`)
   }
 
   if (!packageManager.startsWith('pnpm@')) {

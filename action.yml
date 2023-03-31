@@ -14,6 +14,10 @@ inputs:
     description: If specified, run `pnpm install`
     required: false
     default: 'null'
+  nodejs_bundled:
+    description: When set to true, @pnpm/exe, which is a Node.js bundled package, will be installed.
+    required: false
+    default: 'false'
 runs:
   using: node16
   main: dist/index.js

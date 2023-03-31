@@ -38,6 +38,12 @@ If `run_install` is a YAML string representation of either an object or an array
 
 **Optional** (_type:_ `string[]`) Additional arguments after `pnpm [recursive] install`, e.g. `[--frozen-lockfile, --strict-peer-dependencies]`.
 
+### `nodejs_bundled`
+
+**Optional** (_type:_ `boolean`, _default:_ `false`) When set to true, [@pnpm/exe](https://www.npmjs.com/package/@pnpm/exe), which is a Node.js bundled package, will be installed.
+
+This is useful when you want to use a incompatible pair of Node.js and pnpm.
+
 ## Outputs
 
 ### `dest`

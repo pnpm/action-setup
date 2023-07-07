@@ -6,7 +6,7 @@ import { execPath } from 'process'
 import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
-  const { version, dest } = inputs
+  const { version, dest, packageJsonFile } = inputs
 
   // prepare self install
   await remove(dest)
@@ -15,7 +15,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   await writeFile(pkgJson, JSON.stringify({ private: true }))
 
   // prepare target pnpm
-  const target = await readTarget(version)
+  const target = await readTarget(packageJsonFile, version)
   const cp = spawn(execPath, [path.join(__dirname, 'pnpm.js'), 'install', target, '--no-lockfile'], {
     cwd: dest,
     stdio: ['pipe', 'inherit', 'inherit'],
@@ -33,7 +33,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   return exitCode
 }
 
-async function readTarget(version?: string | undefined) {
+async function readTarget(packageJsonFile: string, version?: string | undefined) {
   if (version) return `pnpm@${version}`
 
   const { GITHUB_WORKSPACE } = process.env
@@ -44,7 +44,7 @@ please run the actions/checkout before pnpm/action-setup.
 Otherwise, please specify the pnpm version in the action configuration.`)
   }
 
-  const { packageManager } = JSON.parse(await readFile(path.join(GITHUB_WORKSPACE, 'package.json'), 'utf8'))
+  const { packageManager } = JSON.parse(await readFile(path.join(GITHUB_WORKSPACE, packageJsonFile), 'utf8'))
   if (typeof packageManager !== 'string') {
     throw new Error(`No pnpm version is specified.
 Please specify it by one of the following ways:

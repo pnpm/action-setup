@@ -38,6 +38,10 @@ If `run_install` is a YAML string representation of either an object or an array
 
 **Optional** (_type:_ `string[]`) Additional arguments after `pnpm [recursive] install`, e.g. `[--frozen-lockfile, --strict-peer-dependencies]`.
 
+### `package_json_file`
+
+**Optional** File path to the `package.json` to read "packageManager" configutation. If not specified, `package.json` in the project root directory is used.
+
 ## Outputs
 
 ### `dest`

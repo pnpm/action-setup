@@ -64,7 +64,7 @@ jobs:
     steps:
       - uses: pnpm/action-setup@v2
         with:
-          version: 6.0.2
+          version: 8
 ```
 
 ### Install pnpm and a few npm packages
@@ -83,7 +83,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 6.0.2
+          version: 8
           run_install: |
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]

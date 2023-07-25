@@ -105,31 +105,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        id: pnpm-install
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
           version: 7
-          run_install: false
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
+      - uses: actions/setup-node@v3
         with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: 16
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install

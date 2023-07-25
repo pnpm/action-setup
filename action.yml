@@ -15,6 +15,10 @@ inputs:
     description: If specified, run `pnpm install`
     required: false
     default: 'null'
+  package_json_file:
+    description: File path to the package.json to read "packageManager" configutation
+    required: false
+    default: 'package.json'
 runs:
   using: node16
   main: dist/index.js

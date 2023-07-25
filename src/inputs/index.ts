@@ -6,6 +6,7 @@ export interface Inputs {
   readonly version?: string
   readonly dest: string
   readonly runInstall: RunInstall[]
+  readonly packageJsonFile: string
 }
 
 const options: InputOptions = {
@@ -18,6 +19,7 @@ export const getInputs = (): Inputs => ({
   version: getInput('version'),
   dest: parseInputPath('dest'),
   runInstall: parseRunInstall('run_install'),
+  packageJsonFile: parseInputPath('package_json_file'),
 })
 
 export default getInputs

@@ -44,7 +44,7 @@ If `run_install` is a YAML string representation of either an object or an array
 
 ### `standalone`
 
-**Optional** (_type:_ `boolean`, _default:_ `false`) When set to true, [@pnpm/exe](https://www.npmjs.com/package/@pnpm/exe), which is a Node.js bundled package, will be installed.
+**Optional** (_type:_ `boolean`, _default:_ `false`) When set to true, [@pnpm/exe](https://www.npmjs.com/package/@pnpm/exe), which is a Node.js bundled package, will be installed, enabling using `pnpm` without Node.js.
 
 This is useful when you want to use a incompatible pair of Node.js and pnpm.
 

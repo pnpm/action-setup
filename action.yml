@@ -20,7 +20,7 @@ inputs:
     required: false
     default: 'package.json'
   standalone:
-    description: When set to true, @pnpm/exe, which is a Node.js bundled package, will be installed.
+    description: When set to true, @pnpm/exe, which is a Node.js bundled package, will be installed, enabling using pnpm without Node.js.
     required: false
     default: 'false'
 runs:

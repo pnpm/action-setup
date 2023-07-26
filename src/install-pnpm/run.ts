@@ -34,7 +34,6 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
 }
 
 async function readTarget(nodeJsBundled: boolean, version?: string | undefined) {
-
   if (version) return `${ nodeJsBundled ? '@pnpm/exe' : 'pnpm' }@${version}`
 
   const { GITHUB_WORKSPACE } = process.env

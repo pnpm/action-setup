@@ -19,7 +19,7 @@ inputs:
     description: File path to the package.json to read "packageManager" configuration
     required: false
     default: 'package.json'
-  nodejs_bundled:
+  standalone:
     description: When set to true, @pnpm/exe, which is a Node.js bundled package, will be installed.
     required: false
     default: 'false'

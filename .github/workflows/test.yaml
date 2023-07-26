@@ -65,8 +65,8 @@ jobs:
       - name: 'Test: install'
         run: pnpm install
 
-  test_nodejs_bundled:
-    name: Test with nodejs_bundled
+  test_standalone:
+    name: Test with standalone
 
     runs-on: ${{ matrix.os }}
 
@@ -78,7 +78,7 @@ jobs:
           - macos-latest
           - windows-latest
 
-        nodejs_bundled:
+        standalone:
           - true
           - false
 
@@ -89,7 +89,7 @@ jobs:
         uses: ./
         with:
           version: 7.0.0
-          nodejs_bundled: ${{ matrix.nodejs_bundled }}
+          standalone: ${{ matrix.standalone }}
 
       - name: install Node.js
         uses: actions/setup-node@v3
@@ -101,15 +101,15 @@ jobs:
         run: which pnpm
 
       - name: 'Test: which (pnpx)'
-        if: matrix.nodejs_bundled == false
+        if: matrix.standalone == false
         run: which pnpx
 
-      - name: 'Test: install when nodejs_bundled is true'
-        if: matrix.nodejs_bundled
+      - name: 'Test: install when standalone is true'
+        if: matrix.standalone
         run: pnpm install
 
-      - name: 'Test: install when nodejs_bundled is false'
-        if: matrix.nodejs_bundled == false
+      - name: 'Test: install when standalone is false'
+        if: matrix.standalone == false
         # Since the default shell on windows runner is pwsh, we specify bash explicitly
         shell: bash
         run: |

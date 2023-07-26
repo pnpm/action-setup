@@ -7,7 +7,7 @@ export interface Inputs {
   readonly dest: string
   readonly runInstall: RunInstall[]
   readonly packageJsonFile: string
-  readonly nodeJsBundled: boolean
+  readonly standalone: boolean
 }
 
 const options: InputOptions = {
@@ -21,7 +21,7 @@ export const getInputs = (): Inputs => ({
   dest: parseInputPath('dest'),
   runInstall: parseRunInstall('run_install'),
   packageJsonFile: parseInputPath('package_json_file'),
-  nodeJsBundled: getBooleanInput('nodejs_bundled'),
+  standalone: getBooleanInput('standalone'),
 })
 
 export default getInputs

@@ -6,7 +6,7 @@ import { execPath } from 'process'
 import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
-  const { version, dest, packageJsonFile, nodeJsBundled } = inputs
+  const { version, dest, packageJsonFile, standalone } = inputs
 
   // prepare self install
   await remove(dest)
@@ -15,7 +15,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   await writeFile(pkgJson, JSON.stringify({ private: true }))
 
   // prepare target pnpm
-  const target = await readTarget({ version, packageJsonFile, nodeJsBundled })
+  const target = await readTarget({ version, packageJsonFile, standalone })
   const cp = spawn(execPath, [path.join(__dirname, 'pnpm.js'), 'install', target, '--no-lockfile'], {
     cwd: dest,
     stdio: ['pipe', 'inherit', 'inherit'],
@@ -36,11 +36,11 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
 async function readTarget(opts: {
   readonly version?: string | undefined
   readonly packageJsonFile: string
-  readonly nodeJsBundled: boolean
+  readonly standalone: boolean
 }) {
-  const { version, packageJsonFile, nodeJsBundled } = opts
+  const { version, packageJsonFile, standalone } = opts
 
-  if (version) return `${ nodeJsBundled ? '@pnpm/exe' : 'pnpm' }@${version}`
+  if (version) return `${ standalone ? '@pnpm/exe' : 'pnpm' }@${version}`
 
   const { GITHUB_WORKSPACE } = process.env
   if (!GITHUB_WORKSPACE) {
@@ -62,7 +62,7 @@ Please specify it by one of the following ways:
     throw new Error('Invalid packageManager field in package.json')
   }
 
-  if(nodeJsBundled){
+  if(standalone){
     return packageManager.replace('pnpm@', '@pnpm/exe@')
   }
 

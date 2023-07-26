@@ -35,8 +35,8 @@ jobs:
       - name: 'Test: install'
         run: pnpm install
 
-  test_explicit_inputs:
-    name: Test with explicit inputs
+  test_dest:
+    name: Test with dest
 
     runs-on: ${{ matrix.os }}
 
@@ -64,6 +64,61 @@ jobs:
 
       - name: 'Test: install'
         run: pnpm install
+
+  test_standalone:
+    name: Test with standalone
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+        standalone:
+          - true
+          - false
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run the action
+        uses: ./
+        with:
+          version: 7.0.0
+          standalone: ${{ matrix.standalone }}
+
+      - name: install Node.js
+        uses: actions/setup-node@v3
+        with:
+          # pnpm@7.0.0 is not compatible with Node.js 12
+          node-version: 12.22.12
+
+      - name: 'Test: which (pnpm)'
+        run: which pnpm
+
+      - name: 'Test: which (pnpx)'
+        if: matrix.standalone == false
+        run: which pnpx
+
+      - name: 'Test: install when standalone is true'
+        if: matrix.standalone
+        run: pnpm install
+
+      - name: 'Test: install when standalone is false'
+        if: matrix.standalone == false
+        # Since the default shell on windows runner is pwsh, we specify bash explicitly
+        shell: bash
+        run: |
+          if pnpm install; then
+            echo "pnpm install should fail"
+            exit 1
+          else
+            echo "pnpm install failed as expected"
+          fi
 
   test_run_install:
     name: 'Test with run_install (${{ matrix.run_install.name }}, ${{ matrix.os }})'

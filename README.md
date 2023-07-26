@@ -40,7 +40,13 @@ If `run_install` is a YAML string representation of either an object or an array
 
 ### `package_json_file`
 
-**Optional** File path to the `package.json` to read "packageManager" configutation. If not specified, `package.json` in the project root directory is used.
+**Optional** (_type:_ `string`, _default:_ `package.json`) File path to the `package.json` to read "packageManager" configuration.
+
+### `standalone`
+
+**Optional** (_type:_ `boolean`, _default:_ `false`) When set to true, [@pnpm/exe](https://www.npmjs.com/package/@pnpm/exe), which is a Node.js bundled package, will be installed, enabling using `pnpm` without Node.js.
+
+This is useful when you want to use a incompatible pair of Node.js and pnpm.
 
 ## Outputs
 

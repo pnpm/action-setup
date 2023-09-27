@@ -123,7 +123,7 @@ jobs:
       - uses: pnpm/action-setup@v2
         name: Install pnpm
         with:
-          version: 7
+          version: 8
           run_install: false
 
       - name: Get pnpm store directory

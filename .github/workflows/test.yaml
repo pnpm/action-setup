@@ -92,7 +92,7 @@ jobs:
           standalone: ${{ matrix.standalone }}
 
       - name: install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           # pnpm@7.0.0 is not compatible with Node.js 12
           node-version: 12.22.12

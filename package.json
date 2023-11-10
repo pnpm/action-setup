@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@ts-schema-autogen/cli": "^0.1.2",
+    "@types/lodash": "4.14.192",
     "@vercel/ncc": "^0.33.4",
     "typescript": "^4.9.5"
   }

@@ -24,6 +24,6 @@ inputs:
     required: false
     default: 'false'
 runs:
-  using: node16
+  using: node20
   main: dist/index.js
   post: dist/index.js

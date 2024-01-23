@@ -25,9 +25,7 @@ export function parseRunInstall(name: string): RunInstall[] {
 
   validateRunInstallInput(input)
 
-  if (Array.isArray(input)) return input
-
-  return input;
+  return Array.isArray(input) ? input : [input]
 }
 
 function validateRunInstallInput(input: any) {
@@ -38,7 +36,6 @@ function validateRunInstallInput(input: any) {
   } else {
     validateRunInstallEntry(input)
   }
-
 }
 
 function validateRunInstallEntry(input: any) {

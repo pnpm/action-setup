@@ -1,8 +1,5 @@
-import { getInput, error, InputOptions } from '@actions/core'
-import Ajv from 'ajv'
-import { load } from 'js-yaml'
-import process from 'process'
-import runInstallSchema from './run-install-input.schema.json'
+import { getInput,InputOptions } from '@actions/core'
+import { parse } from 'yaml'
 
 export interface RunInstall {
   readonly recursive?: boolean
@@ -21,19 +18,43 @@ const options: InputOptions = {
 }
 
 export function parseRunInstall(name: string): RunInstall[] {
-  const result: RunInstallInput = load(getInput(name, options)) as any
-  const ajv = new Ajv({
-    allErrors: true,
-  })
-  const validate = ajv.compile(runInstallSchema)
-  if (!validate(result)) {
-    for (const errorItem of validate.errors!) {
-      error(`with.run_install${errorItem.dataPath}: ${errorItem.message}`)
+  const input: any = parse(getInput(name, options))
+
+  if (!input) return []
+  if (input === true) return [{ recursive: true }]
+
+  validateRunInstallInput(input)
+
+  if (Array.isArray(input)) return input
+
+  return input;
+}
+
+function validateRunInstallInput(input: any) {
+  if (Array.isArray(input)) {
+    for (const entry of input) {
+      validateRunInstallEntry(entry)
     }
-    return process.exit(1)
+  } else {
+    validateRunInstallEntry(input)
   }
-  if (!result) return []
-  if (result === true) return [{ recursive: true }]
-  if (Array.isArray(result)) return result
-  return [result]
+
+}
+
+function validateRunInstallEntry(input: any) {
+  if (typeof input !== 'object') {
+    throw new Error('Invalid input for run_install')
+  }
+
+  if (input.recursive !== undefined && typeof input.recursive !== 'boolean') {
+    throw new Error('Invalid input for run_install.recursive')
+  }
+
+  if (input.cwd !== undefined && typeof input.cwd !== 'string') {
+    throw new Error('Invalid input for run_install.cwd')
+  }
+
+  if (input.args !== undefined && !Array.isArray(input.args)) {
+    throw new Error('Invalid input for run_install.args')
+  }
 }

@@ -1,10 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "build:schemas": "ts-schema-autogen generate",
     "build:ncc": "ncc build --minify --no-source-map-register --no-cache dist/tsc/index.js --out dist/",
-    "build": "pnpm run build:schemas && tsc && pnpm run build:ncc && cp src/install-pnpm/pnpm.js dist/pnpm.js",
-    "start": "pnpm run build && sh ./run.sh"
+    "build": "tsc && pnpm run build:ncc",
+    "start": "pnpm run build && sh ./run.sh",
+    "update-pnpm-dist": "pnpm install && cp ./node_modules/pnpm/dist/pnpm.cjs ./dist/pnpm.cjs && cp ./node_modules/pnpm/dist/worker.js ./dist/worker.js"
   },
   "dependencies": {
     "@actions/core": "^1.10.1",
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@vercel/ncc": "^0.38.1",
+    "pnpm": "^8.14.3",
     "typescript": "^5.3.3"
   }
 }

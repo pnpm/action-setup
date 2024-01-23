@@ -1,15 +1,11 @@
 
 {
   "compilerOptions": {
-    "target": "ES2018",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
+    "target": "ES2022",
+    "module": "Node16",
     "resolveJsonModule": true,
     "lib": [
-      "ES2018",
-      "ES2019",
-      "ES2020",
-      "ESNext"
+      "ES2023"
     ],
     "outDir": "./dist/tsc",
     "preserveConstEnums": true,

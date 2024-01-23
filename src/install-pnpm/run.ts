@@ -16,7 +16,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
 
   // prepare target pnpm
   const target = await readTarget({ version, packageJsonFile, standalone })
-  const cp = spawn(execPath, [path.join(__dirname, 'pnpm.js'), 'install', target, '--no-lockfile'], {
+  const cp = spawn(execPath, [path.join(__dirname, 'pnpm.cjs'), 'install', target, '--no-lockfile'], {
     cwd: dest,
     stdio: ['pipe', 'inherit', 'inherit'],
   })

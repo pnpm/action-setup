@@ -1,4 +1,4 @@
-import { getInput,InputOptions } from '@actions/core'
+import { getInput, InputOptions, error } from '@actions/core'
 import { parse } from 'yaml'
 
 export interface RunInstall {
@@ -23,35 +23,46 @@ export function parseRunInstall(name: string): RunInstall[] {
   if (!input) return []
   if (input === true) return [{ recursive: true }]
 
-  validateRunInstallInput(input)
+  if (!isInputValid(input)) process.exit(1);
 
   return Array.isArray(input) ? input : [input]
 }
 
-function validateRunInstallInput(input: any) {
+function isInputValid(input: any) {
   if (Array.isArray(input)) {
-    for (const entry of input) {
-      validateRunInstallEntry(entry)
-    }
+    return input.every(isEntryValid)
   } else {
-    validateRunInstallEntry(input)
+    return isEntryValid(input)
   }
 }
 
-function validateRunInstallEntry(input: any) {
+function isEntryValid(input: any): boolean {
   if (typeof input !== 'object') {
-    throw new Error('Invalid input for run_install')
+    error(`Invalid input for run_install. Expected object, but got ${typeof input}`)
+    return false;
   }
 
   if (input.recursive !== undefined && typeof input.recursive !== 'boolean') {
-    throw new Error('Invalid input for run_install.recursive')
+    error(`Invalid input for run_install.recursive. Expected boolean, but got ${typeof input.recursive}`)
+    return false;
   }
 
   if (input.cwd !== undefined && typeof input.cwd !== 'string') {
-    throw new Error('Invalid input for run_install.cwd')
+    error(`Invalid input for run_install.cwd. Expected string, but got ${typeof input.cwd}`)
+    return false;
   }
 
   if (input.args !== undefined && !Array.isArray(input.args)) {
-    throw new Error('Invalid input for run_install.args')
+    error(`Invalid input for run_install.args. Expected array, but got ${typeof input.args}`)
+    return false;
   }
+
+  const invalidArgs: any[] = input.args.filter((arg: any) => typeof arg !== 'string');
+  if (input.args !== undefined && invalidArgs.length > 0) {
+    const invalidArgsMessage = invalidArgs.map((arg: any) => typeof arg).join(', ');
+    error(`Invalid input for run_install.args. Expected array of strings, but got ${invalidArgsMessage}`)
+    return false;
+  }
+
+  return true;
 }

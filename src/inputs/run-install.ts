@@ -52,16 +52,18 @@ function isEntryValid(input: any): boolean {
     return false;
   }
 
-  if (input.args !== undefined && !Array.isArray(input.args)) {
-    error(`Invalid input for run_install.args. Expected array, but got ${typeof input.args}`)
-    return false;
-  }
+  if (input.args !== undefined) {
+    if (!Array.isArray(input.args)) {
+      error(`Invalid input for run_install.args. Expected array, but got ${typeof input.args}`)
+      return false;
+    }
 
-  const invalidArgs: any[] = input.args.filter((arg: any) => typeof arg !== 'string');
-  if (input.args !== undefined && invalidArgs.length > 0) {
-    const invalidArgsMessage = invalidArgs.map((arg: any) => typeof arg).join(', ');
-    error(`Invalid input for run_install.args. Expected array of strings, but got ${invalidArgsMessage}`)
-    return false;
+    const invalidArgs: any[] = input.args.filter((arg: any) => typeof arg !== 'string');
+    if (invalidArgs.length > 0) {
+      const invalidArgsMessage = invalidArgs.map((arg: any) => typeof arg).join(', ');
+      error(`Invalid input for run_install.args. Expected array of strings, but got ${invalidArgsMessage}`)
+      return false;
+    }
   }
 
   return true;

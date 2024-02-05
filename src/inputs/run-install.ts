@@ -1,5 +1,6 @@
-import { getInput, InputOptions, error } from '@actions/core'
-import { parse } from 'yaml'
+import { getInput, error } from '@actions/core'
+import * as yaml from 'yaml'
+import { z, ZodError } from 'zod'
 
 export interface RunInstall {
   readonly recursive?: boolean
@@ -7,64 +8,43 @@ export interface RunInstall {
   readonly args?: readonly string[]
 }
 
+const zRunInstall = z.object({
+  recursive: z.boolean().optional(),
+  cwd: z.string().optional(),
+  args: z.array(z.string()).optional(),
+})
+
 export type RunInstallInput =
   | null
   | boolean
   | RunInstall
   | RunInstall[]
 
-const options: InputOptions = {
-  required: true,
-}
+const zRunInstallInput = z.union([
+  z.null(),
+  z.boolean(),
+  zRunInstall,
+  z.array(zRunInstall),
+])
 
-export function parseRunInstall(name: string): RunInstall[] {
-  const input: any = parse(getInput(name, options))
+export function parseRunInstall(inputName: string): RunInstall[] {
+  const input = getInput(inputName, { required: true })
+  const parsedInput: unknown = yaml.parse(input)
 
-  if (!input) return []
-  if (input === true) return [{ recursive: true }]
+  try {
+    const result: RunInstallInput = zRunInstallInput.parse(parsedInput)
+    if (!result) return []
+    if (result === true) return [{ recursive: true }]
+    if (Array.isArray(result)) return result
+    return [result]
+  } catch (exception: unknown) {
+    error(`Error for input "${inputName}" = ${input}`)
 
-  if (!isInputValid(input)) process.exit(1);
-
-  return Array.isArray(input) ? input : [input]
-}
-
-function isInputValid(input: any) {
-  if (Array.isArray(input)) {
-    return input.every(isEntryValid)
-  } else {
-    return isEntryValid(input)
-  }
-}
-
-function isEntryValid(input: any): boolean {
-  if (typeof input !== 'object') {
-    error(`Invalid input for run_install. Expected object, but got ${typeof input}`)
-    return false;
-  }
-
-  if (input.recursive !== undefined && typeof input.recursive !== 'boolean') {
-    error(`Invalid input for run_install.recursive. Expected boolean, but got ${typeof input.recursive}`)
-    return false;
-  }
-
-  if (input.cwd !== undefined && typeof input.cwd !== 'string') {
-    error(`Invalid input for run_install.cwd. Expected string, but got ${typeof input.cwd}`)
-    return false;
-  }
-
-  if (input.args !== undefined) {
-    if (!Array.isArray(input.args)) {
-      error(`Invalid input for run_install.args. Expected array, but got ${typeof input.args}`)
-      return false;
+    if (exception instanceof ZodError) {
+      error(`Errors: ${exception.errors}`)
+    } else {
+      error(`Exception: ${exception}`)
     }
-
-    const invalidArgs: any[] = input.args.filter((arg: any) => typeof arg !== 'string');
-    if (invalidArgs.length > 0) {
-      const invalidArgsMessage = invalidArgs.map((arg: any) => typeof arg).join(', ');
-      error(`Invalid input for run_install.args. Expected array of strings, but got ${invalidArgsMessage}`)
-      return false;
-    }
+    process.exit(1)
   }
-
-  return true;
 }

@@ -14,9 +14,6 @@ dependencies:
   '@types/fs-extra':
     specifier: ^11.0.4
     version: 11.0.4
-  '@types/js-yaml':
-    specifier: ^4.0.9
-    version: 4.0.9
   '@types/node':
     specifier: ^20.11.5
     version: 20.11.5
@@ -77,10 +74,6 @@ packages:
     dependencies:
       '@types/jsonfile': 6.1.4
       '@types/node': 20.11.5
-    dev: false
-
-  /@types/js-yaml@4.0.9:
-    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
     dev: false
 
   /@types/jsonfile@6.1.4:

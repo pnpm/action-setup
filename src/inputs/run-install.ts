@@ -1,39 +1,41 @@
-import { getInput, error, InputOptions } from '@actions/core'
-import Ajv from 'ajv'
-import { load } from 'js-yaml'
-import process from 'process'
-import runInstallSchema from './run-install-input.schema.json'
+import { getInput, error } from '@actions/core'
+import * as yaml from 'yaml'
+import { z, ZodError } from 'zod'
 
-export interface RunInstall {
-  readonly recursive?: boolean
-  readonly cwd?: string
-  readonly args?: readonly string[]
-}
+const RunInstallSchema = z.object({
+  recursive: z.boolean().optional(),
+  cwd: z.string().optional(),
+  args: z.array(z.string()).optional(),
+})
 
-export type RunInstallInput =
-  | null
-  | boolean
-  | RunInstall
-  | RunInstall[]
+const RunInstallInputSchema = z.union([
+  z.null(),
+  z.boolean(),
+  RunInstallSchema,
+  z.array(RunInstallSchema),
+])
 
-const options: InputOptions = {
-  required: true,
-}
+export type RunInstallInput = z.infer<typeof RunInstallInputSchema>
+export type RunInstall = z.infer<typeof RunInstallSchema>
 
-export function parseRunInstall(name: string): RunInstall[] {
-  const result: RunInstallInput = load(getInput(name, options)) as any
-  const ajv = new Ajv({
-    allErrors: true,
-  })
-  const validate = ajv.compile(runInstallSchema)
-  if (!validate(result)) {
-    for (const errorItem of validate.errors!) {
-      error(`with.run_install${errorItem.dataPath}: ${errorItem.message}`)
+export function parseRunInstall(inputName: string): RunInstall[] {
+  const input = getInput(inputName, { required: true })
+  const parsedInput: unknown = yaml.parse(input)
+
+  try {
+    const result: RunInstallInput = RunInstallInputSchema.parse(parsedInput)
+    if (!result) return []
+    if (result === true) return [{ recursive: true }]
+    if (Array.isArray(result)) return result
+    return [result]
+  } catch (exception: unknown) {
+    error(`Error for input "${inputName}" = ${input}`)
+
+    if (exception instanceof ZodError) {
+      error(`Errors: ${exception.errors}`)
+    } else {
+      error(`Exception: ${exception}`)
     }
-    return process.exit(1)
+    process.exit(1)
   }
-  if (!result) return []
-  if (result === true) return [{ recursive: true }]
-  if (Array.isArray(result)) return result
-  return [result]
 }

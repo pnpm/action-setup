@@ -1,26 +1,25 @@
 {
   "private": true,
   "scripts": {
-    "build:schemas": "ts-schema-autogen generate",
     "build:ncc": "ncc build --minify --no-source-map-register --no-cache dist/tsc/index.js --out dist/",
-    "build": "pnpm run build:schemas && tsc && pnpm run build:ncc && cp src/install-pnpm/pnpm.js dist/pnpm.js",
-    "start": "pnpm run build && sh ./run.sh"
+    "build": "tsc && pnpm run build:ncc",
+    "start": "pnpm run build && sh ./run.sh",
+    "update-pnpm-dist": "pnpm install && cp ./node_modules/pnpm/dist/pnpm.cjs ./dist/pnpm.cjs && cp ./node_modules/pnpm/dist/worker.js ./dist/worker.js"
   },
   "dependencies": {
-    "@actions/core": "^1.10.0",
-    "@types/expand-tilde": "^2.0.0",
-    "@types/fs-extra": "^9.0.13",
-    "@types/js-yaml": "^4.0.5",
-    "@types/node": "^14.18.54",
-    "@types/node-fetch": "^2.6.4",
-    "ajv": "^6.12.6",
+    "@actions/core": "^1.10.1",
+    "@types/expand-tilde": "^2.0.2",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.11.5",
+    "@types/node-fetch": "^2.6.11",
     "expand-tilde": "^2.0.2",
-    "fs-extra": "^10.1.0",
-    "js-yaml": "^4.1.0"
+    "fs-extra": "^11.2.0",
+    "yaml": "^2.3.4",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@ts-schema-autogen/cli": "^0.1.2",
-    "@vercel/ncc": "^0.33.4",
-    "typescript": "^4.9.5"
+    "@vercel/ncc": "^0.38.1",
+    "pnpm": "^8.14.3",
+    "typescript": "^5.3.3"
   }
 }

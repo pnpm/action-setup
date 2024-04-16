@@ -1,6 +1,6 @@
 import { addPath, exportVariable } from '@actions/core'
 import { spawn } from 'child_process'
-import { remove, ensureFile, writeFile, readFile } from 'fs-extra'
+import { rm, writeFile, readFile, mkdir } from 'fs/promises'
 import path from 'path'
 import { execPath } from 'process'
 import { Inputs } from '../inputs'
@@ -9,9 +9,11 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const { version, dest, packageJsonFile, standalone } = inputs
 
   // prepare self install
-  await remove(dest)
+  await rm(dest, { recursive: true, force: true })
+  // create dest directory after removal
+  await mkdir(dest, { recursive: true })
   const pkgJson = path.join(dest, 'package.json')
-  await ensureFile(pkgJson)
+  // we have ensured the dest directory exists, we can write the file directly
   await writeFile(pkgJson, JSON.stringify({ private: true }))
 
   // prepare target pnpm

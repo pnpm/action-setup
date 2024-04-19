@@ -46,7 +46,12 @@ async function readTarget(opts: {
   let packageManager
 
   if (GITHUB_WORKSPACE) {
-    ({ packageManager } = JSON.parse(await readFile(path.join(GITHUB_WORKSPACE, packageJsonFile), 'utf8')))
+    try {
+      ({ packageManager } = JSON.parse(await readFile(path.join(GITHUB_WORKSPACE, packageJsonFile), 'utf8')))
+    } catch (error) {
+      // Swallow error if package.json doesn't exist in root
+      if (error.code !== 'ENOENT') throw error
+    }
   }
 
   if (version) {

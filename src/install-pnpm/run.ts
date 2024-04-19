@@ -55,7 +55,10 @@ async function readTarget(opts: {
   }
 
   if (version) {
-    if (typeof packageManager === 'string') {
+    if (
+      typeof packageManager === 'string' &&
+      packageManager.replace('pnpm@', '') !== version
+    ) {
       throw new Error(`Multiple versions of pnpm specified:
   - version ${version} in the GitHub Action config with the key "version"
   - version ${packageManager} in the package.json with the key "packageManager"

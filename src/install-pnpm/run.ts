@@ -43,7 +43,7 @@ async function readTarget(opts: {
   const { version, packageJsonFile, standalone } = opts
   const { GITHUB_WORKSPACE } = process.env
 
-  let packageManager;
+  let packageManager
 
   if (GITHUB_WORKSPACE) {
     ({ packageManager } = JSON.parse(await readFile(path.join(GITHUB_WORKSPACE, packageJsonFile), 'utf8')))

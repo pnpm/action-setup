@@ -78,7 +78,7 @@ Please specify it by one of the following ways:
     throw new Error('Invalid packageManager field in package.json')
   }
 
-  if (standalone){
+  if (standalone) {
     return packageManager.replace('pnpm@', '@pnpm/exe@')
   }
 

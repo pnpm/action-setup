@@ -1,8 +1,10 @@
 import { addPath, exportVariable } from '@actions/core'
 import { spawn } from 'child_process'
-import { rm, writeFile, readFile, mkdir } from 'fs/promises'
+import { rm, writeFile, mkdir } from 'fs/promises'
+import { readFileSync } from 'fs'
 import path from 'path'
 import { execPath } from 'process'
+import util from 'util'
 import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
@@ -47,10 +49,10 @@ async function readTarget(opts: {
 
   if (GITHUB_WORKSPACE) {
     try {
-      ({ packageManager } = JSON.parse(await readFile(path.join(GITHUB_WORKSPACE, packageJsonFile), 'utf8')))
-    } catch (error) {
+      ({ packageManager } = JSON.parse(readFileSync(path.join(GITHUB_WORKSPACE, packageJsonFile), 'utf8')))
+    } catch (error: unknown) {
       // Swallow error if package.json doesn't exist in root
-      if (error.code !== 'ENOENT') throw error
+      if (!util.types.isNativeError(error) || !('code' in error) || error.code !== 'ENOENT') throw error
     }
   }
 

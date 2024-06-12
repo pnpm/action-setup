@@ -23,6 +23,11 @@ inputs:
     description: When set to true, @pnpm/exe, which is a Node.js bundled package, will be installed, enabling using pnpm without Node.js.
     required: false
     default: 'false'
+outputs:
+  dest:
+    description: Expanded path of inputs#dest
+  bin_dest:
+    description: Location of `pnpm` and `pnpx` command
 runs:
   using: node20
   main: dist/index.js

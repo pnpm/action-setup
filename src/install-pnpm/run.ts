@@ -109,13 +109,13 @@ function getPnpmVersionFromLockfile(
 ): string | undefined {
   switch (true) {
     case lockfileVersion === '5.3':
-      return '6';
+      return 'latest-6';
     case lockfileVersion === '5.4':
-      return '7';
+      return 'latest-7';
     case lockfileVersion === '6.0' || lockfileVersion === '6.1':
-      return '8';
+      return 'latest-8';
     case lockfileVersion === '7.0' || lockfileVersion === '9.0':
-      return '9';
+      return 'latest-9';
     default:
       return undefined;
   }

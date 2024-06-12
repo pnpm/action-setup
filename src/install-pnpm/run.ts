@@ -72,7 +72,7 @@ Remove one of these versions to avoid version mismatch errors like ERR_PNPM_BAD_
 
   if (!GITHUB_WORKSPACE) {
     throw new Error(`No workspace is found.
-If you're intended to let pnpm/action-setup read preferred pnpm version from the "packageManager" field in the package.json file,
+If you've intended to let pnpm/action-setup read preferred pnpm version from the "packageManager" field in the package.json file,
 please run the actions/checkout before pnpm/action-setup.
 Otherwise, please specify the pnpm version in the action configuration.`)
   }

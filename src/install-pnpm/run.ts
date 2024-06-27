@@ -57,16 +57,15 @@ async function readTarget(opts: {
   }
 
   if (version) {
-    if (
-      typeof packageManager === 'string' &&
-      packageManager.replace('pnpm@', '') !== version
-    ) {
-      throw new Error(`Multiple versions of pnpm specified:
-  - version ${version} in the GitHub Action config with the key "version"
-  - version ${packageManager} in the package.json with the key "packageManager"
-Remove one of these versions to avoid version mismatch errors like ERR_PNPM_BAD_PM_VERSION`)
+    if (typeof packageManager === 'string') {
+      const packageManagerVersion = packageManager.replace('pnpm@', '')
+      if(packageManagerVersion !== version && packageManagerVersion !== '*')
+        throw new Error(`Multiple versions of pnpm specified:
+    - version ${version} in the GitHub Action config with the key "version"
+    - version ${packageManager} in the package.json with the key "packageManager"
+  Remove one of these versions to avoid version mismatch errors like ERR_PNPM_BAD_PM_VERSION`)
+      return `${ standalone ? '@pnpm/exe' : 'pnpm' }@${packageManagerVersion}`
     }
-    
     return `${ standalone ? '@pnpm/exe' : 'pnpm' }@${version}`
   }
 

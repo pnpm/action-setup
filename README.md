@@ -60,7 +60,7 @@ Location of `pnpm` and `pnpx` command.
 
 ## Usage example
 
-### Just install pnpm
+### Install only pnpm
 
 ```yaml
 on:
@@ -75,6 +75,23 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 8
+```
+
+###  Install only pnpm, use `packageManager` version
+
+Omit `version` input to use the version in the [`packageManager` field in the `package.json`](https://nodejs.org/api/corepack.html).
+
+```yaml
+on:
+  - push
+  - pull_request
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: pnpm/action-setup@v4
 ```
 
 ### Install pnpm and a few npm packages

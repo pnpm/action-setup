@@ -60,7 +60,9 @@ Location of `pnpm` and `pnpx` command.
 
 ## Usage example
 
-### Install only pnpm
+### Install only pnpm without `packageManager`
+
+This works when the repo either doesn't have a `package.json` or has a `package.json` but it doesn't specify `packageManager`.
 
 ```yaml
 on:
@@ -77,7 +79,7 @@ jobs:
           version: 8
 ```
 
-###  Install only pnpm, use `packageManager` version
+###  Install only pnpm with `packageManager`
 
 Omit `version` input to use the version in the [`packageManager` field in the `package.json`](https://nodejs.org/api/corepack.html).
 

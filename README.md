@@ -60,7 +60,9 @@ Location of `pnpm` and `pnpx` command.
 
 ## Usage example
 
-### Just install pnpm
+### Install only pnpm without `packageManager`
+
+This works when the repo either doesn't have a `package.json` or has a `package.json` but it doesn't specify `packageManager`.
 
 ```yaml
 on:
@@ -75,6 +77,23 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 8
+```
+
+###  Install only pnpm with `packageManager`
+
+Omit `version` input to use the version in the [`packageManager` field in the `package.json`](https://nodejs.org/api/corepack.html).
+
+```yaml
+on:
+  - push
+  - pull_request
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: pnpm/action-setup@v4
 ```
 
 ### Install pnpm and a few npm packages

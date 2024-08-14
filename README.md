@@ -80,7 +80,7 @@ jobs:
     steps:
       - uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 9
 ```
 
 ###  Install only pnpm with `packageManager`
@@ -116,7 +116,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 9
           run_install: |
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
@@ -141,7 +141,7 @@ jobs:
       - uses: pnpm/action-setup@v4
         name: Install pnpm
         with:
-          version: 8
+          version: 9
           run_install: false
 
       - name: Install Node.js

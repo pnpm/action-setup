@@ -58,7 +58,7 @@ async function readTarget(opts: {
 
   if (version) {
     if (
-      typeof packageManager === 'string' &&
+      typeof packageManager === 'string' && packageManager.contains("pnpm@") &&
       packageManager.replace('pnpm@', '') !== version
     ) {
       throw new Error(`Multiple versions of pnpm specified:

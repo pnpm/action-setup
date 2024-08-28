@@ -83,7 +83,7 @@ jobs:
           version: 9
 ```
 
-###  Install only pnpm with `packageManager`
+### Install only pnpm with `packageManager`
 
 Omit `version` input to use the version in the [`packageManager` field in the `package.json`](https://nodejs.org/api/corepack.html).
 
@@ -148,7 +148,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install

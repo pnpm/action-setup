@@ -35,6 +35,122 @@ jobs:
       - name: 'Test: install'
         run: pnpm install
 
+  test_version_file_asdf:
+    name: Test with version file (asdf)
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pnpm:
+          - 4.11.1
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run the action
+        uses: ./
+        with:
+          version_file_path: test/.tool-versions
+
+      - name: 'Test: which'
+        run: which pnpm; which pnpx
+
+      - name: 'Test: install'
+        run: pnpm install
+
+  test_version_file_engines:
+    name: Test with version file (package.json engines)
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pnpm:
+          - 4.11.1
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run the action
+        uses: ./
+        with:
+          version_file_path: test/package.engines.json
+
+      - name: 'Test: which'
+        run: which pnpm; which pnpx
+
+      - name: 'Test: install'
+        run: pnpm install
+
+  test_version_file_volta:
+    name: Test with version file (volta)
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pnpm:
+          - 4.11.1
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run the action
+        uses: ./
+        with:
+          version_file_path: test/package.volta.json
+
+      - name: 'Test: which'
+        run: which pnpm; which pnpx
+
+      - name: 'Test: install'
+        run: pnpm install
+
+  test_version_file_volta_extends:
+    name: Test with version file (volta extends)
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pnpm:
+          - 4.11.1
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run the action
+        uses: ./
+        with:
+          version_file_path: test/package.volta-extends.json
+
+      - name: 'Test: which'
+        run: which pnpm; which pnpx
+
+      - name: 'Test: install'
+        run: pnpm install
+
   test_dest:
     name: Test with dest
 

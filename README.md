@@ -16,6 +16,12 @@ Version of pnpm to install.
 
 otherwise, this field is **required** It supports npm versioning scheme, it could be an exact version (such as `6.24.1`), or a version range (such as `6`, `6.x.x`, `6.24.x`, `^6.24.1`, `*`, etc.), or `latest`.
 
+### `version_file_path`
+
+The `version_file_path` input accepts a path to a file containing the version of pnpm to be used. For example `.tool-versions` (if you use `asdf`), or package.json (if you use the engines property or [`volta`](https://volta.sh) instead of corepack).
+
+The action will search for the version file relative to the repository root.
+
 ### `dest`
 
 **Optional** Where to store pnpm files.
@@ -81,6 +87,26 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 9
+```
+
+### Install only pnpm with a version file
+
+This works when you use `volta`, `asdf`, etc.
+
+```yaml
+on:
+  - push
+  - pull_request
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: pnpm/action-setup@v4
+        with:
+          version_file_path: ".tool-versions" # with asdf
+          # version_file_path: "package.json" # with volta
 ```
 
 ###  Install only pnpm with `packageManager`

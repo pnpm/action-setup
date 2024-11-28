@@ -7,6 +7,9 @@ inputs:
   version:
     description: Version of pnpm to install
     required: false
+  version_file_path:
+    description: "Path to a version file. Eg: '.tool-versions' for asdf or 'package.json' for volta"
+    required: false
   dest:
     description: Where to store pnpm files
     required: false

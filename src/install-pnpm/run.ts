@@ -1,14 +1,14 @@
 import { addPath, exportVariable } from '@actions/core'
 import { spawn } from 'child_process'
 import { rm, writeFile, mkdir } from 'fs/promises'
-import { readFileSync } from 'fs'
+import { readFileSync, existsSync } from 'fs'
 import path from 'path'
 import { execPath } from 'process'
 import util from 'util'
 import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
-  const { version, dest, packageJsonFile, standalone } = inputs
+  const { version, versionFilePath, dest, packageJsonFile, standalone } = inputs
 
   // prepare self install
   await rm(dest, { recursive: true, force: true })
@@ -19,7 +19,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   await writeFile(pkgJson, JSON.stringify({ private: true }))
 
   // prepare target pnpm
-  const target = await readTarget({ version, packageJsonFile, standalone })
+  const target = await readTarget({ version, versionFilePath, packageJsonFile, standalone })
   const cp = spawn(execPath, [path.join(__dirname, 'pnpm.cjs'), 'install', target, '--no-lockfile'], {
     cwd: dest,
     stdio: ['pipe', 'inherit', 'inherit'],
@@ -37,12 +37,71 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   return exitCode
 }
 
+// Nearly identical to the function `actions/setup-node` uses.
+// See https://github.com/actions/setup-node/blob/39370e3970a6d050c480ffad4ff0ed4d3fdee5af/src/util.ts#L8
+function getPnpmVersionFromFile(versionFilePath: string) {
+  if (!existsSync(versionFilePath)) {
+    throw new Error(
+      `The specified pnpm version file at: ${versionFilePath} does not exist`
+    )
+  }
+
+  const contents = readFileSync(versionFilePath, 'utf8')
+
+  // Try parsing the file as a `package.json` file.
+  try {
+    const manifest = JSON.parse(contents)
+
+    // Presume package.json file.
+    if (typeof manifest === 'object' && !!manifest) {
+      // Support Volta.
+      // See https://docs.volta.sh/guide/understanding#managing-your-project
+      if (manifest.volta?.pnpm) {
+        return manifest.volta.pnpm as string
+      }
+
+      if (manifest.engines?.pnpm) {
+        return manifest.engines.pnpm as string
+      }
+
+      // Support Volta workspaces.
+      // See https://docs.volta.sh/advanced/workspaces
+      if (manifest.volta?.extends) {
+        const extendedFilePath = path.resolve(
+          path.dirname(versionFilePath),
+          manifest.volta.extends
+        )
+        console.info('Resolving pnpm version from ' + extendedFilePath)
+        return getPnpmVersionFromFile(extendedFilePath)
+      }
+
+      // If contents are an object, we parsed JSON
+      // this can happen if pnpm-version-file is a package.json
+      // yet contains no volta.pnpm or engines.pnpm
+      //
+      // If pnpm-version file is _not_ JSON, control flow
+      // will not have reached these lines.
+      //
+      // And because we've reached here, we know the contents
+      // *are* JSON, so no further string parsing makes sense.
+      return
+    }
+  } catch {
+    console.info('pnpm version file is not JSON file')
+  }
+
+  const found = contents.match(/^(?:pnpm\s+)?v?(?<version>[^\s]+)$/m)
+  return found?.groups?.version ?? contents.trim()
+}
+
 async function readTarget(opts: {
   readonly version?: string | undefined
+  readonly versionFilePath?: string | undefined
   readonly packageJsonFile: string
   readonly standalone: boolean
 }) {
-  const { version, packageJsonFile, standalone } = opts
+  const { versionFilePath, packageJsonFile, standalone } = opts
+  let { version } = opts
   const { GITHUB_WORKSPACE } = process.env
 
   let packageManager
@@ -54,6 +113,14 @@ async function readTarget(opts: {
       // Swallow error if package.json doesn't exist in root
       if (!util.types.isNativeError(error) || !('code' in error) || error.code !== 'ENOENT') throw error
     }
+  }
+
+  if (typeof versionFilePath === "string" && typeof version === "string") {
+    throw new Error("Multiple version determination methods specified: 'version' and 'version_file_path'. Please specify only one.")
+  }
+
+  if (versionFilePath) {
+    version = getPnpmVersionFromFile(versionFilePath)
   }
 
   if (version) {

@@ -4,6 +4,7 @@ import { RunInstall, parseRunInstall } from './run-install'
 
 export interface Inputs {
   readonly version?: string
+  readonly versionFilePath?: string
   readonly dest: string
   readonly runInstall: RunInstall[]
   readonly packageJsonFile: string
@@ -18,6 +19,7 @@ const parseInputPath = (name: string) => expandTilde(getInput(name, options))
 
 export const getInputs = (): Inputs => ({
   version: getInput('version'),
+  versionFilePath: getInput('version_file_path'),
   dest: parseInputPath('dest'),
   runInstall: parseRunInstall('run_install'),
   packageJsonFile: parseInputPath('package_json_file'),

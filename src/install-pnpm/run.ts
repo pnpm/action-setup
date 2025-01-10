@@ -5,6 +5,7 @@ import { readFileSync } from 'fs'
 import path from 'path'
 import { execPath } from 'process'
 import util from 'util'
+import * as yaml from 'yaml'
 import { Inputs } from '../inputs'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
@@ -78,10 +79,18 @@ Otherwise, please specify the pnpm version in the action configuration.`)
   }
 
   if (typeof packageManager !== 'string') {
-    throw new Error(`No pnpm version is specified.
+    if (GITHUB_WORKSPACE) {
+      try {
+        const { lockfileVersion } = yaml.parse(readFileSync(path.join(GITHUB_WORKSPACE, 'pnpm-lock.yaml'), 'utf8'))
+        const version = getPnpmVersionFromLockfile(lockfileVersion);
+        return `${ standalone ? '@pnpm/exe' : 'pnpm' }@${version}`
+      } catch (error: unknown) {
+        throw new Error(`No pnpm version is specified.
 Please specify it by one of the following ways:
   - in the GitHub Action config with the key "version"
   - in the package.json with the key "packageManager"`)
+      }
+    }
   }
 
   if (!packageManager.startsWith('pnpm@')) {
@@ -93,6 +102,23 @@ Please specify it by one of the following ways:
   }
 
   return packageManager
+}
+
+function getPnpmVersionFromLockfile(
+  lockfileVersion: string | undefined
+): string | undefined {
+  switch (true) {
+    case lockfileVersion === '5.3':
+      return 'latest-6';
+    case lockfileVersion === '5.4':
+      return 'latest-7';
+    case lockfileVersion === '6.0' || lockfileVersion === '6.1':
+      return 'latest-8';
+    case lockfileVersion === '7.0' || lockfileVersion === '9.0':
+      return 'latest-9';
+    default:
+      return undefined;
+  }
 }
 
 export default runSelfInstaller

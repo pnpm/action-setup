@@ -1,7 +1,3 @@
-> ## :warning: Upgrade from v2!
->
-> The v2 version of this action [has stopped working](https://github.com/pnpm/action-setup/issues/135) with newer Node.js versions. Please, upgrade to the latest version to fix any issues.
-
 # Setup pnpm
 
 Install pnpm package manager.

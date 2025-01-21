@@ -84,14 +84,22 @@ function getPnpmVersionFromFile(versionFilePath: string) {
       //
       // And because we've reached here, we know the contents
       // *are* JSON, so no further string parsing makes sense.
-      return
+      throw new Error(`${versionFilePath} was supplied for 'version_file_path', but does not contain a pnpm version in a recognized property.`)
     }
   } catch {
-    console.info('pnpm version file is not JSON file')
+    console.info('pnpm version file is not JSON file, trying to parse as text')
   }
 
-  const found = contents.match(/^(?:pnpm\s+)?v?(?<version>[^\s]+)$/m)
-  return found?.groups?.version ?? contents.trim()
+  // If not JSON, try and grab a version from a few possible text formats.
+  const matched = contents.match(/^(?:pnpm\s+)?v?(?<version>[^\s]+)$/m)
+  const found = matched?.groups?.version ?? contents.trim()
+  
+  // Check that the first character is at least a digit.
+  if (!/^d/.test(found[0])) {
+    throw new Error(`${versionFilePath} was supplied for 'version_file_path', but does not contain a pnpm version in a recognized format.`)
+  }
+
+  return found
 }
 
 async function readTarget(opts: {
@@ -120,6 +128,7 @@ async function readTarget(opts: {
 
   if (versionFilePath) {
     version = getPnpmVersionFromFile(versionFilePath)
+    console.info(`Using pnpm version ${version} from ${versionFilePath}`)
   }
 
   if (version) {
@@ -128,7 +137,9 @@ async function readTarget(opts: {
       packageManager.replace('pnpm@', '') !== version
     ) {
       throw new Error(`Multiple versions of pnpm specified:
-  - version ${version} in the GitHub Action config with the key "version"
+  - version ${version} ${versionFilePath
+    ? `found in ${versionFilePath}, supplied as "version_file_path"`
+    : `in the GitHub Action config with the key "version"`}
   - version ${packageManager} in the package.json with the key "packageManager"
 Remove one of these versions to avoid version mismatch errors like ERR_PNPM_BAD_PM_VERSION`)
     }

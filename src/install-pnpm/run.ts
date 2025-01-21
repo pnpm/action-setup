@@ -100,8 +100,7 @@ async function readTarget(opts: {
   readonly packageJsonFile: string
   readonly standalone: boolean
 }) {
-  const { versionFilePath, packageJsonFile, standalone } = opts
-  let { version } = opts
+  let { versionFilePath, packageJsonFile, standalone, version } = opts
   const { GITHUB_WORKSPACE } = process.env
 
   let packageManager

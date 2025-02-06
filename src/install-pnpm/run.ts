@@ -6,6 +6,7 @@ import path from 'path'
 import { execPath } from 'process'
 import util from 'util'
 import { Inputs } from '../inputs'
+import YAML from 'yaml'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const { version, dest, packageJsonFile, standalone } = inputs
@@ -49,7 +50,11 @@ async function readTarget(opts: {
 
   if (GITHUB_WORKSPACE) {
     try {
-      ({ packageManager } = JSON.parse(readFileSync(path.join(GITHUB_WORKSPACE, packageJsonFile), 'utf8')))
+      const content = readFileSync(path.join(GITHUB_WORKSPACE, packageJsonFile), 'utf8');
+      ({ packageManager } = packageJsonFile.endsWith(".yaml")
+        ? YAML.parse(content, { merge: true })
+        : JSON.parse(content)
+      )
     } catch (error: unknown) {
       // Swallow error if package.json doesn't exist in root
       if (!util.types.isNativeError(error) || !('code' in error) || error.code !== 'ENOENT') throw error
@@ -66,7 +71,7 @@ async function readTarget(opts: {
   - version ${packageManager} in the package.json with the key "packageManager"
 Remove one of these versions to avoid version mismatch errors like ERR_PNPM_BAD_PM_VERSION`)
     }
-    
+
     return `${ standalone ? '@pnpm/exe' : 'pnpm' }@${version}`
   }
 

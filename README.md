@@ -117,7 +117,7 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 10
-          run_install: |
+          run_install:
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
             - args: [--global, gulp, prettier, typescript]

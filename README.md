@@ -30,10 +30,6 @@ If `run_install` is `true`, pnpm will install dependencies recursively.
 
 If `run_install` is a YAML string representation of either an object or an array, pnpm will execute every install commands.
 
-#### `run_install.recursive`
-
-**Optional** (_type:_ `boolean`, _default:_ `false`) Whether to use `pnpm recursive install`.
-
 #### `run_install.cwd`
 
 **Optional** (_type:_ `string`) Working directory when run `pnpm [recursive] install`.
@@ -118,8 +114,7 @@ jobs:
         with:
           version: 10
           run_install:
-            - recursive: true
-              args: [--frozen-lockfile, --strict-peer-dependencies]
+            - args: [--frozen-lockfile, --strict-peer-dependencies]
             - args: [--global, gulp, prettier, typescript]
 ```
 

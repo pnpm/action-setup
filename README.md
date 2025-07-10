@@ -40,7 +40,7 @@ If `run_install` is a YAML string representation of either an object or an array
 
 #### `run_install.args`
 
-**Optional** (_type:_ `string[]`) Additional arguments after `pnpm [recursive] install`, e.g. `[--frozen-lockfile, --strict-peer-dependencies]`.
+**Optional** (_type:_ `string[]`) Additional arguments after `pnpm [recursive] install`, e.g. `[--ignore-scripts, --strict-peer-dependencies]`.
 
 ### `package_json_file`
 
@@ -119,7 +119,7 @@ jobs:
           version: 10
           run_install:
             - recursive: true
-              args: [--frozen-lockfile, --strict-peer-dependencies]
+              args: [--strict-peer-dependencies]
             - args: [--global, gulp, prettier, typescript]
 ```
 

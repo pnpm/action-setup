@@ -42,6 +42,10 @@ If `run_install` is a YAML string representation of either an object or an array
 
 **Optional** (_type:_ `string[]`) Additional arguments after `pnpm [recursive] install`, e.g. `[--ignore-scripts, --strict-peer-dependencies]`.
 
+#### `store_prune`
+
+**Optional** (_type:_ `boolean`, _default:_ `true`) Whether to run `pnpm store prune` after installation.
+
 ### `package_json_file`
 
 **Optional** (_type:_ `string`, _default:_ `package.json`) File path to the `package.json`/[`package.yaml`](https://github.com/pnpm/pnpm/pull/1799) to read "packageManager" configuration.

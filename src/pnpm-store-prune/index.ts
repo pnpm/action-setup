@@ -4,6 +4,11 @@ import { Inputs } from '../inputs'
 import { patchPnpmEnv } from '../utils'
 
 export function pruneStore(inputs: Inputs) {
+  if (!inputs.storePrune) {
+    console.log('Store pruning is disabled, skipping pnpm store prune.')
+    return
+  }
+
   if (inputs.runInstall.length === 0) {
     console.log('No install commands were run, skipping pnpm store prune, remember to run it after pnpm install if caching the store.')
     return

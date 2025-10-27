@@ -6,6 +6,7 @@ export interface Inputs {
   readonly version?: string
   readonly dest: string
   readonly runInstall: RunInstall[]
+  readonly storePrune: boolean
   readonly packageJsonFile: string
   readonly standalone: boolean
 }
@@ -20,6 +21,7 @@ export const getInputs = (): Inputs => ({
   version: getInput('version'),
   dest: parseInputPath('dest'),
   runInstall: parseRunInstall('run_install'),
+  storePrune: getBooleanInput('store_prune'),
   packageJsonFile: parseInputPath('package_json_file'),
   standalone: getBooleanInput('standalone'),
 })

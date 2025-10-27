@@ -15,6 +15,10 @@ inputs:
     description: If specified, run `pnpm install`
     required: false
     default: 'null'
+  store_prune:
+    description: Enable store pruning after installation. Set to false to disable.
+    required: false
+    default: 'true'
   package_json_file:
     description: File path to the package.json to read "packageManager" configuration
     required: false

@@ -156,9 +156,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Prune pnpm store
+        run: pnpm store prune
 ```
 
-**Note:** You don't need to run `pnpm store prune` at the end; post-action has already taken care of that.
+**Note:** If you you opt to run install on your own (`run_install: false`), it's recommended to run [`pnpm store prune`](https://pnpm.io/cli/store#prune) after installation to make sure the store that will be cached is pruned.
 
 ## Notes
 

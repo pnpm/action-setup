@@ -5,7 +5,7 @@ import { patchPnpmEnv } from '../utils'
 
 export function pruneStore(inputs: Inputs) {
   if (inputs.runInstall.length === 0) {
-    console.log('Pruning is unnecessary.')
+    console.log('No install commands were run, skipping pnpm store prune, remember to run it after pnpm install if caching the store.')
     return
   }
 

@@ -30,6 +30,8 @@ If `run_install` is `true`, pnpm will install dependencies recursively.
 
 If `run_install` is a YAML string representation of either an object or an array, pnpm will execute every install commands.
 
+If any `run_install` is not falsy, and `store_prune` is not set to `false`, `pnpm store prune` will be executed after all install commands have been executed. This is to ensure the pnpm store is pruned before caching.
+
 #### `run_install.recursive`
 
 **Optional** (_type:_ `boolean`, _default:_ `false`) Whether to use `pnpm recursive install`.
@@ -44,7 +46,7 @@ If `run_install` is a YAML string representation of either an object or an array
 
 #### `store_prune`
 
-**Optional** (_type:_ `boolean`, _default:_ `true`) Whether to run `pnpm store prune` after installation.
+**Optional** (_type:_ `boolean`, _default:_ `true`) Whether to run `pnpm store prune` after installation. If `run_install` is falsy, this option will be ignored. If you run `pnpm install` on your own, and intend to cache the pnpm store, it's recommended to run `pnpm store prune` yourself to make sure the store that will be cached is pruned.
 
 ### `package_json_file`
 

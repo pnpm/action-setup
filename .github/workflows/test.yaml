@@ -158,6 +158,9 @@ jobs:
                 - --global-dir=./pnpm-global
                 - npm
                 - yarn
+        store_prune:
+          - 'true'
+          - 'false'
 
     steps:
       - uses: actions/checkout@v4
@@ -167,6 +170,7 @@ jobs:
         with:
           version: 9.15.5
           run_install: ${{ matrix.run_install.value }}
+          store_prune: ${{ matrix.store_prune }}
 
       - name: 'Test: which'
         run: which pnpm; which pnpx

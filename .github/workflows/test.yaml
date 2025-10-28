@@ -121,7 +121,7 @@ jobs:
           fi
 
   test_run_install:
-    name: 'Test with run_install (${{ matrix.run_install.name }}, ${{ matrix.os }})'
+    name: 'Test with run_install (${{ matrix.run_install.name }}, prune=${{matrix.store_prune}}, ${{ matrix.os }})'
 
     runs-on: ${{ matrix.os }}
 

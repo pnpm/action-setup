@@ -15,6 +15,14 @@ inputs:
     description: If specified, run `pnpm install`
     required: false
     default: 'null'
+  cache:
+    description: Whether to cache the pnpm store directory
+    required: false
+    default: 'false'
+  cache_dependency_path:
+    description: File path to the pnpm lockfile, which contents hash will be used as a cache key
+    required: false
+    default: 'pnpm-lock.yaml'
   package_json_file:
     description: File path to the package.json to read "packageManager" configuration
     required: false

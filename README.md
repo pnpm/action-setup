@@ -42,6 +42,14 @@ If `run_install` is a YAML string representation of either an object or an array
 
 **Optional** (_type:_ `string[]`) Additional arguments after `pnpm [recursive] install`, e.g. `[--ignore-scripts, --strict-peer-dependencies]`.
 
+### `cache`
+
+**Optional** (_type:_ `boolean`, _default:_ `false`) Whether to cache the pnpm store directory.
+
+### `cache_dependency_path`
+
+**Optional** (_type:_ `string|string[]`, _default:_ `pnpm-lock.yaml`) File path to the pnpm lockfile, which contents hash will be used as a cache key.
+
 ### `package_json_file`
 
 **Optional** (_type:_ `string`, _default:_ `package.json`) File path to the `package.json`/[`package.yaml`](https://github.com/pnpm/pnpm/pull/1799) to read "packageManager" configuration.
@@ -142,13 +150,7 @@ jobs:
         name: Install pnpm
         with:
           version: 10
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
+          cache: true
 
       - name: Install dependencies
         run: pnpm install

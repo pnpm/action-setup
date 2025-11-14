@@ -7,6 +7,7 @@ import { execPath } from 'process'
 import util from 'util'
 import { Inputs } from '../inputs'
 import YAML from 'yaml'
+import JSON5 from 'json5'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const { version, dest, packageJsonFile, standalone } = inputs
@@ -64,7 +65,7 @@ async function readTarget(opts: {
       const content = readFileSync(path.join(GITHUB_WORKSPACE, packageJsonFile), 'utf8');
       ({ packageManager } = packageJsonFile.endsWith(".yaml")
         ? YAML.parse(content, { merge: true })
-        : JSON.parse(content)
+        : JSON5.parse(content)
       )
     } catch (error: unknown) {
       // Swallow error if package.json doesn't exist in root

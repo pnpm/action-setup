@@ -1,11 +1,11 @@
 import { setFailed, saveState, getState } from '@actions/core'
+import restoreCache from './cache-restore'
+import saveCache from './cache-save'
 import getInputs, { Inputs } from './inputs'
 import installPnpm from './install-pnpm'
 import setOutputs from './outputs'
 import pnpmInstall from './pnpm-install'
 import pruneStore from './pnpm-store-prune'
-import restoreCache from './cache-restore'
-import saveCache from './cache-save'
 
 async function main() {
   const inputs = getInputs()
@@ -24,7 +24,7 @@ async function runMain(inputs: Inputs) {
   console.log('Installation Completed!')
   setOutputs(inputs)
 
-  await restoreCache(inputs);
+  await restoreCache(inputs)
 
   pnpmInstall(inputs)
 }

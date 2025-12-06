@@ -1,19 +1,19 @@
-import * as cache from '@actions/cache';
-import * as core from '@actions/core';
-import { runRestoreCache } from './run';
-import { Inputs } from '../inputs';
+import { isFeatureAvailable } from '@actions/cache'
+import { endGroup, startGroup, warning } from '@actions/core'
+import { Inputs } from '../inputs'
+import { runRestoreCache } from './run'
 
 export async function restoreCache(inputs: Inputs) {
   if (!inputs.cache) return
 
-  if (!cache.isFeatureAvailable()) {
-    core.warning('Cache is not available, skipping cache restoration')
+  if (!isFeatureAvailable()) {
+    warning('Cache is not available, skipping cache restoration')
     return
   }
 
-  core.startGroup('Restoring cache...')
-  await runRestoreCache(inputs);
-  core.endGroup();
+  startGroup('Restoring cache...')
+  await runRestoreCache(inputs)
+  endGroup()
 }
 
 export default restoreCache

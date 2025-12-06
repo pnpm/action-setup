@@ -26,9 +26,6 @@ importers:
       '@types/node':
         specifier: ^20.11.5
         version: 20.17.17
-      '@types/node-fetch':
-        specifier: ^2.6.11
-        version: 2.6.12
       expand-tilde:
         specifier: ^2.0.2
         version: 2.0.2
@@ -140,9 +137,6 @@ packages:
   '@types/expand-tilde@2.0.2':
     resolution: {integrity: sha512-wlsMYiapmIR4Eq/Z0qysN8xaDMjSkO6AIDNFx9oxgWGeKVA1jU+NzwPRZErBNP5z6/dx6QNkNpKglBGPO9OkTA==}
 
-  '@types/node-fetch@2.6.12':
-    resolution: {integrity: sha512-8nneRWKCg3rMtF69nLQJnOYUcbafYeFSjqkw3jCRLsqkWFlHaoQrr5mXmofFGOx3DKn7UfmBMyov8ySvLRVldA==}
-
   '@types/node@20.17.17':
     resolution: {integrity: sha512-/WndGO4kIfMicEQLTi/mDANUu/iVUhT7KboZPdEqqHQ4aTS+3qT3U5gIqWDFV+XouorjfgGqvKILJeHhuQgFYg==}
 
@@ -234,10 +228,6 @@ packages:
   form-data@2.5.5:
     resolution: {integrity: sha512-jqdObeR2rxZZbPSGL+3VckHMYtu+f9//KXBsVny6JSX/pa38Fy+bGjuG8eW/H6USNQWhLi8Num++cU2yOCNz4A==}
     engines: {node: '>= 0.12'}
-
-  form-data@4.0.1:
-    resolution: {integrity: sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==}
-    engines: {node: '>= 6'}
 
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
@@ -549,11 +539,6 @@ snapshots:
 
   '@types/expand-tilde@2.0.2': {}
 
-  '@types/node-fetch@2.6.12':
-    dependencies:
-      '@types/node': 20.17.17
-      form-data: 4.0.1
-
   '@types/node@20.17.17':
     dependencies:
       undici-types: 6.19.8
@@ -641,12 +626,6 @@ snapshots:
       hasown: 2.0.2
       mime-types: 2.1.35
       safe-buffer: 5.2.1
-
-  form-data@4.0.1:
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
 
   function-bind@1.1.2: {}
 

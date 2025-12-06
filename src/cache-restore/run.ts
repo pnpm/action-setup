@@ -1,7 +1,7 @@
 import { restoreCache } from '@actions/cache'
 import { debug, info, saveState, setOutput } from '@actions/core'
-import * as exec from '@actions/exec'
-import * as glob from '@actions/glob'
+import { getExecOutput } from '@actions/exec'
+import { hashFiles } from '@actions/glob'
 import os from 'os'
 import { Inputs } from '../inputs'
 
@@ -9,7 +9,7 @@ export async function runRestoreCache(inputs: Inputs) {
   const cachePath = await getCacheDirectory()
   saveState('cache_path', cachePath)
 
-  const fileHash = await glob.hashFiles(inputs.cacheDependencyPath)
+  const fileHash = await hashFiles(inputs.cacheDependencyPath)
   if (!fileHash) {
     throw new Error('Some specified paths were not resolved, unable to cache dependencies.')
   }
@@ -32,7 +32,7 @@ export async function runRestoreCache(inputs: Inputs) {
 }
 
 async function getCacheDirectory() {
-  const { stdout } = await exec.getExecOutput('pnpm store path --silent')
+  const { stdout } = await getExecOutput('pnpm store path --silent')
   const cacheFolderPath = stdout.trim()
   debug(`Cache folder is set to "${cacheFolderPath}"`)
   return cacheFolderPath

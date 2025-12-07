@@ -65,7 +65,9 @@ async function readTarget(opts: {
       const content = readFileSync(path.join(GITHUB_WORKSPACE, packageJsonFile), 'utf8');
       ({ packageManager } = packageJsonFile.endsWith(".yaml")
         ? YAML.parse(content, { merge: true })
-        : JSON5.parse(content)
+        : packageJsonFile.endsWith(".json5")
+        ? JSON5.parse(content)
+        : JSON.parse(content)
       )
     } catch (error: unknown) {
       // Swallow error if package.json doesn't exist in root

@@ -16,7 +16,7 @@ inputs:
     required: false
     default: 'null'
   package_json_file:
-    description: File path to the package.json to read "packageManager" configuration
+    description: File path to the package.json to read "packageManager" configuration. This path must be relative to the repository root (GITHUB_WORKSPACE).
     required: false
     default: 'package.json'
   standalone:

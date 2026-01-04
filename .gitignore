@@ -11,3 +11,4 @@ temp
 tmp.*
 temp.*
 .pnpm-store
+.claude/settings.local.json

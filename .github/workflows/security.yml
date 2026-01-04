@@ -18,7 +18,7 @@ jobs:
       - name: Setup pnpm
         uses: ./
         with:
-          version: 9
+          version: 10.27.0
 
       - name: Security audit
         run: pnpm audit --audit-level high

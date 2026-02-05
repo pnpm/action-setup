@@ -4,6 +4,7 @@ import runSelfInstaller from "./run";
 import { exec } from "child_process";
 import { promisify } from "util";
 
+export { runSelfInstaller };
 const execAsync = promisify(exec);
 
 export async function install(inputs: Inputs) {
@@ -17,7 +18,9 @@ export async function install(inputs: Inputs) {
   endGroup();
 
   if (status) {
-    setFailed(`Something went wrong, self-installer exits with code ${status}`);
+    return setFailed(
+      `Something went wrong, self-installer exits with code ${status}`,
+    );
   }
 }
 

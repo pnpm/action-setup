@@ -9,11 +9,8 @@ const execAsync = promisify(exec);
 export async function install(inputs: Inputs) {
   try {
     await execAsync("pnpm --version");
-    // pnpm already installed
     return;
-  } catch {
-    // pnpm not installed, continue
-  }
+  } catch {}
 
   startGroup("Running self-installer...");
   const status = await runSelfInstaller(inputs);

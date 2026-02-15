@@ -40,7 +40,15 @@ If `run_install` is a YAML string representation of either an object or an array
 
 #### `run_install.args`
 
-**Optional** (_type:_ `string[]`) Additional arguments after `pnpm [recursive] install`, e.g. `[--frozen-lockfile, --strict-peer-dependencies]`.
+**Optional** (_type:_ `string[]`) Additional arguments after `pnpm [recursive] install`, e.g. `[--ignore-scripts, --strict-peer-dependencies]`.
+
+### `cache`
+
+**Optional** (_type:_ `boolean`, _default:_ `false`) Whether to cache the pnpm store directory.
+
+### `cache_dependency_path`
+
+**Optional** (_type:_ `string|string[]`, _default:_ `pnpm-lock.yaml`) File path to the pnpm lockfile, which contents hash will be used as a cache key.
 
 ### `package_json_file`
 
@@ -119,7 +127,7 @@ jobs:
           version: 10
           run_install: |
             - recursive: true
-              args: [--frozen-lockfile, --strict-peer-dependencies]
+              args: [--strict-peer-dependencies]
             - args: [--global, gulp, prettier, typescript]
 ```
 
@@ -142,13 +150,7 @@ jobs:
         name: Install pnpm
         with:
           version: 10
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
+          cache: true
 
       - name: Install dependencies
         run: pnpm install

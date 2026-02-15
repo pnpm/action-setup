@@ -1,5 +1,5 @@
 import { getInput, error } from '@actions/core'
-import * as yaml from 'yaml'
+import { parse as parseYaml } from 'yaml'
 import { z, ZodError } from 'zod'
 
 const RunInstallSchema = z.object({
@@ -20,7 +20,7 @@ export type RunInstall = z.infer<typeof RunInstallSchema>
 
 export function parseRunInstall(inputName: string): RunInstall[] {
   const input = getInput(inputName, { required: true })
-  const parsedInput: unknown = yaml.parse(input)
+  const parsedInput: unknown = parseYaml(input)
 
   try {
     const result: RunInstallInput = RunInstallInputSchema.parse(parsedInput)

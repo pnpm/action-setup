@@ -1,15 +1,16 @@
 import { addPath, exportVariable } from '@actions/core'
 import { spawn } from 'child_process'
-import { rm, writeFile, mkdir } from 'fs/promises'
+import { rm, writeFile, mkdir, copyFile } from 'fs/promises'
 import { readFileSync } from 'fs'
 import path from 'path'
 import { execPath } from 'process'
 import util from 'util'
 import { Inputs } from '../inputs'
-import YAML from 'yaml'
+import { parse as parseYaml } from 'yaml'
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const { version, dest, packageJsonFile, standalone } = inputs
+  const { GITHUB_WORKSPACE } = process.env
 
   // prepare self install
   await rm(dest, { recursive: true, force: true })
@@ -18,6 +19,16 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const pkgJson = path.join(dest, 'package.json')
   // we have ensured the dest directory exists, we can write the file directly
   await writeFile(pkgJson, JSON.stringify({ private: true }))
+
+  // copy .npmrc if it exists to install from custom registry
+  if (GITHUB_WORKSPACE) {
+    try {
+      await copyFile(path.join(GITHUB_WORKSPACE, '.npmrc'), path.join(dest, '.npmrc'))
+    } catch (error) {
+      // Swallow error if .npmrc doesn't exist
+      if (!util.types.isNativeError(error) || !('code' in error) || error.code !== 'ENOENT') throw error
+    }
+  }
 
   // prepare target pnpm
   const target = await readTarget({ version, packageJsonFile, standalone })
@@ -52,7 +63,7 @@ async function readTarget(opts: {
     try {
       const content = readFileSync(path.join(GITHUB_WORKSPACE, packageJsonFile), 'utf8');
       ({ packageManager } = packageJsonFile.endsWith(".yaml")
-        ? YAML.parse(content, { merge: true })
+        ? parseYaml(content, { merge: true })
         : JSON.parse(content)
       )
     } catch (error: unknown) {

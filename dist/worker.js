@@ -2292,27 +2292,29 @@ var require_addFilesFromDir = __commonJS({
           _retrieveFileIntegrities(addBuffer, rootDir, fullPath, index);
           continue;
         }
-        if (file.isFile()) {
-          const relativePath = path_12.default.relative(rootDir, fullPath);
-          let stat;
-          try {
-            stat = fs_12.default.statSync(fullPath);
-          } catch (err) {
-            if (err.code !== "ENOENT") {
-              throw err;
-            }
-            continue;
+        const relativePath = path_12.default.relative(rootDir, fullPath);
+        let stat;
+        try {
+          stat = fs_12.default.statSync(fullPath);
+        } catch (err) {
+          if (err.code !== "ENOENT") {
+            throw err;
           }
-          const buffer = graceful_fs_12.default.readFileSync(fullPath);
-          if (rootDir === currDir && readManifest && file.name === "package.json") {
-            manifest = (0, parseJson_1.parseJsonBufferSync)(buffer);
-          }
-          index[relativePath] = {
-            mode: stat.mode,
-            size: stat.size,
-            ...addBuffer(buffer, stat.mode)
-          };
+          continue;
         }
+        if (stat.isDirectory()) {
+          _retrieveFileIntegrities(addBuffer, rootDir, fullPath, index);
+          continue;
+        }
+        const buffer = graceful_fs_12.default.readFileSync(fullPath);
+        if (rootDir === currDir && readManifest && file.name === "package.json") {
+          manifest = (0, parseJson_1.parseJsonBufferSync)(buffer);
+        }
+        index[relativePath] = {
+          mode: stat.mode,
+          size: stat.size,
+          ...addBuffer(buffer, stat.mode)
+        };
       }
       return manifest;
     }
@@ -2352,12 +2354,10 @@ var require_parseTarball = __commonJS({
     var FILE_TYPE_PAX_HEADER = "x".charCodeAt(0);
     var FILE_TYPE_PAX_GLOBAL_HEADER = "g".charCodeAt(0);
     var FILE_TYPE_LONGLINK = "L".charCodeAt(0);
-    var USTAR_MAGIC = Buffer.from("ustar", "latin1");
     var MODE_OFFSET = 100;
     var FILE_SIZE_OFFSET = 124;
     var CHECKSUM_OFFSET = 148;
     var FILE_TYPE_OFFSET = 156;
-    var MAGIC_OFFSET = 257;
     var PREFIX_OFFSET = 345;
     function parseTarball(buffer) {
       const files = /* @__PURE__ */ new Map();
@@ -2385,9 +2385,6 @@ var require_parseTarball = __commonJS({
         const actualCheckSum = checkSum(blockStart);
         if (expectedCheckSum !== actualCheckSum) {
           throw new Error(`Invalid checksum for TAR header at offset ${blockStart}. Expected ${expectedCheckSum}, got ${actualCheckSum}`);
-        }
-        if (buffer.compare(USTAR_MAGIC, 0, USTAR_MAGIC.byteLength, blockStart + MAGIC_OFFSET, blockStart + MAGIC_OFFSET + USTAR_MAGIC.byteLength) !== 0) {
-          throw new Error(`This parser only supports USTAR or GNU TAR archives. Found magic and version: ${buffer.toString("latin1", blockStart + MAGIC_OFFSET, blockStart + MAGIC_OFFSET + 8)}`);
         }
         pathTrimmed = false;
         if (longLinkPath) {
@@ -6709,9 +6706,9 @@ var require_individual = __commonJS({
   }
 });
 
-// ../node_modules/.pnpm/bole@5.0.9/node_modules/bole/format.js
+// ../node_modules/.pnpm/bole@5.0.11/node_modules/bole/format.js
 var require_format = __commonJS({
-  "../node_modules/.pnpm/bole@5.0.9/node_modules/bole/format.js"(exports2, module2) {
+  "../node_modules/.pnpm/bole@5.0.11/node_modules/bole/format.js"(exports2, module2) {
     var utilformat = require("util").format;
     function format(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16) {
       if (a16 !== void 0) {
@@ -6765,9 +6762,9 @@ var require_format = __commonJS({
   }
 });
 
-// ../node_modules/.pnpm/bole@5.0.9/node_modules/bole/bole.js
+// ../node_modules/.pnpm/bole@5.0.11/node_modules/bole/bole.js
 var require_bole = __commonJS({
-  "../node_modules/.pnpm/bole@5.0.9/node_modules/bole/bole.js"(exports2, module2) {
+  "../node_modules/.pnpm/bole@5.0.11/node_modules/bole/bole.js"(exports2, module2) {
     "use strict";
     var _stringify = require_fast_safe_stringify();
     var individual = require_individual()("$$bole", { fastTime: false });
@@ -12603,14 +12600,16 @@ var require_lib8 = __commonJS({
       let auto = initialAuto;
       return (to, opts) => auto(to, opts);
       function initialAuto(to, opts) {
-        try {
-          const _clonePkg = clonePkg.bind(null, createCloneFunction());
-          if (!_clonePkg(to, opts))
-            return void 0;
-          core_loggers_1.packageImportMethodLogger.debug({ method: "clone" });
-          auto = _clonePkg;
-          return "clone";
-        } catch (err) {
+        if (process.platform !== "win32") {
+          try {
+            const _clonePkg = clonePkg.bind(null, createCloneFunction());
+            if (!_clonePkg(to, opts))
+              return void 0;
+            core_loggers_1.packageImportMethodLogger.debug({ method: "clone" });
+            auto = _clonePkg;
+            return "clone";
+          } catch (err) {
+          }
         }
         try {
           if (!hardlinkPkg(graceful_fs_12.default.linkSync, to, opts))
@@ -12665,7 +12664,7 @@ var require_lib8 = __commonJS({
           try {
             reflinkFileSync(fr, to);
           } catch (err) {
-            if (!err.message.startsWith("File exists"))
+            if (!err.message.startsWith("File exists") && !err.message.includes("-2147024816"))
               throw err;
           }
         };
@@ -14273,9 +14272,9 @@ var require_js_tokens = __commonJS({
   }
 });
 
-// ../node_modules/.pnpm/@babel+helper-validator-identifier@7.22.20/node_modules/@babel/helper-validator-identifier/lib/identifier.js
+// ../node_modules/.pnpm/@babel+helper-validator-identifier@7.24.7/node_modules/@babel/helper-validator-identifier/lib/identifier.js
 var require_identifier = __commonJS({
-  "../node_modules/.pnpm/@babel+helper-validator-identifier@7.22.20/node_modules/@babel/helper-validator-identifier/lib/identifier.js"(exports2) {
+  "../node_modules/.pnpm/@babel+helper-validator-identifier@7.24.7/node_modules/@babel/helper-validator-identifier/lib/identifier.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -14358,9 +14357,9 @@ var require_identifier = __commonJS({
   }
 });
 
-// ../node_modules/.pnpm/@babel+helper-validator-identifier@7.22.20/node_modules/@babel/helper-validator-identifier/lib/keyword.js
+// ../node_modules/.pnpm/@babel+helper-validator-identifier@7.24.7/node_modules/@babel/helper-validator-identifier/lib/keyword.js
 var require_keyword = __commonJS({
-  "../node_modules/.pnpm/@babel+helper-validator-identifier@7.22.20/node_modules/@babel/helper-validator-identifier/lib/keyword.js"(exports2) {
+  "../node_modules/.pnpm/@babel+helper-validator-identifier@7.24.7/node_modules/@babel/helper-validator-identifier/lib/keyword.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -14396,9 +14395,9 @@ var require_keyword = __commonJS({
   }
 });
 
-// ../node_modules/.pnpm/@babel+helper-validator-identifier@7.22.20/node_modules/@babel/helper-validator-identifier/lib/index.js
+// ../node_modules/.pnpm/@babel+helper-validator-identifier@7.24.7/node_modules/@babel/helper-validator-identifier/lib/index.js
 var require_lib12 = __commonJS({
-  "../node_modules/.pnpm/@babel+helper-validator-identifier@7.22.20/node_modules/@babel/helper-validator-identifier/lib/index.js"(exports2) {
+  "../node_modules/.pnpm/@babel+helper-validator-identifier@7.24.7/node_modules/@babel/helper-validator-identifier/lib/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -14453,6 +14452,55 @@ var require_lib12 = __commonJS({
     });
     var _identifier = require_identifier();
     var _keyword = require_keyword();
+  }
+});
+
+// ../node_modules/.pnpm/picocolors@1.0.0/node_modules/picocolors/picocolors.js
+var require_picocolors = __commonJS({
+  "../node_modules/.pnpm/picocolors@1.0.0/node_modules/picocolors/picocolors.js"(exports2, module2) {
+    var tty = require("tty");
+    var isColorSupported = !("NO_COLOR" in process.env || process.argv.includes("--no-color")) && ("FORCE_COLOR" in process.env || process.argv.includes("--color") || process.platform === "win32" || tty.isatty(1) && process.env.TERM !== "dumb" || "CI" in process.env);
+    var formatter = (open, close, replace = open) => (input) => {
+      let string = "" + input;
+      let index = string.indexOf(close, open.length);
+      return ~index ? open + replaceClose(string, close, replace, index) + close : open + string + close;
+    };
+    var replaceClose = (string, close, replace, index) => {
+      let start = string.substring(0, index) + replace;
+      let end = string.substring(index + close.length);
+      let nextIndex = end.indexOf(close);
+      return ~nextIndex ? start + replaceClose(end, close, replace, nextIndex) : start + end;
+    };
+    var createColors = (enabled = isColorSupported) => ({
+      isColorSupported: enabled,
+      reset: enabled ? (s) => `\x1B[0m${s}\x1B[0m` : String,
+      bold: enabled ? formatter("\x1B[1m", "\x1B[22m", "\x1B[22m\x1B[1m") : String,
+      dim: enabled ? formatter("\x1B[2m", "\x1B[22m", "\x1B[22m\x1B[2m") : String,
+      italic: enabled ? formatter("\x1B[3m", "\x1B[23m") : String,
+      underline: enabled ? formatter("\x1B[4m", "\x1B[24m") : String,
+      inverse: enabled ? formatter("\x1B[7m", "\x1B[27m") : String,
+      hidden: enabled ? formatter("\x1B[8m", "\x1B[28m") : String,
+      strikethrough: enabled ? formatter("\x1B[9m", "\x1B[29m") : String,
+      black: enabled ? formatter("\x1B[30m", "\x1B[39m") : String,
+      red: enabled ? formatter("\x1B[31m", "\x1B[39m") : String,
+      green: enabled ? formatter("\x1B[32m", "\x1B[39m") : String,
+      yellow: enabled ? formatter("\x1B[33m", "\x1B[39m") : String,
+      blue: enabled ? formatter("\x1B[34m", "\x1B[39m") : String,
+      magenta: enabled ? formatter("\x1B[35m", "\x1B[39m") : String,
+      cyan: enabled ? formatter("\x1B[36m", "\x1B[39m") : String,
+      white: enabled ? formatter("\x1B[37m", "\x1B[39m") : String,
+      gray: enabled ? formatter("\x1B[90m", "\x1B[39m") : String,
+      bgBlack: enabled ? formatter("\x1B[40m", "\x1B[49m") : String,
+      bgRed: enabled ? formatter("\x1B[41m", "\x1B[49m") : String,
+      bgGreen: enabled ? formatter("\x1B[42m", "\x1B[49m") : String,
+      bgYellow: enabled ? formatter("\x1B[43m", "\x1B[49m") : String,
+      bgBlue: enabled ? formatter("\x1B[44m", "\x1B[49m") : String,
+      bgMagenta: enabled ? formatter("\x1B[45m", "\x1B[49m") : String,
+      bgCyan: enabled ? formatter("\x1B[46m", "\x1B[49m") : String,
+      bgWhite: enabled ? formatter("\x1B[47m", "\x1B[49m") : String
+    });
+    module2.exports = createColors();
+    module2.exports.createColors = createColors;
   }
 });
 
@@ -15999,9 +16047,9 @@ var require_chalk = __commonJS({
   }
 });
 
-// ../node_modules/.pnpm/@babel+highlight@7.23.4/node_modules/@babel/highlight/lib/index.js
+// ../node_modules/.pnpm/@babel+highlight@7.24.7/node_modules/@babel/highlight/lib/index.js
 var require_lib13 = __commonJS({
-  "../node_modules/.pnpm/@babel+highlight@7.23.4/node_modules/@babel/highlight/lib/index.js"(exports2) {
+  "../node_modules/.pnpm/@babel+highlight@7.24.7/node_modules/@babel/highlight/lib/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -16010,7 +16058,7 @@ var require_lib13 = __commonJS({
     exports2.shouldHighlight = shouldHighlight;
     var _jsTokens = require_js_tokens();
     var _helperValidatorIdentifier = require_lib12();
-    var _chalk = _interopRequireWildcard(require_chalk(), true);
+    var _picocolors = _interopRequireWildcard(require_picocolors(), true);
     function _getRequireWildcardCache(e) {
       if ("function" != typeof WeakMap)
         return null;
@@ -16029,24 +16077,26 @@ var require_lib13 = __commonJS({
         return t.get(e);
       var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor;
       for (var u in e)
-        if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) {
+        if ("default" !== u && {}.hasOwnProperty.call(e, u)) {
           var i = a ? Object.getOwnPropertyDescriptor(e, u) : null;
           i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u];
         }
       return n.default = e, t && t.set(e, n), n;
     }
+    var colors = typeof process === "object" && (process.env.FORCE_COLOR === "0" || process.env.FORCE_COLOR === "false") ? (0, _picocolors.createColors)(false) : _picocolors.default;
+    var compose = (f, g) => (v) => f(g(v));
     var sometimesKeywords = /* @__PURE__ */ new Set(["as", "async", "from", "get", "of", "set"]);
-    function getDefs(chalk) {
+    function getDefs(colors2) {
       return {
-        keyword: chalk.cyan,
-        capitalized: chalk.yellow,
-        jsxIdentifier: chalk.yellow,
-        punctuator: chalk.yellow,
-        number: chalk.magenta,
-        string: chalk.green,
-        regex: chalk.magenta,
-        comment: chalk.grey,
-        invalid: chalk.white.bgRed.bold
+        keyword: colors2.cyan,
+        capitalized: colors2.yellow,
+        jsxIdentifier: colors2.yellow,
+        punctuator: colors2.yellow,
+        number: colors2.magenta,
+        string: colors2.green,
+        regex: colors2.magenta,
+        comment: colors2.gray,
+        invalid: compose(compose(colors2.white, colors2.bgRed), colors2.bold)
       };
     }
     var NEWLINE = /\r\n|[\n\r\u2028\u2029]/;
@@ -16059,7 +16109,7 @@ var require_lib13 = __commonJS({
           if ((0, _helperValidatorIdentifier.isKeyword)(token.value) || (0, _helperValidatorIdentifier.isStrictReservedWord)(token.value, true) || sometimesKeywords.has(token.value)) {
             return "keyword";
           }
-          if (JSX_TAG.test(token.value) && (text[offset - 1] === "<" || text.slice(offset - 2, offset) == "</")) {
+          if (JSX_TAG.test(token.value) && (text[offset - 1] === "<" || text.slice(offset - 2, offset) === "</")) {
             return "jsxIdentifier";
           }
           if (token.value[0] !== token.value[0].toLowerCase()) {
@@ -16101,37 +16151,49 @@ var require_lib13 = __commonJS({
       return highlighted;
     }
     function shouldHighlight(options) {
-      return _chalk.default.level > 0 || options.forceColor;
+      return colors.isColorSupported || options.forceColor;
     }
-    var chalkWithForcedColor = void 0;
-    function getChalk(forceColor) {
+    var pcWithForcedColor = void 0;
+    function getColors(forceColor) {
       if (forceColor) {
-        var _chalkWithForcedColor;
-        (_chalkWithForcedColor = chalkWithForcedColor) != null ? _chalkWithForcedColor : chalkWithForcedColor = new _chalk.default.constructor({
-          enabled: true,
-          level: 1
-        });
-        return chalkWithForcedColor;
+        var _pcWithForcedColor;
+        (_pcWithForcedColor = pcWithForcedColor) != null ? _pcWithForcedColor : pcWithForcedColor = (0, _picocolors.createColors)(true);
+        return pcWithForcedColor;
       }
-      return _chalk.default;
-    }
-    {
-      exports2.getChalk = (options) => getChalk(options.forceColor);
+      return colors;
     }
     function highlight(code, options = {}) {
       if (code !== "" && shouldHighlight(options)) {
-        const defs = getDefs(getChalk(options.forceColor));
+        const defs = getDefs(getColors(options.forceColor));
         return highlightTokens(defs, code);
       } else {
         return code;
       }
     }
+    {
+      let chalk, chalkWithForcedColor;
+      exports2.getChalk = ({
+        forceColor
+      }) => {
+        var _chalk;
+        (_chalk = chalk) != null ? _chalk : chalk = require_chalk();
+        if (forceColor) {
+          var _chalkWithForcedColor;
+          (_chalkWithForcedColor = chalkWithForcedColor) != null ? _chalkWithForcedColor : chalkWithForcedColor = new chalk.constructor({
+            enabled: true,
+            level: 1
+          });
+          return chalkWithForcedColor;
+        }
+        return chalk;
+      };
+    }
   }
 });
 
-// ../node_modules/.pnpm/@babel+code-frame@7.23.5/node_modules/@babel/code-frame/lib/index.js
+// ../node_modules/.pnpm/@babel+code-frame@7.24.7/node_modules/@babel/code-frame/lib/index.js
 var require_lib14 = __commonJS({
-  "../node_modules/.pnpm/@babel+code-frame@7.23.5/node_modules/@babel/code-frame/lib/index.js"(exports2) {
+  "../node_modules/.pnpm/@babel+code-frame@7.24.7/node_modules/@babel/code-frame/lib/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", {
       value: true
@@ -16139,7 +16201,7 @@ var require_lib14 = __commonJS({
     exports2.codeFrameColumns = codeFrameColumns;
     exports2.default = _default;
     var _highlight = require_lib13();
-    var _chalk = _interopRequireWildcard(require_chalk(), true);
+    var _picocolors = _interopRequireWildcard(require_picocolors(), true);
     function _getRequireWildcardCache(e) {
       if ("function" != typeof WeakMap)
         return null;
@@ -16158,30 +16220,29 @@ var require_lib14 = __commonJS({
         return t.get(e);
       var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor;
       for (var u in e)
-        if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) {
+        if ("default" !== u && {}.hasOwnProperty.call(e, u)) {
           var i = a ? Object.getOwnPropertyDescriptor(e, u) : null;
           i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u];
         }
       return n.default = e, t && t.set(e, n), n;
     }
-    var chalkWithForcedColor = void 0;
-    function getChalk(forceColor) {
+    var colors = typeof process === "object" && (process.env.FORCE_COLOR === "0" || process.env.FORCE_COLOR === "false") ? (0, _picocolors.createColors)(false) : _picocolors.default;
+    var compose = (f, g) => (v) => f(g(v));
+    var pcWithForcedColor = void 0;
+    function getColors(forceColor) {
       if (forceColor) {
-        var _chalkWithForcedColor;
-        (_chalkWithForcedColor = chalkWithForcedColor) != null ? _chalkWithForcedColor : chalkWithForcedColor = new _chalk.default.constructor({
-          enabled: true,
-          level: 1
-        });
-        return chalkWithForcedColor;
+        var _pcWithForcedColor;
+        (_pcWithForcedColor = pcWithForcedColor) != null ? _pcWithForcedColor : pcWithForcedColor = (0, _picocolors.createColors)(true);
+        return pcWithForcedColor;
       }
-      return _chalk.default;
+      return colors;
     }
     var deprecationWarningShown = false;
-    function getDefs(chalk) {
+    function getDefs(colors2) {
       return {
-        gutter: chalk.grey,
-        marker: chalk.red.bold,
-        message: chalk.red.bold
+        gutter: colors2.gray,
+        marker: compose(colors2.red, colors2.bold),
+        message: compose(colors2.red, colors2.bold)
       };
     }
     var NEWLINE = /\r\n|[\n\r\u2028\u2029]/;
@@ -16243,10 +16304,10 @@ var require_lib14 = __commonJS({
     }
     function codeFrameColumns(rawLines, loc, opts = {}) {
       const highlighted = (opts.highlightCode || opts.forceColor) && (0, _highlight.shouldHighlight)(opts);
-      const chalk = getChalk(opts.forceColor);
-      const defs = getDefs(chalk);
-      const maybeHighlight = (chalkFn, string) => {
-        return highlighted ? chalkFn(string) : string;
+      const colors2 = getColors(opts.forceColor);
+      const defs = getDefs(colors2);
+      const maybeHighlight = (fmt, string) => {
+        return highlighted ? fmt(string) : string;
       };
       const lines = rawLines.split(NEWLINE);
       const {
@@ -16283,7 +16344,7 @@ var require_lib14 = __commonJS({
 ${frame}`;
       }
       if (highlighted) {
-        return chalk.reset(frame);
+        return colors2.reset(frame);
       } else {
         return frame;
       }
@@ -16501,7 +16562,13 @@ async function handleMessage(message) {
       }
     }
   } catch (e) {
-    worker_threads_1.parentPort.postMessage({ status: "error", error: e.toString() });
+    worker_threads_1.parentPort.postMessage({
+      status: "error",
+      error: {
+        code: e.code,
+        message: e.message ?? e.toString()
+      }
+    });
   }
 }
 function addTarballToStore({ buffer, cafsDir, integrity, filesIndexFile, pkg, readManifest }) {
@@ -16525,9 +16592,9 @@ function addTarballToStore({ buffer, cafsDir, integrity, filesIndexFile, pkg, re
     cafsCache.set(cafsDir, (0, store_cafs_1.createCafs)(cafsDir));
   }
   const cafs = cafsCache.get(cafsDir);
-  const { filesIndex, manifest } = cafs.addFilesFromTarball(buffer, readManifest);
+  const { filesIndex, manifest } = cafs.addFilesFromTarball(buffer, Boolean(readManifest) || !pkg?.name || !pkg.version);
   const { filesIntegrity, filesMap } = processFilesIndex(filesIndex);
-  writeFilesIndexFile(filesIndexFile, { pkg: pkg ?? {}, files: filesIntegrity });
+  writeFilesIndexFile(filesIndexFile, { pkg: pkg ?? manifest ?? {}, files: filesIntegrity });
   return { status: "success", value: { filesIndex: filesMap, manifest } };
 }
 function addFilesFromDir({ dir, cafsDir, filesIndexFile, sideEffectsCacheKey, pkg, readManifest }) {
@@ -16535,20 +16602,21 @@ function addFilesFromDir({ dir, cafsDir, filesIndexFile, sideEffectsCacheKey, pk
     cafsCache.set(cafsDir, (0, store_cafs_1.createCafs)(cafsDir));
   }
   const cafs = cafsCache.get(cafsDir);
-  const { filesIndex, manifest } = cafs.addFilesFromDir(dir, readManifest);
+  const { filesIndex, manifest } = cafs.addFilesFromDir(dir, Boolean(readManifest) || !pkg?.name || !pkg.version);
   const { filesIntegrity, filesMap } = processFilesIndex(filesIndex);
   if (sideEffectsCacheKey) {
     let filesIndex2;
     try {
       filesIndex2 = (0, load_json_file_1.sync)(filesIndexFile);
     } catch {
-      filesIndex2 = { files: filesIntegrity };
+      pkg = pkg ?? manifest;
+      filesIndex2 = { name: pkg?.name, version: pkg?.version, files: filesIntegrity };
     }
     filesIndex2.sideEffects = filesIndex2.sideEffects ?? {};
     filesIndex2.sideEffects[sideEffectsCacheKey] = filesIntegrity;
     writeJsonFile(filesIndexFile, filesIndex2);
   } else {
-    writeFilesIndexFile(filesIndexFile, { pkg: pkg ?? {}, files: filesIntegrity });
+    writeFilesIndexFile(filesIndexFile, { pkg: pkg ?? manifest ?? {}, files: filesIntegrity });
   }
   return { status: "success", value: { filesIndex: filesMap, manifest } };
 }

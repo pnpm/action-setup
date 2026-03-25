@@ -101,8 +101,8 @@ Remove one of these versions to avoid version mismatch errors like ERR_PNPM_BAD_
   }
 
   if (typeof packageManager === 'string' && packageManager.startsWith('pnpm@')) {
-    // pnpm will handle version management via packageManager field
-    return undefined
+    // Strip the "pnpm@" prefix and any "+sha..." hash suffix
+    return packageManager.replace('pnpm@', '').replace(/\+.*$/, '')
   }
 
   if (!GITHUB_WORKSPACE) {

@@ -6,5 +6,5 @@ export const getBinDest = (inputs: Inputs): string => path.join(inputs.dest, 'no
 
 export const patchPnpmEnv = (inputs: Inputs): NodeJS.ProcessEnv => ({
   ...process.env,
-  PATH: getBinDest(inputs) + path.delimiter + process.env.PATH,
+  PATH: path.join(getBinDest(inputs), 'bin') + path.delimiter + getBinDest(inputs) + path.delimiter + process.env.PATH,
 })

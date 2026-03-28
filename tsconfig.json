@@ -1,26 +1,19 @@
-
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "Node16",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "lib": [
       "ES2023"
     ],
-    "outDir": "./dist/tsc",
-    "preserveConstEnums": true,
-    "incremental": false,
-    "declaration": true,
-    "sourceMap": true,
-    "importHelpers": false,
+    "noEmit": true,
     "strict": true,
     "pretty": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "esModuleInterop": true
   }
 }

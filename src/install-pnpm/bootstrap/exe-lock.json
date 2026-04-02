@@ -5,13 +5,13 @@
   "packages": {
     "": {
       "dependencies": {
-        "@pnpm/exe": "11.0.0-beta.3"
+        "@pnpm/exe": "11.0.0-beta.4-1"
       }
     },
     "node_modules/@pnpm/exe": {
-      "version": "11.0.0-beta.3",
-      "resolved": "https://registry.npmjs.org/@pnpm/exe/-/exe-11.0.0-beta.3.tgz",
-      "integrity": "sha512-yWNlHHdYmvf4c0MCkCzAa4csJDPdA+7yJCbXBUDXMbUu/0Zv/AxtO77q24MwlnBUC0dWeA+0F/pPmdkR9aTV2A==",
+      "version": "11.0.0-beta.4-1",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe/-/exe-11.0.0-beta.4-1.tgz",
+      "integrity": "sha512-2VzvynS54qE+Q0LGXzTCFKChq79Yr1xKLTAEkvIcBLoM+puRuI3xyrqtWx47esxhjbQlF0jRUyU8ISbSG92yBQ==",
       "hasInstallScript": true,
       "license": "MIT",
       "dependencies": {
@@ -27,18 +27,18 @@
         "url": "https://opencollective.com/pnpm"
       },
       "optionalDependencies": {
-        "@pnpm/linux-arm64": "11.0.0-beta.3",
-        "@pnpm/linux-x64": "11.0.0-beta.3",
-        "@pnpm/macos-arm64": "11.0.0-beta.3",
-        "@pnpm/macos-x64": "11.0.0-beta.3",
-        "@pnpm/win-arm64": "11.0.0-beta.3",
-        "@pnpm/win-x64": "11.0.0-beta.3"
+        "@pnpm/linux-arm64": "11.0.0-beta.4-1",
+        "@pnpm/linux-x64": "11.0.0-beta.4-1",
+        "@pnpm/macos-arm64": "11.0.0-beta.4-1",
+        "@pnpm/macos-x64": "11.0.0-beta.4-1",
+        "@pnpm/win-arm64": "11.0.0-beta.4-1",
+        "@pnpm/win-x64": "11.0.0-beta.4-1"
       }
     },
     "node_modules/@pnpm/linux-arm64": {
-      "version": "11.0.0-beta.3",
-      "resolved": "https://registry.npmjs.org/@pnpm/linux-arm64/-/linux-arm64-11.0.0-beta.3.tgz",
-      "integrity": "sha512-TF2fyuCY9GggR4kfhjo1hMmgn+rIohenwNoH0tLPM7JlBK7/UAIFt1LI+o999tRwTCEw7gnxHFwtI2vyQuDfNw==",
+      "version": "11.0.0-beta.4-1",
+      "resolved": "https://registry.npmjs.org/@pnpm/linux-arm64/-/linux-arm64-11.0.0-beta.4-1.tgz",
+      "integrity": "sha512-aPf2hhCwWQQ1vNm3Sxq6BLtqnvv6eZ8iJq/oqJOm2WFzq9l59jbmn0eaUtDOlafjfzkijqg+cj46h0XT2Dqsfw==",
       "cpu": [
         "arm64"
       ],
@@ -52,9 +52,9 @@
       }
     },
     "node_modules/@pnpm/linux-x64": {
-      "version": "11.0.0-beta.3",
-      "resolved": "https://registry.npmjs.org/@pnpm/linux-x64/-/linux-x64-11.0.0-beta.3.tgz",
-      "integrity": "sha512-7GrLsnSuDH62y486GUTwJdohGIC1ugz9ZJkbKOHgxIAkNGcSTJ1IkkdARtv7/WMmOEwwESDmtpOQ6LmjnpDMSA==",
+      "version": "11.0.0-beta.4-1",
+      "resolved": "https://registry.npmjs.org/@pnpm/linux-x64/-/linux-x64-11.0.0-beta.4-1.tgz",
+      "integrity": "sha512-1hTcyZSVJWpPNHs3u7RbfbAmZXPBLIZQVt/z1XjcDnzI8S49NGIvir876/gq9jL69ZPoE1a6z+qSe3zUPmw0ng==",
       "cpu": [
         "x64"
       ],
@@ -68,9 +68,9 @@
       }
     },
     "node_modules/@pnpm/macos-arm64": {
-      "version": "11.0.0-beta.3",
-      "resolved": "https://registry.npmjs.org/@pnpm/macos-arm64/-/macos-arm64-11.0.0-beta.3.tgz",
-      "integrity": "sha512-NQKgI1DURrEiOUzpxL0Mc+yn7DV4tpShqGnjaJLbz8ZCXsX/qhmybebvCG3r+IfSk3P5KID66lcgC/Osiaz0Dg==",
+      "version": "11.0.0-beta.4-1",
+      "resolved": "https://registry.npmjs.org/@pnpm/macos-arm64/-/macos-arm64-11.0.0-beta.4-1.tgz",
+      "integrity": "sha512-7iJdDfWaRWeoGBvU3gJcxbReYM83IhiWFZPHMSW+ga44W/qTzczYIeGeCorsxQRKBPnw2qK3hh9bevkyX6XOWw==",
       "cpu": [
         "arm64"
       ],
@@ -84,9 +84,9 @@
       }
     },
     "node_modules/@pnpm/macos-x64": {
-      "version": "11.0.0-beta.3",
-      "resolved": "https://registry.npmjs.org/@pnpm/macos-x64/-/macos-x64-11.0.0-beta.3.tgz",
-      "integrity": "sha512-Ky22KFYHXx8+8WU4KJT9NXVgzFioL2w9pHTQjsqTK70AbxiErscPYhrFIehlCNbXjgs+tGVIy13QNKkiwvmS8w==",
+      "version": "11.0.0-beta.4-1",
+      "resolved": "https://registry.npmjs.org/@pnpm/macos-x64/-/macos-x64-11.0.0-beta.4-1.tgz",
+      "integrity": "sha512-wREXbc2hrSd6r/dyPYuFIkkFoIbtmke5rlJrcITe65OvIQmSW+Fp3X8PBIYcnx3lJyk4809YlqI184yovUaMZA==",
       "cpu": [
         "x64"
       ],
@@ -100,9 +100,9 @@
       }
     },
     "node_modules/@pnpm/win-arm64": {
-      "version": "11.0.0-beta.3",
-      "resolved": "https://registry.npmjs.org/@pnpm/win-arm64/-/win-arm64-11.0.0-beta.3.tgz",
-      "integrity": "sha512-7L8TFNDm25m+XYSyhcola3YFd/li6BZzzl56SsyGnZabsvUslMwnDiJad48wOz8IuN7zsrTSGh+X/x6F+GdrFQ==",
+      "version": "11.0.0-beta.4-1",
+      "resolved": "https://registry.npmjs.org/@pnpm/win-arm64/-/win-arm64-11.0.0-beta.4-1.tgz",
+      "integrity": "sha512-ygHjDdc0h2uCIcBa30Cnd2ciGWFNC0qm2t0w88PYEC/1rmbGCDfqeGtf/8R8THzTVOuw/pOzIDTs6QEhB6aPOg==",
       "cpu": [
         "arm64"
       ],
@@ -116,9 +116,9 @@
       }
     },
     "node_modules/@pnpm/win-x64": {
-      "version": "11.0.0-beta.3",
-      "resolved": "https://registry.npmjs.org/@pnpm/win-x64/-/win-x64-11.0.0-beta.3.tgz",
-      "integrity": "sha512-Z/6OpMUaIpggXjCtWEhp6kWjiT/2EImhkJAu8AodOORqeNcWouGEq3sO4XU0em6d+pAHmdV0hWMQ2xCUmPVuiA==",
+      "version": "11.0.0-beta.4-1",
+      "resolved": "https://registry.npmjs.org/@pnpm/win-x64/-/win-x64-11.0.0-beta.4-1.tgz",
+      "integrity": "sha512-//5eHf7Zw4MtgJhlD4VUbemngxMnhwySgZNGu0ngkNBRVjnESE7NoXZZ5kHIdatv6VQpqkCthNZrheaiJedSGw==",
       "cpu": [
         "x64"
       ],

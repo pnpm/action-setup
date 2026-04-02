@@ -3,7 +3,8 @@
   "scripts": {
     "build:bundle": "esbuild src/index.ts --bundle --platform=node --target=node24 --format=cjs --minify --outfile=dist/index.js --loader:.json=json",
     "build": "pnpm run build:bundle",
-    "start": "pnpm run build && sh ./run.sh"
+    "start": "pnpm run build && sh ./run.sh",
+    "update-bootstrap": "node scripts/update-bootstrap.mjs"
   },
   "dependencies": {
     "@actions/cache": "^4.1.0",

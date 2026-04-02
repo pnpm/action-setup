@@ -14,7 +14,7 @@ Version of pnpm to install.
 
 **Optional** when there is a [`packageManager` field in the `package.json`](https://nodejs.org/api/corepack.html).
 
-otherwise, this field is **required** It supports npm versioning scheme, it could be an exact version (such as `6.24.1`), or a version range (such as `6`, `6.x.x`, `6.24.x`, `^6.24.1`, `*`, etc.), or `latest`.
+otherwise, this field is **required** It supports npm versioning scheme, it could be an exact version (such as `10.9.8`), or a version range (such as `10`, `10.x.x`, `10.9.x`, `^10.9.8`, `*`, etc.), or `latest`.
 
 ### `dest`
 
@@ -120,7 +120,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: pnpm/action-setup@v5
         with:
@@ -144,7 +144,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - uses: pnpm/action-setup@v5
         name: Install pnpm

@@ -51,7 +51,7 @@ jobs:
             version: '12.3.4'
 
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - id: pnpm
         name: Run the action
@@ -134,7 +134,7 @@ jobs:
             expect_pm_on_fail_unset: true
 
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up package.json
         run: echo '${{ matrix.manifest }}' > package.json
@@ -183,7 +183,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -234,7 +234,7 @@ jobs:
     env:
       REQUIRED: ${{ matrix.version }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -298,7 +298,7 @@ jobs:
     name: 'Standalone Windows self-update (PATH regression)'
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up package.json with a minimal manifest
         # run_install needs a manifest to install against. Removing the
@@ -356,7 +356,7 @@ jobs:
             manifest: '{"devEngines":{"packageManager":{"name":"pnpm","version":">=10 <11"}},"dependencies":{"is-odd":"3.0.1"}}'
 
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up package.json
         run: echo '${{ matrix.manifest }}' > package.json
@@ -400,7 +400,7 @@ jobs:
                 - yarn
 
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Run the action
         uses: ./

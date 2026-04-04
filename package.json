@@ -1,23 +1,25 @@
 {
   "private": true,
   "scripts": {
-    "build:ncc": "ncc build --minify --no-source-map-register --no-cache dist/tsc/index.js --out dist/",
-    "build": "tsc && pnpm run build:ncc",
+    "build:bundle": "esbuild src/index.ts --bundle --platform=node --target=node24 --format=cjs --minify --outfile=dist/index.js --loader:.json=json",
+    "build": "pnpm run build:bundle",
     "start": "pnpm run build && sh ./run.sh",
-    "update-pnpm-dist": "pnpm install && cp ./node_modules/pnpm/dist/pnpm.cjs ./dist/pnpm.cjs && cp ./node_modules/pnpm/dist/worker.js ./dist/worker.js"
+    "update-bootstrap": "node scripts/update-bootstrap.mjs"
   },
   "dependencies": {
+    "@actions/cache": "^4.1.0",
     "@actions/core": "^1.10.1",
+    "@actions/exec": "^1.1.1",
+    "@actions/glob": "^0.5.0",
     "@types/expand-tilde": "^2.0.2",
-    "@types/node": "^20.11.5",
+    "@types/node": "^22.0.0",
     "expand-tilde": "^2.0.2",
     "json5": "^2.2.3",
     "yaml": "^2.3.4",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.38.1",
-    "pnpm": "^8.14.3",
+    "esbuild": "^0.27.4",
     "typescript": "^5.3.3"
   }
 }

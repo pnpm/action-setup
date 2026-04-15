@@ -40,11 +40,13 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const pnpmHome = standalone && process.platform === 'win32'
     ? path.join(dest, 'node_modules', '@pnpm', 'exe')
     : path.join(dest, 'node_modules', '.bin')
-  // pnpm expects PNPM_HOME/bin in PATH for global binaries (e.g. node
-  // installed via `pnpm runtime`). Add it first so the next addPath
-  // (pnpmHome itself, which contains pnpm.exe) has higher precedence.
-  addPath(path.join(pnpmHome, 'bin'))
+  // PNPM_HOME/bin is where `pnpm self-update` places the target version
+  // binary. It must have higher PATH precedence than pnpmHome (which
+  // contains the bootstrap binary) so the self-updated version is found
+  // first. The bootstrap pnpm is invoked via absolute path, not PATH,
+  // so this ordering does not affect the bootstrap step.
   addPath(pnpmHome)
+  addPath(path.join(pnpmHome, 'bin'))
   exportVariable('PNPM_HOME', pnpmHome)
 
   // Ensure pnpm bin link exists — npm ci sometimes doesn't create it
@@ -117,9 +119,12 @@ Remove one of these versions to avoid version mismatch errors like ERR_PNPM_BAD_
     return version
   }
 
-  // pnpm will automatically download and switch to the right version
+  // Extract the version from the packageManager field so self-update
+  // installs it explicitly. Relying on pnpm's auto-switching can cause
+  // the bootstrap version to modify the lockfile when it differs from
+  // the target version.
   if (typeof packageManager === 'string' && packageManager.startsWith('pnpm@')) {
-    return undefined
+    return packageManager.replace('pnpm@', '').split('+')[0]
   }
 
   if (devEngines?.packageManager?.name === 'pnpm' && devEngines.packageManager.version) {

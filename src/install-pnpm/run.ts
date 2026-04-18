@@ -119,12 +119,9 @@ Remove one of these versions to avoid version mismatch errors like ERR_PNPM_BAD_
     return version
   }
 
-  // Extract the version from the packageManager field so self-update
-  // installs it explicitly. Relying on pnpm's auto-switching can cause
-  // the bootstrap version to modify the lockfile when it differs from
-  // the target version.
+  // pnpm will automatically download and switch to the right version
   if (typeof packageManager === 'string' && packageManager.startsWith('pnpm@')) {
-    return packageManager.replace('pnpm@', '').split('+')[0]
+    return undefined
   }
 
   if (devEngines?.packageManager?.name === 'pnpm' && devEngines.packageManager.version) {

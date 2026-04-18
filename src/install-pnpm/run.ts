@@ -6,6 +6,7 @@ import path from 'path'
 import util from 'util'
 import { Inputs } from '../inputs'
 import { parse as parseYaml } from 'yaml'
+import JSON5 from 'json5'
 import pnpmLock from './bootstrap/pnpm-lock.json'
 import exeLock from './bootstrap/exe-lock.json'
 
@@ -93,6 +94,8 @@ function readTargetVersion(opts: {
       const content = readFileSync(path.join(GITHUB_WORKSPACE, packageJsonFile), 'utf8');
       const manifest = packageJsonFile.endsWith(".yaml")
         ? parseYaml(content, { merge: true })
+        : packageJsonFile.endsWith(".json5")
+        ? JSON5.parse(content)
         : JSON.parse(content)
       packageManager = manifest.packageManager
       devEngines = manifest.devEngines

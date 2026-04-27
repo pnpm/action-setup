@@ -29,7 +29,10 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   await writeFile(path.join(dest, 'package.json'), packageJson)
   await writeFile(path.join(dest, 'package-lock.json'), JSON.stringify(lockfile))
 
-  const npmExitCode = await runCommand('npm', ['ci'], { cwd: dest })
+  // On Windows, the PATH key casing varies; search case-insensitively.
+  const pathKey = Object.keys(process.env).find(k => k.toUpperCase() === 'PATH') ?? 'PATH'
+  const npmEnv = { ...process.env, [pathKey]: path.dirname(process.execPath) + path.delimiter + process.env[pathKey] }
+  const npmExitCode = await runCommand('npm', ['ci'], { cwd: dest, env: npmEnv })
   if (npmExitCode !== 0) {
     return npmExitCode
   }
@@ -155,10 +158,11 @@ function getSystemNodeVersion(): Promise<{ major: number; minor: number }> {
   })
 }
 
-function runCommand(cmd: string, args: string[], opts: { cwd: string }): Promise<number> {
+function runCommand(cmd: string, args: string[], opts: { cwd: string; env?: Record<string, string | undefined> }): Promise<number> {
   return new Promise<number>((resolve, reject) => {
     const cp = spawn(cmd, args, {
       cwd: opts.cwd,
+      env: opts.env,
       stdio: ['pipe', 'inherit', 'inherit'],
       shell: process.platform === 'win32',
     })

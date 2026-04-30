@@ -29,10 +29,16 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   await writeFile(path.join(dest, 'package.json'), packageJson)
   await writeFile(path.join(dest, 'package-lock.json'), JSON.stringify(lockfile))
 
+  // npm is co-located with the action's node binary; resolve it directly
+  // so it works on runners (e.g. GHE self-hosted) where npm is not on PATH.
+  // PATH still needs node on it for npm's `#!/usr/bin/env node` shebang.
+  const nodeDir = path.dirname(process.execPath)
+  const npmPath = path.join(nodeDir, process.platform === 'win32' ? 'npm.cmd' : 'npm')
   // On Windows, the PATH key casing varies; search case-insensitively.
   const pathKey = Object.keys(process.env).find(k => k.toUpperCase() === 'PATH') ?? 'PATH'
-  const npmEnv = { ...process.env, [pathKey]: path.dirname(process.execPath) + path.delimiter + process.env[pathKey] }
-  const npmExitCode = await runCommand('npm', ['ci'], { cwd: dest, env: npmEnv })
+  const currentPath = process.env[pathKey]
+  const npmEnv = { ...process.env, [pathKey]: currentPath ? nodeDir + path.delimiter + currentPath : nodeDir }
+  const npmExitCode = await runCommand(npmPath, ['ci'], { cwd: dest, env: npmEnv })
   if (npmExitCode !== 0) {
     return npmExitCode
   }

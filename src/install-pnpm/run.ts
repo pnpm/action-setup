@@ -1,4 +1,4 @@
-import { addPath, exportVariable } from '@actions/core'
+import { addPath, exportVariable, info } from '@actions/core'
 import { spawn } from 'child_process'
 import { rm, writeFile, mkdir, symlink } from 'fs/promises'
 import { readFileSync, existsSync } from 'fs'
@@ -9,8 +9,8 @@ import { parse as parseYaml } from 'yaml'
 import pnpmLock from './bootstrap/pnpm-lock.json'
 import exeLock from './bootstrap/exe-lock.json'
 
-const BOOTSTRAP_PNPM_PACKAGE_JSON = JSON.stringify({ private: true, dependencies: { pnpm: pnpmLock.packages['node_modules/pnpm'].version } })
-const BOOTSTRAP_EXE_PACKAGE_JSON = JSON.stringify({ private: true, dependencies: { '@pnpm/exe': exeLock.packages['node_modules/@pnpm/exe'].version } })
+const BOOTSTRAP_PNPM_PACKAGE = { private: true, dependencies: { pnpm: pnpmLock.packages['node_modules/pnpm'].version } }
+const BOOTSTRAP_EXE_PACKAGE = { private: true, dependencies: { '@pnpm/exe': exeLock.packages['node_modules/@pnpm/exe'].version } }
 
 export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   const { version, dest, packageJsonFile } = inputs
@@ -25,8 +25,9 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
   await mkdir(dest, { recursive: true })
 
   const lockfile = standalone ? exeLock : pnpmLock
-  const packageJson = standalone ? BOOTSTRAP_EXE_PACKAGE_JSON : BOOTSTRAP_PNPM_PACKAGE_JSON
-  await writeFile(path.join(dest, 'package.json'), packageJson)
+  const packageJson = standalone ? BOOTSTRAP_EXE_PACKAGE : BOOTSTRAP_PNPM_PACKAGE
+  const installedVersion = standalone ? BOOTSTRAP_EXE_PACKAGE.dependencies['@pnpm/exe'] : BOOTSTRAP_PNPM_PACKAGE.dependencies.pnpm
+  await writeFile(path.join(dest, 'package.json'), JSON.stringify(packageJson))
   await writeFile(path.join(dest, 'package-lock.json'), JSON.stringify(lockfile))
 
   // Append the action's node directory to PATH so npm's
@@ -91,6 +92,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
     }
   }
 
+  info(`Installed pnpm version: ${installedVersion}`)
   return 0
 }
 

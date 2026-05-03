@@ -26,7 +26,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
 
   const lockfile = standalone ? exeLock : pnpmLock
   const packageJson = standalone ? BOOTSTRAP_EXE_PACKAGE : BOOTSTRAP_PNPM_PACKAGE
-  const installedVersion = standalone ? BOOTSTRAP_EXE_PACKAGE.dependencies['@pnpm/exe'] : BOOTSTRAP_PNPM_PACKAGE.dependencies.pnpm
+  const bootstrappedVersion = standalone ? BOOTSTRAP_EXE_PACKAGE.dependencies['@pnpm/exe'] : BOOTSTRAP_PNPM_PACKAGE.dependencies.pnpm
   await writeFile(path.join(dest, 'package.json'), JSON.stringify(packageJson))
   await writeFile(path.join(dest, 'package-lock.json'), JSON.stringify(lockfile))
 
@@ -92,7 +92,7 @@ export async function runSelfInstaller(inputs: Inputs): Promise<number> {
     }
   }
 
-  info(`Installed pnpm version: ${installedVersion}`)
+  info(`Installed pnpm version: ${targetVersion ?? bootstrappedVersion}`)
   return 0
 }
 

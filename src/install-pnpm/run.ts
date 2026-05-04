@@ -127,7 +127,7 @@ function readTargetVersion(opts: {
 
   const definedVersions = new Set([version, packageManagerVersion, devEnginesVersion].filter(v => !!v))
   if (definedVersions.size > 1) {
-    throw new Error(`Multiple conflicting pnpm versions specified: ${[...definedVersions].join(', ')}
+    throw new Error(`Multiple conflicting pnpm versions specified:
       - version ${version ?? "undefined"} in the GitHub Action config with the key "version"
     - version ${packageManagerVersion ?? "undefined"} in the package.json with the key "packageManager"
     - version ${devEnginesVersion ?? "undefined"} in the package.json with the key "devEngines.packageManager"

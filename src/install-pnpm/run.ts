@@ -118,42 +118,27 @@ function readTargetVersion(opts: {
     }
   }
 
-  if (version) {
-    if (
-      typeof packageManager === 'string' &&
-      packageManager.startsWith('pnpm@') &&
-      packageManager.replace('pnpm@', '') !== version
-    ) {
-      throw new Error(`Multiple versions of pnpm specified:
-  - version ${version} in the GitHub Action config with the key "version"
-  - version ${packageManager} in the package.json with the key "packageManager"
-Remove one of these versions to avoid version mismatch errors like ERR_PNPM_BAD_PM_VERSION`)
-    }
+  const packageManagerVersion = typeof packageManager === 'string' && packageManager.startsWith('pnpm@')
+    ? packageManager.replace('pnpm@', '')
+    : undefined
+  const devEnginesVersion = devEngines?.packageManager?.name === 'pnpm' && devEngines.packageManager.version
+    ? devEngines.packageManager.version
+    : undefined
 
-    return version
+  const definedVersions = new Set([version, packageManagerVersion, devEnginesVersion].filter(v => v !== undefined))
+  if (definedVersions.size > 1) {
+    throw new Error(`Multiple conflicting pnpm versions specified: 
+      - version ${version} in the GitHub Action config with the key "version"
+    - version ${packageManager} in the package.json with the key "packageManager"
+    - version ${devEnginesVersion} in the package.json with the key "devEngines.packageManager"
+    Remove conflicting versions to avoid version mismatch errors like ERR_PNPM_BAD_PM_VERSION`)
   }
 
-  // pnpm will automatically download and switch to the right version
-  if (typeof packageManager === 'string' && packageManager.startsWith('pnpm@')) {
+  if (definedVersions.size === 0) {
     return undefined
   }
 
-  if (devEngines?.packageManager?.name === 'pnpm' && devEngines.packageManager.version) {
-    return undefined
-  }
-
-  if (!GITHUB_WORKSPACE) {
-    throw new Error(`No workspace is found.
-If you've intended to let pnpm/action-setup read preferred pnpm version from the "packageManager" field in the package.json file,
-please run the actions/checkout before pnpm/action-setup.
-Otherwise, please specify the pnpm version in the action configuration.`)
-  }
-
-  throw new Error(`No pnpm version is specified.
-Please specify it by one of the following ways:
-  - in the GitHub Action config with the key "version"
-  - in the package.json with the key "packageManager"
-  - in the package.json with the key "devEngines.packageManager"`)
+  return definedVersions.values().next().value
 }
 
 function getSystemNodeVersion(): Promise<{ major: number; minor: number }> {

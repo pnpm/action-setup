@@ -127,11 +127,14 @@ function readTargetVersion(opts: {
 
   const definedVersions = new Set([version, packageManagerVersion, devEnginesVersion].filter(v => !!v))
   if (definedVersions.size > 1) {
+    const lines = [
+      version && `- version ${version} in the GitHub Action config with the key "version"`,
+      packageManagerVersion && `- version ${packageManagerVersion} in the package.json with the key "packageManager"`,
+      devEnginesVersion && `- version ${devEnginesVersion} in the package.json with the key "devEngines.packageManager"`,
+    ].filter(Boolean).join('\n')
     throw new Error(`Multiple conflicting pnpm versions specified:
-      - version ${version ?? "undefined"} in the GitHub Action config with the key "version"
-    - version ${packageManagerVersion ?? "undefined"} in the package.json with the key "packageManager"
-    - version ${devEnginesVersion ?? "undefined"} in the package.json with the key "devEngines.packageManager"
-    Remove conflicting versions to avoid version mismatch errors like ERR_PNPM_BAD_PM_VERSION`)
+      ${lines}
+      Remove conflicting versions to avoid version mismatch errors like ERR_PNPM_BAD_PM_VERSION`)
   }
 
   if (definedVersions.size === 0) {

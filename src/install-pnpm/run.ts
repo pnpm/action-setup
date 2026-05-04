@@ -129,7 +129,7 @@ function readTargetVersion(opts: {
   if (definedVersions.size > 1) {
     throw new Error(`Multiple conflicting pnpm versions specified: 
       - version ${version} in the GitHub Action config with the key "version"
-    - version ${packageManager} in the package.json with the key "packageManager"
+    - version ${packageManagerVersion} in the package.json with the key "packageManager"
     - version ${devEnginesVersion} in the package.json with the key "devEngines.packageManager"
     Remove conflicting versions to avoid version mismatch errors like ERR_PNPM_BAD_PM_VERSION`)
   }

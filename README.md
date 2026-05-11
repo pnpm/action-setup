@@ -158,6 +158,33 @@ jobs:
 
 **Note:** You don't need to run `pnpm store prune` at the end; post-action has already taken care of that.
 
+### Cache dependencies from multiple lockfiles
+
+```yaml
+on:
+  - push
+  - pull_request
+
+jobs:
+  cache-and-install-multiple:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+          cache: true
+          cache_dependency_path: |
+            one/pnpm-lock.yaml
+            two/pnpm-lock.yaml
+          run_install: |
+            - cwd: one
+            - cwd: two
+```
+
 ## Notes
 
 This action does not setup Node.js for you, use [actions/setup-node](https://github.com/actions/setup-node) yourself.

@@ -48,7 +48,7 @@ If `run_install` is a YAML string representation of either an object or an array
 
 ### `cache_dependency_path`
 
-**Optional** (_type:_ `string|string[]`, _default:_ `pnpm-lock.yaml`) File path to the pnpm lockfile, which contents hash will be used as a cache key.
+**Optional** (_type:_ `string`, _default:_ `pnpm-lock.yaml`) File path to the pnpm lockfile, whose contents hash will be used as a cache key. Accepts multiple paths delimited by newlines.
 
 ### `package_json_file`
 

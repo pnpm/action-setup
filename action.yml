@@ -20,7 +20,7 @@ inputs:
     required: false
     default: 'false'
   cache_dependency_path:
-    description: File path to the pnpm lockfile, which contents hash will be used as a cache key
+    description: File path to the pnpm lockfile, whose contents hash will be used as a cache key. Accepts multiple paths delimited by newlines.
     required: false
     default: 'pnpm-lock.yaml'
   package_json_file:

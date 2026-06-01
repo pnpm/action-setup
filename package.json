@@ -15,7 +15,7 @@
     "@types/node": "^22.0.0",
     "expand-tilde": "^2.0.2",
     "yaml": "^2.3.4",
-    "zod": "^3.22.4"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "esbuild": "^0.27.4",

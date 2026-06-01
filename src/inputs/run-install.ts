@@ -1,6 +1,6 @@
 import { getInput, error } from '@actions/core'
 import { parse as parseYaml } from 'yaml'
-import { z, ZodError } from 'zod'
+import * as z from 'zod'
 
 const RunInstallSchema = z.object({
   recursive: z.boolean().optional(),
@@ -15,27 +15,22 @@ const RunInstallInputSchema = z.union([
   z.array(RunInstallSchema),
 ])
 
-export type RunInstallInput = z.infer<typeof RunInstallInputSchema>
 export type RunInstall = z.infer<typeof RunInstallSchema>
 
 export function parseRunInstall(inputName: string): RunInstall[] {
   const input = getInput(inputName, { required: true })
   const parsedInput: unknown = parseYaml(input)
 
-  try {
-    const result: RunInstallInput = RunInstallInputSchema.parse(parsedInput)
-    if (!result) return []
-    if (result === true) return [{ recursive: true }]
-    if (Array.isArray(result)) return result
-    return [result]
-  } catch (exception: unknown) {
+  const result = RunInstallInputSchema.safeParse(parsedInput)
+  if (!result.success) {
     error(`Error for input "${inputName}" = ${input}`)
-
-    if (exception instanceof ZodError) {
-      error(`Errors: ${exception.errors}`)
-    } else {
-      error(`Exception: ${exception}`)
-    }
+    error(z.prettifyError(result.error))
     process.exit(1)
   }
+
+  const { data } = result
+  if (!data) return []
+  if (data === true) return [{ recursive: true }]
+  if (Array.isArray(data)) return data
+  return [data]
 }

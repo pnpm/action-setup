@@ -1,5 +1,6 @@
 import { saveCache } from '@actions/cache'
 import { getState, info } from '@actions/core'
+import { existsSync } from 'fs'
 
 export async function runSaveCache() {
   const state = getState('cache_restored_key')
@@ -8,6 +9,11 @@ export async function runSaveCache() {
 
   if (primaryKey === state) {
     info(`Cache hit occurred on the primary key ${primaryKey}, not saving cache.`)
+    return
+  }
+
+  if (!existsSync(cachePath)) {
+    info(`Cache path ${cachePath} does not exist, not saving cache.`)
     return
   }
 

@@ -26,7 +26,10 @@ export async function runRestoreCache(inputs: Inputs) {
 
   let cacheKey = await restoreCache([cachePath], primaryKey, restoreKeys)
 
-  setOutput('cache-hit', Boolean(cacheKey))
+  // A restore-key (prefix) match still restores an older store, but "cache-hit"
+  // must only report an exact primary-key match, so dependency installation
+  // is not skipped when the lockfile has changed.
+  setOutput('cache-hit', cacheKey === primaryKey)
 
   if (!cacheKey) {
     info(`Cache is not found`)

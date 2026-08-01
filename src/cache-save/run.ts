@@ -1,6 +1,6 @@
 import { saveCache } from '@actions/cache'
 import { getState, info } from '@actions/core'
-import { existsSync } from 'fs'
+import { access } from 'fs/promises'
 
 export async function runSaveCache() {
   const state = getState('cache_restored_key')
@@ -12,7 +12,9 @@ export async function runSaveCache() {
     return
   }
 
-  if (!existsSync(cachePath)) {
+  try {
+    await access(cachePath)
+  } catch {
     info(`Cache path ${cachePath} does not exist, not saving cache.`)
     return
   }

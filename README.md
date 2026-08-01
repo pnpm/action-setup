@@ -1,3 +1,10 @@
+> [!IMPORTANT]
+> **This action has a successor: [`pnpm/setup`](https://github.com/pnpm/setup).**
+>
+> For pnpm v11 and newer, use [`pnpm/setup`](https://github.com/pnpm/setup) instead. It downloads pnpm's self-contained release binary (no Node.js or npm required) and can install a JavaScript runtime (Node.js, Bun, or Deno) in the same step, replacing `actions/setup-node`.
+>
+> `pnpm/action-setup` remains the action to use for installing pnpm v10 and older. See [Migrating to pnpm/setup](#migrating-to-pnpmsetup) below.
+
 > ## :warning: Upgrade from v2!
 >
 > The v2 version of this action [has stopped working](https://github.com/pnpm/action-setup/issues/135) with newer Node.js versions. Please, upgrade to the latest version to fix any issues.
@@ -5,6 +12,46 @@
 # Setup pnpm
 
 Install pnpm package manager.
+
+## Migrating to pnpm/setup
+
+[`pnpm/setup`](https://github.com/pnpm/setup) installs pnpm v11+ as a native standalone executable and can install Node.js, Bun, or Deno in the same step, so a typical workflow no longer needs `actions/setup-node` or an explicit `pnpm install` step:
+
+```yaml
+steps:
+  - uses: actions/checkout@v6
+
+  # Before:
+  # - uses: pnpm/action-setup@v6
+  #   with:
+  #     version: 10
+  #     cache: true
+  # - uses: actions/setup-node@v4
+  #   with:
+  #     node-version: 22
+  # - run: pnpm install
+
+  # After:
+  - uses: pnpm/setup@v1
+    with:
+      runtime: node@22
+      cache: true
+```
+
+Input and output changes:
+
+| `pnpm/action-setup` | `pnpm/setup` | Notes |
+| ------------------- | ------------ | ----- |
+| `version` | `version` | Must resolve to pnpm v11 or newer. As before, it can be omitted when `packageManager` (or `devEngines.packageManager`) is set in `package.json`. |
+| `dest` | `dest` | Unchanged. |
+| `run_install` | `install` | `pnpm/setup` runs `pnpm install` automatically when a `package.json` is present (`install: true` by default); set `install: false` to skip it. The object/array form (`recursive`, `cwd`, `args`) is not supported — run those commands in separate steps. |
+| `cache` | `cache` | Unchanged. |
+| `cache_dependency_path` | `cache-dependency-path` | Renamed to kebab-case. |
+| `package_json_file` | `package-json-file` | Renamed to kebab-case. |
+| `standalone` | removed | `pnpm/setup` always installs the standalone native executable. |
+| n/a | `runtime` | New: installs Node.js, Bun, or Deno (e.g. `node@22`, `bun@latest`, `deno@2`), or reads `devEngines.runtime` from `package.json`. |
+| n/a | `token` | New: GitHub token for release lookup; defaults to `${{ github.token }}` and rarely needs to be set. |
+| `bin_dest` (output) | `bin-dest` (output) | Renamed to kebab-case. New outputs `runtime-name` and `runtime-version` describe the installed runtime. |
 
 ## Inputs
 
@@ -187,7 +234,7 @@ jobs:
 
 ## Notes
 
-This action does not setup Node.js for you, use [actions/setup-node](https://github.com/actions/setup-node) yourself.
+This action does not setup Node.js for you, use [actions/setup-node](https://github.com/actions/setup-node) yourself. If you are on pnpm v11 or newer, [`pnpm/setup`](https://github.com/pnpm/setup) can install pnpm and Node.js in a single step.
 
 ## License
 

@@ -5,13 +5,13 @@
 >
 > `pnpm/action-setup` remains the action to use for installing pnpm v10 and older. See [Migrating to pnpm/setup](#migrating-to-pnpmsetup) below.
 
-> ## :warning: Upgrade from v2!
->
-> The v2 version of this action [has stopped working](https://github.com/pnpm/action-setup/issues/135) with newer Node.js versions. Please, upgrade to the latest version to fix any issues.
-
 # Setup pnpm
 
 Install pnpm package manager.
+
+> ## :warning: Upgrade from v2!
+>
+> The v2 version of this action [has stopped working](https://github.com/pnpm/action-setup/issues/135) with newer Node.js versions. Please, upgrade to the latest version to fix any issues.
 
 ## Migrating to pnpm/setup
 
@@ -34,9 +34,12 @@ steps:
   # After:
   - uses: pnpm/setup@v1
     with:
+      version: 11
       runtime: node@22
       cache: true
 ```
+
+The `version` input can be omitted only when `packageManager` (or `devEngines.packageManager`) in `package.json` declares pnpm v11 or newer; otherwise keep it explicit, since `pnpm/setup` requires pnpm v11+.
 
 Input and output changes:
 
@@ -234,7 +237,7 @@ jobs:
 
 ## Notes
 
-This action does not setup Node.js for you, use [actions/setup-node](https://github.com/actions/setup-node) yourself. If you are on pnpm v11 or newer, [`pnpm/setup`](https://github.com/pnpm/setup) can install pnpm and Node.js in a single step.
+This action does not set up Node.js. Use [actions/setup-node](https://github.com/actions/setup-node) yourself. If you are on pnpm v11 or newer, [`pnpm/setup`](https://github.com/pnpm/setup) can install pnpm and Node.js in a single step.
 
 ## License
 

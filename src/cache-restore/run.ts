@@ -18,9 +18,18 @@ export async function runRestoreCache(inputs: Inputs) {
   debug(`Primary key is ${primaryKey}`)
   saveState('cache_primary_key', primaryKey)
 
-  let cacheKey = await restoreCache([cachePath], primaryKey)
+  // We don't need to download everything again if only one dependency changed
+  // We can still re-use previous store to cache the rest of the unchanged dependencies
+  const restoreKeys = [
+    `pnpm-cache-${process.env.RUNNER_OS}-${os.arch()}-`
+  ];
 
-  setOutput('cache-hit', Boolean(cacheKey))
+  let cacheKey = await restoreCache([cachePath], primaryKey, restoreKeys)
+
+  // A restore-key (prefix) match still restores an older store, but "cache-hit"
+  // must only report an exact primary-key match, so dependency installation
+  // is not skipped when the lockfile has changed.
+  setOutput('cache-hit', cacheKey === primaryKey)
 
   if (!cacheKey) {
     info(`Cache is not found`)

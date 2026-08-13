@@ -7,12 +7,9 @@ import path from 'path'
 import { removeWindowsExtendedPathPrefix } from '../windows-path'
 
 /**
- * pnpm v11+ verifies every lockfile entry against the configured
- * supply-chain policies (`minimumReleaseAge`, `trustPolicy`, …) and memoizes
- * the verdict in this file, so the next install with the same lockfile and
- * the same policies skips the registry round-trips entirely. Without it a CI
- * job re-verifies the whole lockfile on every run, which on a large
- * repository costs more than the install itself.
+ * Where pnpm v11+ memoizes which lockfile passed which supply-chain policies.
+ * A job without it re-checks every lockfile entry against the registry, which
+ * on a large repository costs more than the install.
  */
 const VERIFICATION_CACHE_FILE = 'lockfile-verified.jsonl'
 

@@ -33,8 +33,7 @@ async function runMain() {
 
 async function runPost() {
   const inputs = JSON.parse(getState('inputs')) as Inputs
-  // Saved ahead of the prune because `pnpm store prune` drops the
-  // verification log along with the rest of the store's derived state.
+  // pnpm versions before pnpm/pnpm#13893 delete the log during a store prune.
   await saveVerificationCache()
   pruneStore(inputs)
   await saveCache(inputs)

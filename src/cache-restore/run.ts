@@ -4,15 +4,21 @@ import { getExecOutput } from '@actions/exec'
 import { hashFiles } from '@actions/glob'
 import os from 'os'
 import { Inputs } from '../inputs'
+import { restoreVerificationCache } from '../lockfile-verification-cache'
 
 export async function runRestoreCache(inputs: Inputs) {
-  const cachePath = await getCacheDirectory()
-  saveState('cache_path', cachePath)
-
   const fileHash = await hashFiles(inputs.cacheDependencyPath)
   if (!fileHash) {
     throw new Error('Some specified paths were not resolved, unable to cache dependencies.')
   }
+
+  await runRestoreStoreCache(fileHash)
+  await restoreVerificationCache(fileHash)
+}
+
+async function runRestoreStoreCache(fileHash: string) {
+  const cachePath = await getCacheDirectory()
+  saveState('cache_path', cachePath)
 
   const primaryKey = `pnpm-cache-${process.env.RUNNER_OS}-${os.arch()}-${fileHash}`
   debug(`Primary key is ${primaryKey}`)

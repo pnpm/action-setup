@@ -329,3 +329,51 @@ jobs:
             exit 1
           fi
         shell: bash
+
+  cache_lockfile_verification:
+    # The action caches pnpm's lockfile verification log, which lives in
+    # `cacheDir` — a directory pnpm resolves per platform and does not print.
+    # Guard the action's copy of that default against pnpm's own.
+    name: 'Lockfile verification cache (${{ matrix.os }})'
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Set up a project with a supply-chain policy
+        # A one-minute floor activates the verification without holding back
+        # any version the install resolves.
+        run: |
+          echo '{"dependencies":{"is-odd":"3.0.1"}}' > package.json
+          printf 'packages:\n  - .\nminimumReleaseAge: 1\n' > pnpm-workspace.yaml
+        shell: bash
+
+      - uses: ./
+        with:
+          version: '12.0.0-rc.4'
+          cache: true
+          run_install: |
+            - args: [--no-frozen-lockfile]
+
+      - name: 'Test: pnpm wrote the verification log where the action looks for it'
+        run: |
+          set -e
+          case "$RUNNER_OS" in
+            Linux) cacheDir="${XDG_CACHE_HOME:-$HOME/.cache}/pnpm" ;;
+            macOS) cacheDir="$HOME/Library/Caches/pnpm" ;;
+            Windows) cacheDir="$(cygpath -u "$LOCALAPPDATA")/pnpm-cache" ;;
+            *) echo "Unexpected RUNNER_OS: $RUNNER_OS"; exit 1 ;;
+          esac
+          echo "Expecting the verification log in ${cacheDir}"
+          if [ ! -f "${cacheDir}/lockfile-verified.jsonl" ]; then
+            echo "No lockfile-verified.jsonl there; the action would cache nothing"
+            ls -la "${cacheDir}" || true
+            exit 1
+          fi
+        shell: bash

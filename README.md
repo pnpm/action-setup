@@ -94,7 +94,7 @@ If `run_install` is a YAML string representation of either an object or an array
 
 ### `cache`
 
-**Optional** (_type:_ `boolean`, _default:_ `false`) Whether to cache the pnpm store directory.
+**Optional** (_type:_ `boolean`, _default:_ `false`) Whether to cache the pnpm store directory and, on pnpm v11 and newer, the results of pnpm's lockfile verification against the configured supply-chain policies. Both are keyed on the lockfile's content hash.
 
 ### `cache_dependency_path`
 
@@ -207,6 +207,8 @@ jobs:
 ```
 
 **Note:** You don't need to run `pnpm store prune` at the end; post-action has already taken care of that.
+
+Besides the store, this also caches pnpm's lockfile verification results (pnpm v11 and newer). Repositories that configure supply-chain policies such as `minimumReleaseAge` or `trustPolicy` make pnpm check every lockfile entry against the registry on each install; that check depends only on the lockfile and the policies, so its result is cached and reused until the lockfile changes.
 
 ### Cache dependencies from multiple lockfiles
 

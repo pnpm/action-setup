@@ -16,7 +16,10 @@ inputs:
     required: false
     default: 'null'
   cache:
-    description: Whether to cache the pnpm store directory
+    description: |
+      Whether to cache the pnpm store directory and, on pnpm v11 and newer,
+      the results of pnpm's lockfile verification against the configured
+      supply-chain policies. Both are keyed on the lockfile's content hash.
     required: false
     default: 'false'
   cache_dependency_path:

@@ -4,10 +4,10 @@ import { Inputs } from '../inputs'
 import { runRestoreCache } from './run'
 
 export async function restoreCache(inputs: Inputs) {
-  if (!inputs.cache) return
-
   if (!isFeatureAvailable()) {
-    warning('Cache is not available, skipping cache restoration')
+    if (inputs.cache) {
+      warning('Cache is not available, skipping cache restoration')
+    }
     return
   }
 

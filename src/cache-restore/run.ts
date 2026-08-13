@@ -4,15 +4,34 @@ import { getExecOutput } from '@actions/exec'
 import { hashFiles } from '@actions/glob'
 import os from 'os'
 import { Inputs } from '../inputs'
+import { restoreVerificationCache } from '../lockfile-verification-cache'
+import { removeWindowsExtendedPathPrefix } from '../windows-path'
 
 export async function runRestoreCache(inputs: Inputs) {
-  const cachePath = await getCacheDirectory()
-  saveState('cache_path', cachePath)
-
   const fileHash = await hashFiles(inputs.cacheDependencyPath)
   if (!fileHash) {
-    throw new Error('Some specified paths were not resolved, unable to cache dependencies.')
+    // Both caches are keyed on the lockfile, so neither can be restored
+    // without one. Only the store cache was asked for by name.
+    if (inputs.cache) {
+      throw new Error('Some specified paths were not resolved, unable to cache dependencies.')
+    }
+    return
   }
+
+  // Restored whether or not the store is cached: the log is a fraction of a
+  // kilobyte, and without it pnpm re-checks every lockfile entry against the
+  // registry on each run — seconds even on a repository that configures no
+  // supply-chain policies.
+  await restoreVerificationCache(fileHash)
+
+  if (inputs.cache) {
+    await runRestoreStoreCache(fileHash)
+  }
+}
+
+async function runRestoreStoreCache(fileHash: string) {
+  const cachePath = await getCacheDirectory()
+  saveState('cache_path', cachePath)
 
   const primaryKey = `pnpm-cache-${process.env.RUNNER_OS}-${os.arch()}-${fileHash}`
   debug(`Primary key is ${primaryKey}`)
@@ -42,7 +61,7 @@ export async function runRestoreCache(inputs: Inputs) {
 
 async function getCacheDirectory() {
   const { stdout } = await getExecOutput('pnpm store path --silent')
-  const cacheFolderPath = stdout.trim()
+  const cacheFolderPath = removeWindowsExtendedPathPrefix(stdout.trim())
   debug(`Cache folder is set to "${cacheFolderPath}"`)
   return cacheFolderPath
 }

@@ -29,11 +29,14 @@ async function runMain() {
   await restoreCache(inputs)
 
   pnpmInstall(inputs)
+  await saveVerificationCache()
 }
 
 async function runPost() {
   const inputs = JSON.parse(getState('inputs')) as Inputs
-  // pnpm versions before pnpm/pnpm#13893 delete the log during a store prune.
+  // Covers a job that installs in a later step of its own; when this action
+  // installed, the log was already saved then. Runs before the prune because
+  // pnpm versions before pnpm/pnpm#13893 delete the log during one.
   await saveVerificationCache()
   pruneStore(inputs)
   await saveCache(inputs)

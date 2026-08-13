@@ -15,7 +15,18 @@ const VERIFICATION_CACHE_FILE = 'lockfile-verified.jsonl'
 
 const PATH_STATE = 'lockfile_verification_cache_path'
 const KEY_STATE = 'lockfile_verification_cache_key'
-const RESTORED_STATE = 'lockfile_verification_cache_restored'
+const STORED_STATE = 'lockfile_verification_cache_stored'
+
+/**
+ * Where the log lives and under which key it belongs in the cache. Held in
+ * memory as well as in the action's state because the main and post steps run
+ * as separate processes, and state written by one is only readable by the
+ * other.
+ */
+let target: { cacheFilePath: string, key: string } | undefined
+
+/** Whether this process already restored or saved the log. */
+let stored = false
 
 /**
  * The verdict is only valid for the exact lockfile content it was recorded
@@ -26,6 +37,7 @@ export async function restoreVerificationCache(lockfileHash: string): Promise<vo
   try {
     const cacheFilePath = path.join(await getPnpmCacheDirectory(), VERIFICATION_CACHE_FILE)
     const key = `pnpm-lockfile-verified-${process.env.RUNNER_OS}-${os.arch()}-${lockfileHash}`
+    target = { cacheFilePath, key }
     saveState(PATH_STATE, cacheFilePath)
     saveState(KEY_STATE, key)
     debug(`Lockfile verification cache path is ${cacheFilePath}, key is ${key}`)
@@ -36,7 +48,8 @@ export async function restoreVerificationCache(lockfileHash: string): Promise<vo
       return
     }
 
-    saveState(RESTORED_STATE, 'true')
+    stored = true
+    saveState(STORED_STATE, 'true')
     info(`Lockfile verification cache restored from key: ${restoredKey}`)
   } catch (error) {
     // The gate only costs time, never correctness — a job that cannot reuse
@@ -45,16 +58,26 @@ export async function restoreVerificationCache(lockfileHash: string): Promise<vo
   }
 }
 
+/**
+ * Uploaded as soon as the install that produced the log finishes, rather than
+ * at the end of the job: whatever a job runs after installing — its tests, its
+ * build, a dependency's own scripts — can rewrite the log on disk, and the
+ * job's own cache write would then publish that for later jobs to trust.
+ *
+ * Safe to call more than once; the second call is a no-op.
+ */
 export async function saveVerificationCache(): Promise<void> {
-  if (getState(RESTORED_STATE) === 'true') return
+  if (stored || getState(STORED_STATE) === 'true') return
 
-  const cacheFilePath = getState(PATH_STATE)
-  const key = getState(KEY_STATE)
+  const cacheFilePath = target?.cacheFilePath ?? getState(PATH_STATE)
+  const key = target?.key ?? getState(KEY_STATE)
   if (!cacheFilePath || !key || !existsSync(cacheFilePath)) return
 
   try {
     const cacheId = await saveCache([cacheFilePath], key)
     if (cacheId === -1) return
+    stored = true
+    saveState(STORED_STATE, 'true')
     info(`Lockfile verification cache saved with the key: ${key}`)
   } catch (error) {
     warning(`Failed to save the lockfile verification cache: ${(error as Error).message}`)

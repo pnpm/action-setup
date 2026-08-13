@@ -221,6 +221,8 @@ The action restores and saves that file on every run, independently of the `cach
 
 Reusing a verdict is not a weaker check: pnpm re-verifies whenever the lockfile content changes, and whenever the recorded policy is looser than the one now configured.
 
+The log is uploaded as soon as the install that produced it finishes, not at the end of the job, so nothing the job runs afterwards — its tests, its build, a dependency's own scripts — can alter what later jobs restore. A job that installs in a step of its own rather than through this action is saved at the end of the job instead, since that is the first moment the log is known to be complete.
+
 ### Cache dependencies from multiple lockfiles
 
 ```yaml

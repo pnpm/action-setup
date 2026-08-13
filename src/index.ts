@@ -29,7 +29,7 @@ async function runMain() {
   await restoreCache(inputs)
 
   pnpmInstall(inputs)
-  await saveVerificationCache()
+  await saveVerificationCache(inputs.runInstall.length)
 }
 
 async function runPost() {

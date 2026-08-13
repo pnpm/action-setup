@@ -1,7 +1,7 @@
 import { restoreCache, saveCache } from '@actions/cache'
 import { debug, getState, info, saveState, warning } from '@actions/core'
 import { getExecOutput } from '@actions/exec'
-import { existsSync } from 'fs'
+import { existsSync, readFileSync } from 'fs'
 import os from 'os'
 import path from 'path'
 import { removeWindowsExtendedPathPrefix } from '../windows-path'
@@ -28,6 +28,9 @@ let target: { cacheFilePath: string, key: string } | undefined
 /** Whether this process already restored or saved the log. */
 let stored = false
 
+/** The log's records as they stood before the install ran. */
+let recordsBeforeInstall: string[] | undefined
+
 /**
  * The verdict is only valid for the exact lockfile content it was recorded
  * for, so this cache is keyed on the same lockfile hash as the store cache
@@ -43,6 +46,7 @@ export async function restoreVerificationCache(lockfileHash: string): Promise<vo
     debug(`Lockfile verification cache path is ${cacheFilePath}, key is ${key}`)
 
     const restoredKey = await restoreCache([cacheFilePath], key)
+    recordsBeforeInstall = readRecords(cacheFilePath)
     if (!restoredKey) {
       info('Lockfile verification cache is not found')
       return
@@ -64,16 +68,19 @@ export async function restoreVerificationCache(lockfileHash: string): Promise<vo
  * log on disk, and the job's own cache write would then publish that for later
  * jobs to trust. Lifecycle scripts of the installed packages stay inside the
  * window — they run during the install — but pnpm only runs those the
- * repository has allow-listed.
+ * repository has allow-listed, and `expectedNewRecords` catches what they
+ * append.
  *
  * Safe to call more than once; the second call is a no-op.
  */
-export async function saveVerificationCache(): Promise<void> {
+export async function saveVerificationCache(expectedNewRecords = Infinity): Promise<void> {
   if (stored || getState(STORED_STATE) === 'true') return
 
   const cacheFilePath = target?.cacheFilePath ?? getState(PATH_STATE)
   const key = target?.key ?? getState(KEY_STATE)
   if (!cacheFilePath || !key || !existsSync(cacheFilePath)) return
+
+  if (!onlyGrewAsExpected(cacheFilePath, expectedNewRecords)) return
 
   try {
     const cacheId = await saveCache([cacheFilePath], key)
@@ -83,6 +90,46 @@ export async function saveVerificationCache(): Promise<void> {
     info(`Lockfile verification cache saved with the key: ${key}`)
   } catch (error) {
     warning(`Failed to save the lockfile verification cache: ${(error as Error).message}`)
+  }
+}
+
+/**
+ * An install appends its own verdict and leaves every earlier record in place.
+ * Anything else — a record the install did not write, or an earlier one gone —
+ * means something other than pnpm's verification wrote to the log, and
+ * uploading it would hand that to every later job. pnpm compacting the log
+ * (past a thousand records) lands here too, at the cost of one re-verification.
+ */
+function onlyGrewAsExpected(cacheFilePath: string, expectedNewRecords: number): boolean {
+  const before = recordsBeforeInstall
+  if (before === undefined) return true
+
+  const after = readRecords(cacheFilePath)
+  if (after === undefined) return false
+
+  if (!before.every((record, index) => after[index] === record)) {
+    warning(
+      'Records that predate the install are missing from the lockfile verification log; not caching it.'
+    )
+    return false
+  }
+
+  const added = after.length - before.length
+  if (added > expectedNewRecords) {
+    warning(
+      `The lockfile verification log gained ${added} records during the install, expected at most ${expectedNewRecords}; not caching it.`
+    )
+    return false
+  }
+
+  return true
+}
+
+function readRecords(cacheFilePath: string): string[] | undefined {
+  try {
+    return readFileSync(cacheFilePath, 'utf8').split('\n').filter(Boolean)
+  } catch {
+    return undefined
   }
 }
 

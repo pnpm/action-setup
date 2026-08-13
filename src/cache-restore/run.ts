@@ -10,11 +10,23 @@ import { removeWindowsExtendedPathPrefix } from '../windows-path'
 export async function runRestoreCache(inputs: Inputs) {
   const fileHash = await hashFiles(inputs.cacheDependencyPath)
   if (!fileHash) {
-    throw new Error('Some specified paths were not resolved, unable to cache dependencies.')
+    // Both caches are keyed on the lockfile, so neither can be restored
+    // without one. Only the store cache was asked for by name.
+    if (inputs.cache) {
+      throw new Error('Some specified paths were not resolved, unable to cache dependencies.')
+    }
+    return
   }
 
-  await runRestoreStoreCache(fileHash)
+  // Restored whether or not the store is cached: the log is a fraction of a
+  // kilobyte, and without it pnpm re-checks every lockfile entry against the
+  // registry on each run — seconds even on a repository that configures no
+  // supply-chain policies.
   await restoreVerificationCache(fileHash)
+
+  if (inputs.cache) {
+    await runRestoreStoreCache(fileHash)
+  }
 }
 
 async function runRestoreStoreCache(fileHash: string) {

@@ -94,7 +94,7 @@ If `run_install` is a YAML string representation of either an object or an array
 
 ### `cache`
 
-**Optional** (_type:_ `boolean`, _default:_ `false`) Whether to cache the pnpm store directory and, on pnpm v11 and newer, the results of pnpm's lockfile verification against the configured supply-chain policies. Both are keyed on the lockfile's content hash.
+**Optional** (_type:_ `boolean`, _default:_ `false`) Whether to cache the pnpm store directory, keyed on the lockfile's content hash. On pnpm v11 and newer, the results of pnpm's lockfile verification are cached regardless of this input — see [Lockfile verification cache](#lockfile-verification-cache).
 
 ### `cache_dependency_path`
 
@@ -208,7 +208,18 @@ jobs:
 
 **Note:** You don't need to run `pnpm store prune` at the end; post-action has already taken care of that.
 
-Besides the store, this also caches pnpm's lockfile verification results (pnpm v11 and newer). Repositories that configure supply-chain policies such as `minimumReleaseAge` or `trustPolicy` make pnpm check every lockfile entry against the registry on each install; that check depends only on the lockfile and the policies, so its result is cached and reused until the lockfile changes.
+### Lockfile verification cache
+
+pnpm v11 and newer check every lockfile entry before installing it — that each entry pins an integrity hash, that a pinned tarball URL matches the registry's own metadata, and, where configured, your `minimumReleaseAge` and `trustPolicy` policies. The verdict is memoized in a sub-kilobyte file, so an unchanged lockfile is not re-checked against the registry.
+
+The action restores and saves that file on every run, independently of the `cache` input, because a job that starts without it pays for the check every time. On a repository with ~2000 lockfile entries and a warm store:
+
+| | without the log | with it |
+| --- | --- | --- |
+| `minimumReleaseAge` + `trustPolicy` | 13.5s | 1.5s |
+| no policies configured | 6.7s | 1.6s |
+
+Reusing a verdict is not a weaker check: pnpm re-verifies whenever the lockfile content changes, and whenever the recorded policy is looser than the one now configured.
 
 ### Cache dependencies from multiple lockfiles
 

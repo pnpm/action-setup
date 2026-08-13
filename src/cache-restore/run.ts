@@ -5,6 +5,7 @@ import { hashFiles } from '@actions/glob'
 import os from 'os'
 import { Inputs } from '../inputs'
 import { restoreVerificationCache } from '../lockfile-verification-cache'
+import { removeWindowsExtendedPathPrefix } from '../windows-path'
 
 export async function runRestoreCache(inputs: Inputs) {
   const fileHash = await hashFiles(inputs.cacheDependencyPath)
@@ -48,7 +49,7 @@ async function runRestoreStoreCache(fileHash: string) {
 
 async function getCacheDirectory() {
   const { stdout } = await getExecOutput('pnpm store path --silent')
-  const cacheFolderPath = stdout.trim()
+  const cacheFolderPath = removeWindowsExtendedPathPrefix(stdout.trim())
   debug(`Cache folder is set to "${cacheFolderPath}"`)
   return cacheFolderPath
 }

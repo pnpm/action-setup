@@ -60,9 +60,11 @@ export async function restoreVerificationCache(lockfileHash: string): Promise<vo
 
 /**
  * Uploaded as soon as the install that produced the log finishes, rather than
- * at the end of the job: whatever a job runs after installing — its tests, its
- * build, a dependency's own scripts — can rewrite the log on disk, and the
- * job's own cache write would then publish that for later jobs to trust.
+ * at the end of the job: whatever a job runs after installing can rewrite the
+ * log on disk, and the job's own cache write would then publish that for later
+ * jobs to trust. Lifecycle scripts of the installed packages stay inside the
+ * window — they run during the install — but pnpm only runs those the
+ * repository has allow-listed.
  *
  * Safe to call more than once; the second call is a no-op.
  */

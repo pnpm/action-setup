@@ -21,6 +21,9 @@ jobs:
           run_install: true
           version: 11
 
+      - name: Run tests
+        run: pnpm test
+
       - name: Update dist/index.js
         run: pnpm run build
 

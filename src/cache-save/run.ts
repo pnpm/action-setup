@@ -14,7 +14,11 @@ export async function runSaveCache() {
 
   try {
     await access(cachePath)
-  } catch {
+  } catch (error) {
+    if (!(error instanceof Error)) throw error
+    if (!('code' in error)) throw error
+    if (error.code !== 'ENOENT') throw error
+
     info(`Cache path ${cachePath} does not exist, not saving cache.`)
     return
   }

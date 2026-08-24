@@ -4,7 +4,6 @@
     "build:bundle": "esbuild src/index.ts --bundle --platform=node --target=node24 --format=cjs --minify --outfile=dist/index.js --loader:.json=json",
     "build": "pnpm run build:bundle",
     "start": "pnpm run build && sh ./run.sh",
-    "test": "vitest run",
     "update-bootstrap": "node scripts/update-bootstrap.mjs"
   },
   "dependencies": {
@@ -20,7 +19,6 @@
   },
   "devDependencies": {
     "esbuild": "^0.27.4",
-    "typescript": "^5.3.3",
-    "vitest": "4.1.11"
+    "typescript": "^5.3.3"
   }
 }

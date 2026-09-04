@@ -10,7 +10,15 @@ import pnpmLock from './bootstrap/pnpm-lock.json'
 import exeLock from './bootstrap/exe-lock.json'
 
 const BOOTSTRAP_PNPM_PACKAGE_JSON = JSON.stringify({ private: true, dependencies: { pnpm: pnpmLock.packages['node_modules/pnpm'].version } })
-const BOOTSTRAP_EXE_PACKAGE_JSON = JSON.stringify({ private: true, dependencies: { '@pnpm/exe': exeLock.packages['node_modules/@pnpm/exe'].version } })
+const bootstrapExeVersion = exeLock.packages['node_modules/@pnpm/exe'].version
+const BOOTSTRAP_EXE_PACKAGE_JSON = JSON.stringify({
+  private: true,
+  dependencies: { '@pnpm/exe': bootstrapExeVersion },
+  // npm 12 blocks dependency lifecycle scripts unless they are explicitly
+  // approved. @pnpm/exe's verified, lockfile-pinned install script replaces
+  // the placeholder executable with the native binary for this platform.
+  allowScripts: { [`@pnpm/exe@${bootstrapExeVersion}`]: true },
+})
 
 export interface SelfInstallerResult {
   exitCode: number

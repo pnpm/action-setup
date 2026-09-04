@@ -1,9 +1,9 @@
 > [!IMPORTANT]
-> **This action has a successor: [`pnpm/setup`](https://github.com/pnpm/setup).**
+> **This action supports pnpm v12 and earlier.**
 >
-> For pnpm v11 and newer, use [`pnpm/setup`](https://github.com/pnpm/setup) instead. It downloads pnpm's self-contained release binary (no Node.js or npm required) and can install a JavaScript runtime (Node.js, Bun, or Deno) in the same step, replacing `actions/setup-node`.
+> For pnpm v11 and newer, [`pnpm/setup`](https://github.com/pnpm/setup) is also available. It downloads pnpm's self-contained release binary (no Node.js or npm required) and can install a JavaScript runtime (Node.js, Bun, or Deno) in the same step, replacing `actions/setup-node` when its feature set fits your workflow.
 >
-> `pnpm/action-setup` remains the action to use for installing pnpm v10 and older. See [Migrating to pnpm/setup](#migrating-to-pnpmsetup) below.
+> You can continue using `pnpm/action-setup` with `actions/setup-node`, including for pnpm v11 and v12. See [Using pnpm/setup instead](#using-pnpmsetup-instead) below if you want a single action to install pnpm and a JavaScript runtime.
 
 # Setup pnpm
 
@@ -13,7 +13,7 @@ Install pnpm package manager.
 >
 > The v2 version of this action [has stopped working](https://github.com/pnpm/action-setup/issues/135) with newer Node.js versions. Please, upgrade to the latest version to fix any issues.
 
-## Migrating to pnpm/setup
+## Using pnpm/setup instead
 
 [`pnpm/setup`](https://github.com/pnpm/setup) installs pnpm v11+ as a native standalone executable and can install Node.js, Bun, or Deno in the same step, so a typical workflow no longer needs `actions/setup-node` or an explicit `pnpm install` step:
 
@@ -237,7 +237,7 @@ jobs:
 
 ## Notes
 
-This action does not set up Node.js. Use [actions/setup-node](https://github.com/actions/setup-node) yourself. If you are on pnpm v11 or newer, [`pnpm/setup`](https://github.com/pnpm/setup) can install pnpm and Node.js in a single step.
+This action does not set up Node.js. Use [actions/setup-node](https://github.com/actions/setup-node) yourself. As an alternative for pnpm v11 or newer, [`pnpm/setup`](https://github.com/pnpm/setup) can install pnpm and Node.js in a single step.
 
 ## License
 

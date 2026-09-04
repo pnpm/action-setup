@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 // Usage: node scripts/update-bootstrap.mjs [version]
-// If version is omitted, fetches the latest pnpm 12 tag from npm.
 // Regenerates the bootstrap lockfiles used by action-setup to install pnpm via npm.
 
 import { execSync } from 'child_process'
@@ -21,8 +20,9 @@ console.log('Done!')
 
 function resolveLatestVersion() {
   const json = execSync('npm view pnpm dist-tags --json', { encoding: 'utf8' })
-  const tags = JSON.parse(json)
-  const version = tags['next-12'] || tags['latest-12'] || tags['latest']
+  const parsed = JSON.parse(json)
+  const tags = Array.isArray(parsed) ? parsed[0] : parsed
+  const version = tags['next-12'] || tags['latest-12']
   if (!version) {
     console.error('Could not determine latest pnpm version from npm dist-tags')
     process.exit(1)

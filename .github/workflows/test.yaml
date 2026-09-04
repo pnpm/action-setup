@@ -178,9 +178,7 @@ jobs:
         shell: bash
 
   standalone:
-    # npm 12 blocks dependency lifecycle scripts by default. @pnpm/exe needs
-    # its install script to replace the placeholder with the native binary.
-    name: 'Standalone mode (pnpm 12 / npm 12)'
+    name: 'Native pnpm bootstrap (npm 12)'
 
     runs-on: ubuntu-latest
 
@@ -192,7 +190,9 @@ jobs:
           node-version: 26
 
       - name: Use npm 12
-        run: npm install --global npm@12.0.2
+        run: |
+          npm install --global npm@12.0.2
+          test "$(npm --version)" = "12.0.2"
 
       - name: Run the action
         uses: ./

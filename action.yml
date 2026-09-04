@@ -28,7 +28,7 @@ inputs:
     required: false
     default: 'package.json'
   standalone:
-    description: When set to true, @pnpm/exe, which is a Node.js bundled package, will be installed, enabling using pnpm without Node.js.
+    description: Deprecated compatibility input. The pnpm v12 bootstrap is always a standalone native executable.
     required: false
     default: 'false'
 outputs:

@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 
-// Usage: node scripts/update-bootstrap.mjs [legacy-version] [native-version]
-// Regenerates the bootstrap lockfiles used by action-setup to install pnpm via npm.
-
 import { execSync } from 'child_process'
 import { mkdtempSync, rmSync, readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'

@@ -27,6 +27,12 @@ jobs:
           - name: 'ubuntu / v10.33.0'
             os: ubuntu-latest
             version: '10.33.0'
+          - name: 'ubuntu / v11.25.0'
+            os: ubuntu-latest
+            version: '11.25.0'
+          - name: 'ubuntu / v12.3.4'
+            os: ubuntu-latest
+            version: '12.3.4'
           - name: 'ubuntu / v9.15.5 / custom-dest'
             os: ubuntu-latest
             version: '9.15.5'
@@ -34,9 +40,15 @@ jobs:
           - name: 'macos / v9.15.5'
             os: macos-latest
             version: '9.15.5'
+          - name: 'macos / v12.3.4'
+            os: macos-latest
+            version: '12.3.4'
           - name: 'windows / v9.15.5'
             os: windows-latest
             version: '9.15.5'
+          - name: 'windows / v12.3.4'
+            os: windows-latest
+            version: '12.3.4'
 
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
@@ -166,26 +178,42 @@ jobs:
         shell: bash
 
   standalone:
-    name: Standalone mode
+    name: 'Native pnpm bootstrap (npm 12)'
 
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
 
-      - name: Run the action
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 26
+
+      - name: Use npm 12
+        run: |
+          npm install --global npm@12.0.2
+          test "$(npm --version)" = "12.0.2"
+
+      - id: pnpm
+        name: Run the action
         uses: ./
         with:
-          version: 9.15.0
+          version: 12
           standalone: true
 
       - name: 'Test: pnpm works'
+        env:
+          PNPM_DEST: ${{ steps.pnpm.outputs.dest }}
         run: |
           set -e
+          test -x "$PNPM_DEST/node_modules/pnpm/pnpm"
+          test ! -d "$PNPM_DEST/node_modules/@pnpm/exe"
           which pnpm
           actual="$(pnpm --version)"
-          if [ "${actual}" != "9.15.0" ]; then
-            echo "Expected 9.15.0, got ${actual}"
+          if [ "${actual}" != "12.3.4" ]; then
+            echo "Expected 12.3.4, got ${actual}"
             exit 1
           fi
           mkdir /tmp/test-standalone

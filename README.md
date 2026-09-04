@@ -1,9 +1,11 @@
 > [!IMPORTANT]
-> **This action has a successor: [`pnpm/setup`](https://github.com/pnpm/setup).**
+> **This action supports pnpm v12 and earlier.**
 >
-> For pnpm v11 and newer, use [`pnpm/setup`](https://github.com/pnpm/setup) instead. It downloads pnpm's self-contained release binary (no Node.js or npm required) and can install a JavaScript runtime (Node.js, Bun, or Deno) in the same step, replacing `actions/setup-node`.
+> For pnpm v11 and newer, [`pnpm/setup`](https://github.com/pnpm/setup) is also available. It downloads pnpm's self-contained release binary (no Node.js or npm required) and can install a JavaScript runtime (Node.js, Bun, or Deno) in the same step, replacing `actions/setup-node` when its feature set fits your workflow.
 >
-> `pnpm/action-setup` remains the action to use for installing pnpm v10 and older. See [Migrating to pnpm/setup](#migrating-to-pnpmsetup) below.
+> You can continue using `pnpm/action-setup` with `actions/setup-node`, including for pnpm v11 and v12. See [Using pnpm/setup instead](#using-pnpmsetup-instead) below if you want a single action to install pnpm and a JavaScript runtime.
+>
+> `pnpm/setup` cannot install pnpm v11 on Intel macOS (`darwin-x64`), where no standalone pnpm v11 binary is published. On that platform, run `actions/setup-node` with Node.js 22.13 or newer before `pnpm/action-setup`, or upgrade to pnpm v12.
 
 # Setup pnpm
 
@@ -13,7 +15,7 @@ Install pnpm package manager.
 >
 > The v2 version of this action [has stopped working](https://github.com/pnpm/action-setup/issues/135) with newer Node.js versions. Please, upgrade to the latest version to fix any issues.
 
-## Migrating to pnpm/setup
+## Using pnpm/setup instead
 
 [`pnpm/setup`](https://github.com/pnpm/setup) installs pnpm v11+ as a native standalone executable and can install Node.js, Bun, or Deno in the same step, so a typical workflow no longer needs `actions/setup-node` or an explicit `pnpm install` step:
 
@@ -106,9 +108,9 @@ If `run_install` is a YAML string representation of either an object or an array
 
 ### `standalone`
 
-**Optional** (_type:_ `boolean`, _default:_ `false`) When set to true, [@pnpm/exe](https://www.npmjs.com/package/@pnpm/exe), which is a Node.js bundled package, will be installed, enabling using `pnpm` without Node.js.
+**Optional** (_type:_ `boolean`, _default:_ `false`) For pnpm v11 and earlier, install [@pnpm/exe](https://www.npmjs.com/package/@pnpm/exe), enabling pnpm to run without Node.js.
 
-This is useful when you want to use a incompatible pair of Node.js and pnpm.
+For pnpm v12, this input has no effect because the plain `pnpm` package already installs a standalone native executable.
 
 ## Outputs
 
@@ -237,7 +239,7 @@ jobs:
 
 ## Notes
 
-This action does not set up Node.js. Use [actions/setup-node](https://github.com/actions/setup-node) yourself. If you are on pnpm v11 or newer, [`pnpm/setup`](https://github.com/pnpm/setup) can install pnpm and Node.js in a single step.
+This action does not set up Node.js. Use [actions/setup-node](https://github.com/actions/setup-node) yourself. As an alternative for pnpm v11 or newer, [`pnpm/setup`](https://github.com/pnpm/setup) can install pnpm and Node.js in a single step.
 
 ## License
 

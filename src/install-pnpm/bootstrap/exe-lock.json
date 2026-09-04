@@ -1,0 +1,327 @@
+{
+  "name": "bootstrap-exe",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "dependencies": {
+        "@pnpm/exe": "11.25.0"
+      }
+    },
+    "node_modules/@pnpm/exe": {
+      "version": "11.25.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/exe/-/exe-11.25.0.tgz",
+      "integrity": "sha512-X19R2uC+VAJ4UJQE9c/PCdOXbDaWnZtad7WUrTHBFQuMVaK9MAHbyO/WgahQCuRtTmJkLbxcWKKCk+JeTYFm/g==",
+      "hasInstallScript": true,
+      "license": "MIT",
+      "dependencies": {
+        "@reflink/reflink": "0.1.19",
+        "detect-libc": "^2.1.2"
+      },
+      "bin": {
+        "pn": "pn",
+        "pnpm": "pnpm",
+        "pnpx": "pnpx",
+        "pnx": "pnx"
+      },
+      "funding": {
+        "url": "https://opencollective.com/pnpm"
+      },
+      "optionalDependencies": {
+        "@pnpm/linux-arm64": "11.25.0",
+        "@pnpm/linux-x64": "11.25.0",
+        "@pnpm/linuxstatic-arm64": "11.25.0",
+        "@pnpm/linuxstatic-x64": "11.25.0",
+        "@pnpm/macos-arm64": "11.25.0",
+        "@pnpm/win-arm64": "11.25.0",
+        "@pnpm/win-x64": "11.25.0"
+      }
+    },
+    "node_modules/@pnpm/linux-arm64": {
+      "version": "11.25.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/linux-arm64/-/linux-arm64-11.25.0.tgz",
+      "integrity": "sha512-ra8akqhzsbcOhKSJ9fFV8H+Oc9uGQAcp/XmIBEdT+8hPPoZCit3+RNCHmg8bLoNvpSLtRvZE0WFCMj7WyzxeBA==",
+      "cpu": [
+        "arm64"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "funding": {
+        "url": "https://opencollective.com/pnpm"
+      }
+    },
+    "node_modules/@pnpm/linux-x64": {
+      "version": "11.25.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/linux-x64/-/linux-x64-11.25.0.tgz",
+      "integrity": "sha512-pQl/L10diKQCbF73viRrtVU8qVWMTudUCSG1uZ+EWBNKtU9Sbxe6Q378diXDb1uTwSgUVMQoypxlC1MTzh7qvQ==",
+      "cpu": [
+        "x64"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "funding": {
+        "url": "https://opencollective.com/pnpm"
+      }
+    },
+    "node_modules/@pnpm/linuxstatic-arm64": {
+      "version": "11.25.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/linuxstatic-arm64/-/linuxstatic-arm64-11.25.0.tgz",
+      "integrity": "sha512-cYcrbB/xN1N6/5VUlFuHblb1gNyJgZv1CF5Pk1T0sHJxQMY4DFJV3OqHVAgahxyUfSTaQcVLvH1H2JFvd/+sgw==",
+      "cpu": [
+        "arm64"
+      ],
+      "libc": [
+        "musl"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "funding": {
+        "url": "https://opencollective.com/pnpm"
+      }
+    },
+    "node_modules/@pnpm/linuxstatic-x64": {
+      "version": "11.25.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/linuxstatic-x64/-/linuxstatic-x64-11.25.0.tgz",
+      "integrity": "sha512-HXDtaeQod16DDMUUcVLIMxvEc1jKn7IYsNPwbwAPs/Je/d3umRPJi3Ejjdn6e9qpXN6Oon+yvSsJr7B9oDt6KA==",
+      "cpu": [
+        "x64"
+      ],
+      "libc": [
+        "musl"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "funding": {
+        "url": "https://opencollective.com/pnpm"
+      }
+    },
+    "node_modules/@pnpm/macos-arm64": {
+      "version": "11.25.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/macos-arm64/-/macos-arm64-11.25.0.tgz",
+      "integrity": "sha512-m/eAgEqKhiSexGxWPHNXNnSRI0hudymg6K7LbrU2EoDs9IgJ28OKEz9mGxMzhkYBweEquR4k5teMNes/aToy9w==",
+      "cpu": [
+        "arm64"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "funding": {
+        "url": "https://opencollective.com/pnpm"
+      }
+    },
+    "node_modules/@pnpm/win-arm64": {
+      "version": "11.25.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/win-arm64/-/win-arm64-11.25.0.tgz",
+      "integrity": "sha512-oAeECbtZ+eJziaBmPUkwJM8Dx7KVQ5FO367AXTjD2HGfB5ob1Bcu5hoUF5RBTgDBiP9fRQ1u13uAEpqar/6NLA==",
+      "cpu": [
+        "arm64"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "funding": {
+        "url": "https://opencollective.com/pnpm"
+      }
+    },
+    "node_modules/@pnpm/win-x64": {
+      "version": "11.25.0",
+      "resolved": "https://registry.npmjs.org/@pnpm/win-x64/-/win-x64-11.25.0.tgz",
+      "integrity": "sha512-8/n+wCc0a8TRYTMFqti93Vh0cscdJ25xfMyYSDdXrLUh2ccxSFuS+SE7cNPjd/nOXoFAJvdW0kwfbyRPLa16/w==",
+      "cpu": [
+        "x64"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "funding": {
+        "url": "https://opencollective.com/pnpm"
+      }
+    },
+    "node_modules/@reflink/reflink": {
+      "version": "0.1.19",
+      "resolved": "https://registry.npmjs.org/@reflink/reflink/-/reflink-0.1.19.tgz",
+      "integrity": "sha512-DmCG8GzysnCZ15bres3N5AHCmwBwYgp0As6xjhQ47rAUTUXxJiK+lLUxaGsX3hd/30qUpVElh05PbGuxRPgJwA==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 10"
+      },
+      "optionalDependencies": {
+        "@reflink/reflink-darwin-arm64": "0.1.19",
+        "@reflink/reflink-darwin-x64": "0.1.19",
+        "@reflink/reflink-linux-arm64-gnu": "0.1.19",
+        "@reflink/reflink-linux-arm64-musl": "0.1.19",
+        "@reflink/reflink-linux-x64-gnu": "0.1.19",
+        "@reflink/reflink-linux-x64-musl": "0.1.19",
+        "@reflink/reflink-win32-arm64-msvc": "0.1.19",
+        "@reflink/reflink-win32-x64-msvc": "0.1.19"
+      }
+    },
+    "node_modules/@reflink/reflink-darwin-arm64": {
+      "version": "0.1.19",
+      "resolved": "https://registry.npmjs.org/@reflink/reflink-darwin-arm64/-/reflink-darwin-arm64-0.1.19.tgz",
+      "integrity": "sha512-ruy44Lpepdk1FqDz38vExBY/PVUsjxZA+chd9wozjUH9JjuDT/HEaQYA6wYN9mf041l0yLVar6BCZuWABJvHSA==",
+      "cpu": [
+        "arm64"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@reflink/reflink-darwin-x64": {
+      "version": "0.1.19",
+      "resolved": "https://registry.npmjs.org/@reflink/reflink-darwin-x64/-/reflink-darwin-x64-0.1.19.tgz",
+      "integrity": "sha512-By85MSWrMZa+c26TcnAy8SDk0sTUkYlNnwknSchkhHpGXOtjNDUOxJE9oByBnGbeuIE1PiQsxDG3Ud+IVV9yuA==",
+      "cpu": [
+        "x64"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@reflink/reflink-linux-arm64-gnu": {
+      "version": "0.1.19",
+      "resolved": "https://registry.npmjs.org/@reflink/reflink-linux-arm64-gnu/-/reflink-linux-arm64-gnu-0.1.19.tgz",
+      "integrity": "sha512-7P+er8+rP9iNeN+bfmccM4hTAaLP6PQJPKWSA4iSk2bNvo6KU6RyPgYeHxXmzNKzPVRcypZQTpFgstHam6maVg==",
+      "cpu": [
+        "arm64"
+      ],
+      "libc": [
+        "glibc"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@reflink/reflink-linux-arm64-musl": {
+      "version": "0.1.19",
+      "resolved": "https://registry.npmjs.org/@reflink/reflink-linux-arm64-musl/-/reflink-linux-arm64-musl-0.1.19.tgz",
+      "integrity": "sha512-37iO/Dp6m5DDaC2sf3zPtx/hl9FV3Xze4xoYidrxxS9bgP3S8ALroxRK6xBG/1TtfXKTvolvp+IjrUU6ujIGmA==",
+      "cpu": [
+        "arm64"
+      ],
+      "libc": [
+        "musl"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@reflink/reflink-linux-x64-gnu": {
+      "version": "0.1.19",
+      "resolved": "https://registry.npmjs.org/@reflink/reflink-linux-x64-gnu/-/reflink-linux-x64-gnu-0.1.19.tgz",
+      "integrity": "sha512-jbI8jvuYCaA3MVUdu8vLoLAFqC+iNMpiSuLbxlAgg7x3K5bsS8nOpTRnkLF7vISJ+rVR8W+7ThXlXlUQ93ulkw==",
+      "cpu": [
+        "x64"
+      ],
+      "libc": [
+        "glibc"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@reflink/reflink-linux-x64-musl": {
+      "version": "0.1.19",
+      "resolved": "https://registry.npmjs.org/@reflink/reflink-linux-x64-musl/-/reflink-linux-x64-musl-0.1.19.tgz",
+      "integrity": "sha512-e9FBWDe+lv7QKAwtKOt6A2W/fyy/aEEfr0g6j/hWzvQcrzHCsz07BNQYlNOjTfeytrtLU7k449H1PI95jA4OjQ==",
+      "cpu": [
+        "x64"
+      ],
+      "libc": [
+        "musl"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@reflink/reflink-win32-arm64-msvc": {
+      "version": "0.1.19",
+      "resolved": "https://registry.npmjs.org/@reflink/reflink-win32-arm64-msvc/-/reflink-win32-arm64-msvc-0.1.19.tgz",
+      "integrity": "sha512-09PxnVIQcd+UOn4WAW73WU6PXL7DwGS6wPlkMhMg2zlHHG65F3vHepOw06HFCq+N42qkaNAc8AKIabWvtk6cIQ==",
+      "cpu": [
+        "arm64"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/@reflink/reflink-win32-x64-msvc": {
+      "version": "0.1.19",
+      "resolved": "https://registry.npmjs.org/@reflink/reflink-win32-x64-msvc/-/reflink-win32-x64-msvc-0.1.19.tgz",
+      "integrity": "sha512-E//yT4ni2SyhwP8JRjVGWr3cbnhWDiPLgnQ66qqaanjjnMiu3O/2tjCPQXlcGc/DEYofpDc9fvhv6tALQsMV9w==",
+      "cpu": [
+        "x64"
+      ],
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">= 10"
+      }
+    },
+    "node_modules/detect-libc": {
+      "version": "2.1.2",
+      "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.1.2.tgz",
+      "integrity": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==",
+      "license": "Apache-2.0",
+      "engines": {
+        "node": ">=8"
+      }
+    }
+  }
+}

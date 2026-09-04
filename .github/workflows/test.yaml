@@ -184,6 +184,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
@@ -194,15 +196,20 @@ jobs:
           npm install --global npm@12.0.2
           test "$(npm --version)" = "12.0.2"
 
-      - name: Run the action
+      - id: pnpm
+        name: Run the action
         uses: ./
         with:
-          version: 12.3.4
+          version: 12
           standalone: true
 
       - name: 'Test: pnpm works'
+        env:
+          PNPM_DEST: ${{ steps.pnpm.outputs.dest }}
         run: |
           set -e
+          test -x "$PNPM_DEST/node_modules/pnpm/pnpm"
+          test ! -d "$PNPM_DEST/node_modules/@pnpm/exe"
           which pnpm
           actual="$(pnpm --version)"
           if [ "${actual}" != "12.3.4" ]; then

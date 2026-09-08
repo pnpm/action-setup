@@ -28,7 +28,7 @@ inputs:
     required: false
     default: 'package.json'
   standalone:
-    description: When set to true, @pnpm/exe, which is a Node.js bundled package, will be installed, enabling using pnpm without Node.js.
+    description: When set to true for pnpm v11 and earlier, install @pnpm/exe to use pnpm without Node.js. pnpm v12 uses the plain pnpm package's native executable.
     required: false
     default: 'false'
 outputs:

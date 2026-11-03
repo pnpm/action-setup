@@ -460,3 +460,7 @@ jobs:
           if ($LASTEXITCODE -ne 0 -or $actual -ne $env:EXPECTED_VERSION) {
             throw "Expected $env:EXPECTED_VERSION via bin_dest, got $actual"
           }
+          $pnpx = Get-Command pnpx -ErrorAction Stop
+          if ((Split-Path -Parent $pnpx.Source) -ne $env:BIN_DEST) {
+            throw "pnpx resolves to $($pnpx.Source), expected under $env:BIN_DEST"
+          }

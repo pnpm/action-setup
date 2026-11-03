@@ -210,7 +210,7 @@ function targetsPnpm12(version: string): boolean {
 
 function getSystemNodeVersion(): Promise<{ major: number; minor: number }> {
   return new Promise((resolve) => {
-    const cp = spawn('node', ['--version'], { stdio: ['pipe', 'pipe', 'pipe'] })
+    const cp = spawn('node', ['--version'], { stdio: ['pipe', 'pipe', 'pipe'], shell: process.platform === 'win32' })
     let output = ''
     cp.stdout.on('data', (data: Buffer) => { output += data.toString() })
     cp.on('close', () => {

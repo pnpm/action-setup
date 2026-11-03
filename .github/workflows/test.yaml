@@ -232,8 +232,6 @@ jobs:
       matrix:
         version: ['12.11.2', '12.16.1']
     env:
-      XDG_CONFIG_HOME: ${{ runner.temp }}/pnpm-config
-      PNPM_STORE_DIR: ${{ runner.temp }}/pnpm-store
       REQUIRED: ${{ matrix.version }}
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
@@ -242,8 +240,11 @@ jobs:
 
       - name: Configure the shared store and project pin
         run: |
-          mkdir -p "$XDG_CONFIG_HOME/pnpm"
-          printf 'storeDir: %s\nenableGlobalVirtualStore: true\n' "$PNPM_STORE_DIR" > "$XDG_CONFIG_HOME/pnpm/config.yaml"
+          config_home="$RUNNER_TEMP/pnpm-config"
+          store_dir="$RUNNER_TEMP/pnpm-store"
+          mkdir -p "$config_home/pnpm"
+          printf 'storeDir: %s\nenableGlobalVirtualStore: true\n' "$store_dir" > "$config_home/pnpm/config.yaml"
+          printf 'XDG_CONFIG_HOME=%s\nPNPM_STORE_DIR=%s\n' "$config_home" "$store_dir" >> "$GITHUB_ENV"
           printf '{"packageManager":"pnpm@%s"}\n' "$REQUIRED" > package.json
 
       - id: first

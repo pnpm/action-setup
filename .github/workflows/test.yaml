@@ -70,6 +70,9 @@ jobs:
           set -e
           which pnpm
           which pnpx
+          case "$PNPM_HOME" in
+            *node_modules*) echo "PNPM_HOME must be outside node_modules"; exit 1 ;;
+          esac
           actual="$(pnpm --version)"
           echo "pnpm --version: ${actual}"
           if [ "${actual}" != "${REQUIRED}" ]; then

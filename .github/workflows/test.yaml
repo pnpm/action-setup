@@ -255,6 +255,7 @@ jobs:
           standalone: false
 
       - name: Verify the first installation and populated store
+        working-directory: ${{ runner.temp }}
         env:
           BIN_DEST: ${{ steps.first.outputs.bin_dest }}
         run: |
@@ -275,6 +276,7 @@ jobs:
           standalone: false
 
       - name: Verify the second installation reused the store
+        working-directory: ${{ runner.temp }}
         env:
           BIN_DEST: ${{ steps.second.outputs.bin_dest }}
         run: |

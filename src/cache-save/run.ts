@@ -1,5 +1,6 @@
 import { saveCache } from '@actions/cache'
 import { getState, info } from '@actions/core'
+import { access } from 'fs/promises'
 
 export async function runSaveCache() {
   const state = getState('cache_restored_key')
@@ -8,6 +9,17 @@ export async function runSaveCache() {
 
   if (primaryKey === state) {
     info(`Cache hit occurred on the primary key ${primaryKey}, not saving cache.`)
+    return
+  }
+
+  try {
+    await access(cachePath)
+  } catch (error) {
+    if (!(error instanceof Error)) throw error
+    if (!('code' in error)) throw error
+    if (error.code !== 'ENOENT') throw error
+
+    info(`Cache path ${cachePath} does not exist, not saving cache.`)
     return
   }
 

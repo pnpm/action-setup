@@ -2,9 +2,10 @@
   "private": true,
   "scripts": {
     "build:bundle": "esbuild src/index.ts --bundle --platform=node --target=node24 --format=cjs --minify --outfile=dist/index.js --loader:.json=json",
-    "build": "pnpm run build:bundle",
+    "build": "pnpm test && pnpm run build:bundle",
     "start": "pnpm run build && sh ./run.sh",
-    "update-bootstrap": "node scripts/update-bootstrap.mjs"
+    "update-bootstrap": "node scripts/update-bootstrap.mjs",
+    "test": "node --experimental-test-module-mocks --test test/*.test.mjs"
   },
   "dependencies": {
     "@actions/cache": "^4.1.0",

@@ -72,14 +72,12 @@ export async function runSelfInstaller(inputs: Inputs): Promise<SelfInstallerRes
     return { exitCode: npmExitCode, binDest: path.join(dest, 'node_modules', '.bin') }
   }
 
-  const pnpmHome = standalone && process.platform === 'win32'
+  const bootstrapBinDir = standalone && process.platform === 'win32'
     ? path.join(dest, 'node_modules', '@pnpm', 'exe')
     : path.join(dest, 'node_modules', '.bin')
-  // PNPM_HOME/bin is where `pnpm self-update` places the target version
-  // binary. It must have higher PATH precedence than pnpmHome (which
-  // contains the bootstrap binary) so the self-updated version is found
-  // first. The bootstrap pnpm is invoked via absolute path, not PATH,
-  // so this ordering does not affect the bootstrap step.
+  const pnpmHome = path.join(dest, 'pnpm-home')
+  await mkdir(pnpmHome, { recursive: true })
+  addPath(bootstrapBinDir)
   addPath(pnpmHome)
   addPath(path.join(pnpmHome, 'bin'))
   exportVariable('PNPM_HOME', pnpmHome)
@@ -106,25 +104,17 @@ export async function runSelfInstaller(inputs: Inputs): Promise<SelfInstallerRes
   const bootstrapVersion = native ? bootstrapNativeVersion : standalone ? bootstrapExeVersion : bootstrapPnpmVersion
 
   if (targetVersion === bootstrapVersion || (native && satisfies(bootstrapVersion, targetVersion))) {
-    return { exitCode: 0, binDest: pnpmHome }
+    return { exitCode: 0, binDest: bootstrapBinDir }
   }
 
   const cmd = native || standalone ? bootstrapPnpm : process.execPath
   const args = native || standalone ? ['self-update', targetVersion] : [bootstrapPnpm, 'self-update', targetVersion]
   const exitCode = await runCommand(cmd, args, { cwd: dest })
   if (exitCode !== 0) {
-    return { exitCode, binDest: pnpmHome }
+    return { exitCode, binDest: bootstrapBinDir }
   }
-  // self-update writes the target pnpm/pnpx into PNPM_HOME/bin, leaving
-  // the bootstrap symlinks in pnpmHome pointing at the old version. Use
-  // PNPM_HOME/bin so consumers of the bin_dest output (e.g.
-  // `${steps.pnpm.outputs.bin_dest}/pnpm`) invoke the requested version.
-  //
-  // When the requested version resolves to the bootstrap version, self-update
-  // is a no-op and PNPM_HOME/bin is not created — fall back to pnpmHome,
-  // whose symlinks already point at the right version.
   const updatedBinDir = path.join(pnpmHome, 'bin')
-  return { exitCode: 0, binDest: existsSync(updatedBinDir) ? updatedBinDir : pnpmHome }
+  return { exitCode: 0, binDest: existsSync(updatedBinDir) ? updatedBinDir : bootstrapBinDir }
 }
 
 function readTargetVersion(opts: {

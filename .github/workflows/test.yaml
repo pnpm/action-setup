@@ -7,6 +7,9 @@ on:
       - master
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   smoke:
     # Cross-OS coverage. Exercises the bootstrap install + PATH on each platform,
@@ -70,6 +73,9 @@ jobs:
           set -e
           which pnpm
           which pnpx
+          case "$PNPM_HOME" in
+            ''|*node_modules*) echo "PNPM_HOME must be set outside node_modules"; exit 1 ;;
+          esac
           actual="$(pnpm --version)"
           echo "pnpm --version: ${actual}"
           if [ "${actual}" != "${REQUIRED}" ]; then

@@ -451,7 +451,9 @@ jobs:
           if ($LASTEXITCODE -ne 0 -or $actual -ne $env:EXPECTED_VERSION) {
             throw "Expected $env:EXPECTED_VERSION on PATH, got $actual"
           }
-          $actual = & (Join-Path $env:BIN_DEST 'pnpm') --version
+          $command = Get-Command pnpm
+          $executable = Join-Path $env:BIN_DEST $command.Name
+          $actual = & $executable --version
           if ($LASTEXITCODE -ne 0 -or $actual -ne $env:EXPECTED_VERSION) {
             throw "Expected $env:EXPECTED_VERSION via bin_dest, got $actual"
           }

@@ -212,8 +212,8 @@ jobs:
           test ! -d "$PNPM_DEST/node_modules/@pnpm/exe"
           which pnpm
           actual="$(pnpm --version)"
-          if [ "${actual}" != "12.3.4" ]; then
-            echo "Expected 12.3.4, got ${actual}"
+          if [ "${actual}" != "12.17.0" ]; then
+            echo "Expected 12.17.0, got ${actual}"
             exit 1
           fi
           mkdir /tmp/test-standalone
@@ -221,6 +221,68 @@ jobs:
           pnpm init
           pnpm add is-odd
         shell: bash
+
+  shared_store:
+    name: 'Repeated install with shared store (pnpm ${{ matrix.version }})'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ['12.11.2', '12.16.1']
+    env:
+      REQUIRED: ${{ matrix.version }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+
+      - name: Configure the shared store and project pin
+        run: |
+          config_home="$RUNNER_TEMP/pnpm-config"
+          store_dir="$RUNNER_TEMP/pnpm-store"
+          mkdir -p "$config_home/pnpm"
+          printf 'storeDir: %s\nenableGlobalVirtualStore: true\n' "$store_dir" > "$config_home/pnpm/config.yaml"
+          printf 'XDG_CONFIG_HOME=%s\nPNPM_STORE_DIR=%s\n' "$config_home" "$store_dir" >> "$GITHUB_ENV"
+          printf '{"packageManager":"pnpm@%s"}\n' "$REQUIRED" > package.json
+
+      - id: first
+        name: Install pnpm into a fresh destination
+        uses: ./
+        with:
+          dest: ${{ runner.temp }}/setup-pnpm
+          standalone: false
+
+      - name: Verify the first installation and populated store
+        working-directory: ${{ runner.temp }}
+        env:
+          BIN_DEST: ${{ steps.first.outputs.bin_dest }}
+        run: |
+          test "$("$BIN_DEST/pnpm" --version)" = "$REQUIRED"
+          store_path="$("$BIN_DEST/pnpm" store path --silent)"
+          case "$store_path/" in
+            "$PNPM_STORE_DIR/"*) ;;
+            *) echo "Unexpected store path: $store_path"; exit 1 ;;
+          esac
+          test -n "$(find "$PNPM_STORE_DIR" -type f -print -quit)"
+          touch "$PNPM_STORE_DIR/reused-by-second-install"
+
+      - id: second
+        name: Reinstall pnpm with the same destination and store
+        uses: ./
+        with:
+          dest: ${{ runner.temp }}/setup-pnpm
+          standalone: false
+
+      - name: Verify the second installation reused the store
+        working-directory: ${{ runner.temp }}
+        env:
+          BIN_DEST: ${{ steps.second.outputs.bin_dest }}
+        run: |
+          test -f "$PNPM_STORE_DIR/reused-by-second-install"
+          test "$("$BIN_DEST/pnpm" --version)" = "$REQUIRED"
+          test "$(pnpm --version)" = "$REQUIRED"
 
   standalone_windows_self_update:
     # Regression guard for the patchPnpmEnv PATH-shadow bug. When

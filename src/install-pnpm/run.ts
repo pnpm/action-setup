@@ -1,4 +1,5 @@
 import { addPath, exportVariable } from '@actions/core'
+import { exec } from '@actions/exec'
 import { spawn } from 'child_process'
 import { rm, writeFile, mkdir, symlink } from 'fs/promises'
 import { readFileSync, existsSync } from 'fs'
@@ -221,15 +222,10 @@ function getSystemNodeVersion(): Promise<{ major: number; minor: number }> {
 }
 
 function runCommand(cmd: string, args: string[], opts: { cwd: string; env?: Record<string, string | undefined> }): Promise<number> {
-  return new Promise<number>((resolve, reject) => {
-    const cp = spawn(cmd, args, {
-      cwd: opts.cwd,
-      env: opts.env,
-      stdio: ['pipe', 'inherit', 'inherit'],
-      shell: process.platform === 'win32',
-    })
-    cp.on('error', reject)
-    cp.on('close', resolve)
+  return exec(`"${cmd}"`, args, {
+    cwd: opts.cwd,
+    env: opts.env && Object.fromEntries(Object.entries(opts.env).filter((entry): entry is [string, string] => entry[1] !== undefined)),
+    ignoreReturnCode: true,
   })
 }
 

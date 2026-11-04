@@ -7,6 +7,9 @@ on:
       - master
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   smoke:
     # Cross-OS coverage. Exercises the bootstrap install + PATH on each platform,
@@ -419,3 +422,45 @@ jobs:
             exit 1
           fi
         shell: bash
+
+  windows_dest_spaces:
+    name: 'Windows destination with spaces (${{ matrix.version }} / standalone=${{ matrix.standalone }})'
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - version: '10.33.0'
+            standalone: false
+          - version: '11.25.0'
+            standalone: true
+          - version: '12.3.4'
+            standalone: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - id: pnpm
+        uses: ./
+        with:
+          version: ${{ matrix.version }}
+          standalone: ${{ matrix.standalone }}
+          dest: '${{ runner.temp }}/pnpm setup & tools'
+      - name: Verify PowerShell and bin_dest use the requested version
+        shell: pwsh
+        env:
+          EXPECTED_VERSION: ${{ matrix.version }}
+          BIN_DEST: ${{ steps.pnpm.outputs.bin_dest }}
+        run: |
+          $actual = pnpm --version
+          if ($LASTEXITCODE -ne 0 -or $actual -ne $env:EXPECTED_VERSION) {
+            throw "Expected $env:EXPECTED_VERSION on PATH, got $actual"
+          }
+          $command = Get-Command pnpm
+          $executable = Join-Path $env:BIN_DEST $command.Name
+          $actual = & $executable --version
+          if ($LASTEXITCODE -ne 0 -or $actual -ne $env:EXPECTED_VERSION) {
+            throw "Expected $env:EXPECTED_VERSION via bin_dest, got $actual"
+          }
+          $pnpx = Get-Command pnpx -ErrorAction Stop
+          if ((Split-Path -Parent $pnpx.Source) -ne $env:BIN_DEST) {
+            throw "pnpx resolves to $($pnpx.Source), expected under $env:BIN_DEST"
+          }
